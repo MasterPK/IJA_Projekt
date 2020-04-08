@@ -1,44 +1,193 @@
 {
   "streets": [
     {
-      "id": "Erbenova",
+      "id": "Koželužská",
       "coordinates": [
         [
-          10,
-          5
+          0,
+          500
         ],
         [
-          100,
-          5
-        ],
-        [
-          100,
-          50
+          200,
+          500
         ]
       ],
-      "stops": []
+      "stops": [
+        {
+          "id": "Za Rybníkem",
+          "coordinates": [
+            0,
+            500
+          ]
+        },
+        {
+          "id": "Koželužská",
+          "coordinates": [
+            180,
+            500
+          ]
+        }
+      ]
     },
     {
-      "id": "Fibichova",
+      "id": "Řípovská",
       "coordinates": [
         [
-          10,
-          5
+          200,
+          500
         ],
         [
-          10,
-          80
-        ],
-        [
-          50,
-          80
-        ],
-        [
-          50,
-          60
+          200,
+          450
         ]
       ],
-      "stops": []
+      "stops": [
+      ]
+    },
+    {
+      "id": "Revoluční",
+      "coordinates": [
+        [
+          200,
+          450
+        ],
+        [
+          300,
+          450
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Revoluční",
+          "coordinates": [
+            220,
+            450
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Spojenců",
+      "coordinates": [
+        [
+          300,
+          450
+        ],
+        [
+          350,
+          450
+        ],
+        [
+          350,
+          430
+        ]
+      ],
+      "stops": [
+        {
+          "id": "U Kapličky",
+          "coordinates": [
+            340,
+            450
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Pražská",
+      "coordinates": [
+        [
+          350,
+          430
+        ],
+        [
+          450,
+          430
+        ]
+      ],
+      "stops": [
+      ]
+    },
+    {
+      "id": "Sucheniova",
+      "coordinates": [
+        [
+          450,
+          430
+        ],
+        [
+          550,
+          430
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Sucheniova",
+          "coordinates": [
+            500,
+            430
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Komenského náměstí",
+      "coordinates": [
+        [
+          550,
+          430
+        ],
+        [
+          550,
+          390
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Komenského náměstí",
+          "coordinates": [
+            550,
+            410
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Karlovo náměstí",
+      "coordinates": [
+        [
+          550,
+          390
+        ],
+        [
+          630,
+          390
+        ],
+        [
+          630,
+          410
+        ],
+        [
+          680,
+          410
+        ],
+        [
+          680,
+          390
+        ],
+        [
+          700,
+          390
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Karlovo náměstí",
+          "coordinates": [
+            650,
+            410
+          ]
+        }
+      ]
     }
   ]
 }

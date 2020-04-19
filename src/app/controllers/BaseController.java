@@ -8,5 +8,7 @@ public abstract class BaseController {
     /**
      * Function that is called on Scene start up.
      */
-    abstract void startUp();
+    public abstract void startUp();
+
+
 }

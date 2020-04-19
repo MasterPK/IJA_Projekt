@@ -21,7 +21,6 @@ public class Main extends Application {
         Controller controller = root.getController();
         controller.startUp();
 
-        controller.drawMap();
 
 
     }

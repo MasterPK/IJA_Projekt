@@ -7,15 +7,16 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.input.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -39,7 +40,6 @@ public class Controller extends BaseController {
 
     public Pane mapPane;
     public GridPane gridPane;
-    public ScrollPane scrollPane;
     public Slider zoomSlider;
     public Label zoomLabel;
 
@@ -178,19 +178,10 @@ public class Controller extends BaseController {
         this.gridPane.setAlignment(Pos.TOP_LEFT);
         this.gridPane.paddingProperty().setValue(new Insets(20, 20, 20, 20));
 
-        this.scrollPane.prefHeightProperty().bind(this.gridPane.heightProperty());
-
-        scrollPane.addEventFilter(ScrollEvent.SCROLL, (event)-> {
-
-        });
-
         this.mapPane = new Pane();
 
         ZoomingPane zoomingPane = new ZoomingPane(this.mapPane);
         zoomingPane.setStyle("-fx-border-color: green;");
-
-        DoubleProperty zoomFactor = new SimpleDoubleProperty();
-        zoomFactor.bind(zoomingPane.zoomFactorProperty());
 
         JSONObject map = loadMap("data/map.json");
 
@@ -201,28 +192,35 @@ public class Controller extends BaseController {
             e.printStackTrace();
         }
 
-        scrollPane.setContent(zoomingPane);
 
-        zoomFactor.bind(zoomSlider.valueProperty());
+
+        GridPane outerPane = new GridPane();
+        RowConstraints row = new RowConstraints();
+        row.setPercentHeight(100);
+        row.setFillHeight(false);
+        row.setValignment(VPos.CENTER);
+        outerPane.getRowConstraints().add(row);
+
+        ColumnConstraints col = new ColumnConstraints();
+        col.setPercentWidth(100);
+        col.setFillWidth(false);
+        col.setHalignment(HPos.CENTER);
+        outerPane.getColumnConstraints().add(col);
+
+        outerPane.add(zoomingPane, 0, 0);
+
+        outerPane.setStyle("-fx-border-color: yellow;");
+
+        gridPane.add(outerPane,0,0);
+
+
+
         zoomingPane.zoomFactorProperty().bind(zoomSlider.valueProperty());
         this.zoomLabel.textProperty().bind(zoomSlider.valueProperty().asString());
 
         mapPane.setPrefSize(this.maxX + 50, this.maxY + 50);
 
         zoomSlider.valueProperty().addListener(new ChangeListener<Number>(){
-
-            /**
-             * This method needs to be provided by an implementation of
-             * {@code ChangeListener}. It is called if the value of an
-             * {@link ObservableValue} changes.
-             * <p>
-             * In general is is considered bad practice to modify the observed value in
-             * this method.
-             *
-             * @param observable The {@code ObservableValue} which value changed
-             * @param oldValue   The old value
-             * @param newValue
-             */
             @Override
             public void changed(ObservableValue observable, Number oldValue, Number newValue) {
                 mapPane.setPrefSize((maxX * newValue.doubleValue() + 50), (maxY * newValue.doubleValue() + 50));

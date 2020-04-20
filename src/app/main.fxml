@@ -5,9 +5,6 @@
 
 <GridPane fx:id="gridPane" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.Controller">
     <children>
-        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="50" pannable="true" style="-fx-border-color: red;" vbarPolicy="NEVER">
-            <!--<ZoomingPane fx:id="mapPane" maxHeight="-Infinity" maxWidth="-Infinity"  style="-fx-border-color: black;" />-->
-        </ScrollPane>
         <GridPane GridPane.columnIndex="1">
             <columnConstraints>
                 <ColumnConstraints halignment="CENTER" percentWidth="100" />
@@ -28,6 +25,6 @@
         <ColumnConstraints percentWidth="25" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints valignment="TOP" />
+        <RowConstraints valignment="TOP" percentHeight="100"/>
     </rowConstraints>
 </GridPane>

@@ -2,11 +2,14 @@ package app.controllers;
 
 import app.components.ZoomingPane;
 import app.model.maps.myMaps.*;
+import app.models.Simulator;
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -32,6 +35,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,9 +46,12 @@ public class Controller extends BaseController {
     public GridPane gridPane;
     public Slider zoomSlider;
     public Label zoomLabel;
-
+    public ScrollPane scrollPane;
+    public ZoomingPane zoomingPane;
     public StreetMap streetMap;
+    public Button startSimulationBtn;
 
+    private Simulator simulator;
     public Controller() {
         streetMap = new MyStreetMap();
     }
@@ -100,8 +107,13 @@ public class Controller extends BaseController {
 
     }
 
-    private int maxX = 0;
-    private int maxY = 0;
+    public double centerX = 0;
+    public double centerY = 0;
+    public double oldCenterX = 0;
+    public double oldCenterY = 0;
+
+    private double maxX = 0;
+    private double maxY = 0;
 
     public void drawMap(JSONObject map) throws IOException, ParseException {
 
@@ -167,8 +179,7 @@ public class Controller extends BaseController {
 
     }
 
-    private double width;
-    private double height;
+    public GridPane mapGrid;
 
     /**
      * Function that is called on Scene start up.
@@ -179,9 +190,12 @@ public class Controller extends BaseController {
         this.gridPane.paddingProperty().setValue(new Insets(20, 20, 20, 20));
 
         this.mapPane = new Pane();
+        //this.mapPane.setMaxSize(1.0,1.0);
+        this.mapPane.setStyle("-fx-border-color: green;");
 
         ZoomingPane zoomingPane = new ZoomingPane(this.mapPane);
-        zoomingPane.setStyle("-fx-border-color: green;");
+        //zoomingPane.setMaxSize(1.0,1.0);
+        zoomingPane.setStyle("-fx-border-color: orange;");
 
         JSONObject map = loadMap("data/map.json");
 
@@ -192,27 +206,7 @@ public class Controller extends BaseController {
             e.printStackTrace();
         }
 
-
-
-        GridPane outerPane = new GridPane();
-        RowConstraints row = new RowConstraints();
-        row.setPercentHeight(100);
-        row.setFillHeight(false);
-        row.setValignment(VPos.CENTER);
-        outerPane.getRowConstraints().add(row);
-
-        ColumnConstraints col = new ColumnConstraints();
-        col.setPercentWidth(100);
-        col.setFillWidth(false);
-        col.setHalignment(HPos.CENTER);
-        outerPane.getColumnConstraints().add(col);
-
-        outerPane.add(zoomingPane, 0, 0);
-
-        outerPane.setStyle("-fx-border-color: yellow;");
-
-        gridPane.add(outerPane,0,0);
-
+        scrollPane.setContent(zoomingPane);
 
 
         zoomingPane.zoomFactorProperty().bind(zoomSlider.valueProperty());
@@ -220,16 +214,25 @@ public class Controller extends BaseController {
 
         mapPane.setPrefSize(this.maxX + 50, this.maxY + 50);
 
-        zoomSlider.valueProperty().addListener(new ChangeListener<Number>(){
+        zoomSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue observable, Number oldValue, Number newValue) {
                 mapPane.setPrefSize((maxX * newValue.doubleValue() + 50), (maxY * newValue.doubleValue() + 50));
             }
         });
 
+        this.zoomingPane = zoomingPane;
+        this.centerX = this.zoomingPane.getLayoutX();
+        this.centerY = this.zoomingPane.getLayoutY();
 
 
-}
+        this.simulator = new Simulator(streetMap,new Date());
+
+    }
+
+    public void startSimulationBtnOnClicked() {
+        this.simulator.start();
+    }
 
 
 }

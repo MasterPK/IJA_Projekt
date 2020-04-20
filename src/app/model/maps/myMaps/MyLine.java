@@ -10,6 +10,16 @@ public class MyLine implements Line {
     List<Stop> stops;
     List<Street> streets;
     private String id;
+    private List<LineConnection> lineConnections = new ArrayList<>();
+
+    public List<LineConnection> getLineConnections() {
+        return lineConnections;
+    }
+
+    public void addLineConnection(LineConnection lineConnection)
+    {
+        this.lineConnections.add(lineConnection);
+    }
 
     public String getId() {
         return id;

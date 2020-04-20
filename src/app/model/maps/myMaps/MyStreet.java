@@ -202,5 +202,15 @@ public class MyStreet implements Street {
         return false;*/
     }
 
+    @Override
+    public Stop getStop(String id) {
+        for (Stop stop:this.stops)
+        {
+            if(stop.getId().equals(id))
+                return stop;
+        }
+        return null;
+    }
+
 
 }

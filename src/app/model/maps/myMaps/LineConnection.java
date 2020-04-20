@@ -1,5 +1,7 @@
 package app.model.maps.myMaps;
 
+import javafx.scene.shape.Circle;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.List;
 public class LineConnection {
     private int id;
     private List<Date> timetable = new ArrayList<>();
+    private Circle circle;
 
     public int getId() {
         return id;

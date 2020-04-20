@@ -34,7 +34,7 @@ public class MyStreetMap implements StreetMap {
     {
         for (Street street:this.streets)
         {
-            if(street.getId()==id)
+            if(street.getId().equals(id))
                 return street;
         }
         return null;

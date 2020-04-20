@@ -15,16 +15,22 @@
                 <RowConstraints minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Slider fx:id="zoomSlider" majorTickUnit="10.0" max="2.0" min="1.0" minorTickCount="50" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" GridPane.rowIndex="1" />
+                <Slider fx:id="zoomSlider" majorTickUnit="10.0" max="5.0" min="0.1" minorTickCount="50" showTickLabels="true" value="1.0" GridPane.rowIndex="1" />
                 <Label fx:id="zoomLabel" text="Label" />
+            <Button mnemonicParsing="false" onMouseClicked="#startSimulationBtnOnClicked" text="Start simulation" GridPane.rowIndex="2" />
             </children>
         </GridPane>
+      <ScrollPane fx:id="scrollPane" pannable="true" prefHeight="200.0" prefWidth="200.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+        </content>
+      </ScrollPane>
     </children>
     <columnConstraints>
         <ColumnConstraints percentWidth="75" />
         <ColumnConstraints percentWidth="25" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints valignment="TOP" percentHeight="100"/>
+        <RowConstraints percentHeight="100" valignment="TOP" />
     </rowConstraints>
 </GridPane>

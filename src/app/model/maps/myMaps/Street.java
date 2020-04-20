@@ -86,4 +86,5 @@ public interface Street {
     Coordinate begin();
     Coordinate end();
     boolean follows(Street s);
+    public Stop getStop(String id);
 }

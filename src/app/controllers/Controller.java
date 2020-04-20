@@ -1,6 +1,5 @@
 package app.controllers;
 
-import app.components.ZoomableScrollPane;
 import app.components.ZoomingPane;
 import app.model.maps.myMaps.*;
 import javafx.beans.property.DoubleProperty;
@@ -8,7 +7,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -26,6 +24,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.awt.*;
+import java.awt.geom.Line2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -49,13 +49,14 @@ public class Controller extends BaseController {
         streetMap = new MyStreetMap();
     }
 
-    private double scale=1;
+    private double scale = 1;
 
     private void addNodeToMapPane(Node node) {
-        node.setLayoutX(node.getLayoutX()*this.scale);
-        node.setLayoutY(node.getLayoutY()*this.scale);
+        node.setLayoutX(node.getLayoutX() * this.scale);
+        node.setLayoutY(node.getLayoutY() * this.scale);
         mapPane.getChildren().add(node);
     }
+
 
     private void addLabelOverStop(String text, int x, int y) {
         Label label = new Label(text);
@@ -73,8 +74,7 @@ public class Controller extends BaseController {
     }
 
 
-
-    private JSONObject loadMap(String filePath)  {
+    private JSONObject loadMap(String filePath) {
         File file = new File(
                 Objects.requireNonNull(getClass().getClassLoader().getResource("map.json")).getFile()
         );
@@ -99,6 +99,9 @@ public class Controller extends BaseController {
         }
 
     }
+
+    private int maxX=0;
+    private int maxY=0;
 
     public void drawMap(JSONObject map) throws IOException, ParseException {
 
@@ -140,8 +143,23 @@ public class Controller extends BaseController {
             for (int i = 0; i < street.getCoordinates().size() - 1; i++) {
                 Coordinate start = street.getCoordinates().get(i);
                 Coordinate end = street.getCoordinates().get(i + 1);
-
-                Line drawableLine = new Line(start.getX()*scale, start.getY()*scale, end.getX()*scale, end.getY()*scale);
+                if(start.getX()>this.maxX)
+                {
+                    this.maxX=start.getX();
+                }
+                if(start.getY()>this.maxY)
+                {
+                    this.maxY=start.getY();
+                }
+                if(end.getX()>this.maxX)
+                {
+                    this.maxX=end.getX();
+                }
+                if(end.getY()>this.maxY)
+                {
+                    this.maxY=end.getY();
+                }
+                Line drawableLine = new Line(start.getX() * scale, start.getY() * scale, end.getX() * scale, end.getY() * scale);
                 addNodeToMapPane(drawableLine);
 
             }
@@ -153,6 +171,8 @@ public class Controller extends BaseController {
 
     }
 
+    private double width;
+    private double height;
 
     /**
      * Function that is called on Scene start up.
@@ -174,13 +194,6 @@ public class Controller extends BaseController {
         DoubleProperty zoomFactor = new SimpleDoubleProperty();
         zoomFactor.bind(zoomingPane.zoomFactorProperty());
 
-        zoomFactor.addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                mapPane.setPrefSize(mapPane.getWidth()*newValue.doubleValue(),mapPane.getHeight()*newValue.doubleValue());
-            }
-        });
-
-
         JSONObject map = loadMap("data/map.json");
 
         try {
@@ -190,21 +203,18 @@ public class Controller extends BaseController {
             e.printStackTrace();
         }
 
-
-
-        gridPane.setOnZoom(event -> {
-            System.out.println("zoom");
-        });
-
-
         scrollPane.setContent(zoomingPane);
 
-        zoomingPane.zoomFactorProperty().bind(this.zoomSlider.valueProperty());
+
+        zoomFactor.bind(zoomSlider.valueProperty());
+
         this.zoomLabel.textProperty().bind(zoomSlider.valueProperty().asString());
 
+        mapPane.setPrefSize(this.maxX+50,this.maxY+50);
+
+        zoomFactor.addListener((observable, oldValue, newValue) -> mapPane.setPrefSize((maxX *newValue.doubleValue()+50), (maxY * newValue.doubleValue()+50)));
 
     }
-
 
 
 }

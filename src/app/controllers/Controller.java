@@ -100,8 +100,8 @@ public class Controller extends BaseController {
 
     }
 
-    private int maxX=0;
-    private int maxY=0;
+    private int maxX = 0;
+    private int maxY = 0;
 
     public void drawMap(JSONObject map) throws IOException, ParseException {
 
@@ -143,21 +143,17 @@ public class Controller extends BaseController {
             for (int i = 0; i < street.getCoordinates().size() - 1; i++) {
                 Coordinate start = street.getCoordinates().get(i);
                 Coordinate end = street.getCoordinates().get(i + 1);
-                if(start.getX()>this.maxX)
-                {
-                    this.maxX=start.getX();
+                if (start.getX() > this.maxX) {
+                    this.maxX = start.getX();
                 }
-                if(start.getY()>this.maxY)
-                {
-                    this.maxY=start.getY();
+                if (start.getY() > this.maxY) {
+                    this.maxY = start.getY();
                 }
-                if(end.getX()>this.maxX)
-                {
-                    this.maxX=end.getX();
+                if (end.getX() > this.maxX) {
+                    this.maxX = end.getX();
                 }
-                if(end.getY()>this.maxY)
-                {
-                    this.maxY=end.getY();
+                if (end.getY() > this.maxY) {
+                    this.maxY = end.getY();
                 }
                 Line drawableLine = new Line(start.getX() * scale, start.getY() * scale, end.getX() * scale, end.getY() * scale);
                 addNodeToMapPane(drawableLine);
@@ -184,7 +180,9 @@ public class Controller extends BaseController {
 
         this.scrollPane.prefHeightProperty().bind(this.gridPane.heightProperty());
 
-        scrollPane.addEventFilter(ScrollEvent.SCROLL, Event::consume);
+        scrollPane.addEventFilter(ScrollEvent.SCROLL, (event)-> {
+
+        });
 
         this.mapPane = new Pane();
 
@@ -205,16 +203,35 @@ public class Controller extends BaseController {
 
         scrollPane.setContent(zoomingPane);
 
-
         zoomFactor.bind(zoomSlider.valueProperty());
-
+        zoomingPane.zoomFactorProperty().bind(zoomSlider.valueProperty());
         this.zoomLabel.textProperty().bind(zoomSlider.valueProperty().asString());
 
-        mapPane.setPrefSize(this.maxX+50,this.maxY+50);
+        mapPane.setPrefSize(this.maxX + 50, this.maxY + 50);
 
-        zoomFactor.addListener((observable, oldValue, newValue) -> mapPane.setPrefSize((maxX *newValue.doubleValue()+50), (maxY * newValue.doubleValue()+50)));
+        zoomSlider.valueProperty().addListener(new ChangeListener<Number>(){
 
-    }
+            /**
+             * This method needs to be provided by an implementation of
+             * {@code ChangeListener}. It is called if the value of an
+             * {@link ObservableValue} changes.
+             * <p>
+             * In general is is considered bad practice to modify the observed value in
+             * this method.
+             *
+             * @param observable The {@code ObservableValue} which value changed
+             * @param oldValue   The old value
+             * @param newValue
+             */
+            @Override
+            public void changed(ObservableValue observable, Number oldValue, Number newValue) {
+                mapPane.setPrefSize((maxX * newValue.doubleValue() + 50), (maxY * newValue.doubleValue() + 50));
+            }
+        });
+
+
+
+}
 
 
 }

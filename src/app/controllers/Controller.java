@@ -5,6 +5,7 @@ import app.model.maps.myMaps.*;
 import app.models.BaseGui;
 import app.models.Simulator;
 import com.opencsv.CSVReader;
+import com.sun.media.sound.InvalidFormatException;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -26,10 +27,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 public class Controller extends BaseController {
@@ -171,12 +169,7 @@ public class Controller extends BaseController {
             drawStops(street);
             streetMap.addStreet(street);
         }
-
-
     }
-
-
-
 
 
     /**
@@ -203,7 +196,7 @@ public class Controller extends BaseController {
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
-        loadStops();
+        loadRoutes();
 
         scrollPane.setContent(zoomingPane);
 
@@ -231,21 +224,27 @@ public class Controller extends BaseController {
 
     }
 
-    private void loadStops()
-    {
-        try{
-            Reader fin=new FileReader("data/stops.txt");
-            CSVReader csvReader = new CSVReader(fin);
-            List<String[]> list = new ArrayList<>();
-            list = csvReader.readAll();
-            fin.close();
-            csvReader.close();
-        }catch(Exception e){System.out.println(e.getMessage());}
-    }
 
     private void loadRoutes()
     {
+        try{
+            Reader reader=new FileReader("data/routes.txt");
+            List<String[]> list = new ArrayList<>();
+            CSVReader csvReader = new CSVReader(reader);
+            String[] firstLine = {"route_id","route_short_name"};
+            String[] line;
+            line = csvReader.readNext();
+            if (Arrays.equals(line, firstLine))
+            {
+                throw new InvalidFormatException();
+            }
 
+            while ((line = csvReader.readNext()) != null) {
+                list.add(line);
+            }
+            reader.close();
+            csvReader.close();
+        }catch(Exception e){System.out.println(e.getMessage());}
     }
 
     private void loadTrips()

@@ -23,7 +23,6 @@ public class Simulator {
         tmp.addStop(this.streetMap.getStreet("Revoluční").getStops().get(0));
         System.out.println( tmp.getStopsLength(this.streetMap.getStreet("Koželužská").getStop("Za Rybníkem"),this.streetMap.getStreet("Revoluční").getStops().get(0)));
 
-
         List<LocalTime> timetable = new ArrayList<>();
         timetable.add(LocalTime.parse("12:00:00"));
         timetable.add(LocalTime.parse("12:03:00"));

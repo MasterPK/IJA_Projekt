@@ -36,6 +36,14 @@ public class MyLine implements Line {
             if (this.streets.contains(stop1.getStreet()) && this.streets.contains(stop2.getStreet())){
                 first = this.streets.indexOf(stop1.getStreet());
                 last = this.streets.indexOf(stop2.getStreet());
+                if (stop1.getStreet().equals(stop2.getStreet())){
+                    if (changeX(stop1.getStreet())){
+                        return Math.abs(stop1.getCoordinate().getX() - stop2.getCoordinate().getX());
+                    }
+                    else {
+                        return Math.abs(stop1.getCoordinate().getY() - stop2.getCoordinate().getY());
+                    }
+                }
                 for (;first <= last ; first++){
                     lineStreets.add(this.streets.get(first));
                 }
@@ -87,16 +95,16 @@ public class MyLine implements Line {
         Coordinate start2 = street2.getCoordinates().get(0);
         Coordinate end2 = street2.getCoordinates().get(1);
 
-        if (start == start2){
+        if (start.equals(start2)){
             return start;
         }
-        if (start == end2){
+        if (start.equals(end2)){
             return start;
         }
-        if (end == start2){
+        if (end.equals(start2)){
             return end;
         }
-        if (end == end2){
+        if (end.equals(end2)){
             return end;
         }
         return null;

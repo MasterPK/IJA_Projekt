@@ -234,7 +234,7 @@ public class Controller extends BaseController {
             String[] firstLine = {"route_id","route_short_name"};
             String[] line;
             line = csvReader.readNext();
-            if (Arrays.equals(line, firstLine))
+            if (!Arrays.equals(line, firstLine))
             {
                 throw new InvalidFormatException();
             }

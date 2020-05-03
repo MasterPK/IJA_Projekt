@@ -234,13 +234,12 @@ public class Controller extends BaseController {
     private void loadStops()
     {
         try{
-            FileInputStream fin=new FileInputStream("data/stops.txt");
-            CSVReader csvReader = new CSVReader(reader);
+            Reader fin=new FileReader("data/stops.txt");
+            CSVReader csvReader = new CSVReader(fin);
             List<String[]> list = new ArrayList<>();
             list = csvReader.readAll();
-            reader.close();
+            fin.close();
             csvReader.close();
-            return list;
         }catch(Exception e){System.out.println(e.getMessage());}
     }
 

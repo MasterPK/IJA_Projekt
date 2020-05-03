@@ -4,7 +4,6 @@ import app.components.ZoomingPane;
 import app.model.maps.myMaps.*;
 import app.models.BaseGui;
 import app.models.Simulator;
-import com.google.transit.realtime.GtfsRealtime;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

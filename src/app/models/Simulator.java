@@ -22,6 +22,8 @@ public class Simulator {
         tmp.addStop(this.streetMap.getStreet("Koželužská").getStops().get(1));
         tmp.addStreet(this.streetMap.getStreet("Řípovská"));
         tmp.addStop(this.streetMap.getStreet("Revoluční").getStops().get(0));
+        System.out.println( tmp.getStopsLength(this.streetMap.getStreet("Koželužská").getStop("Za Rybníkem"),this.streetMap.getStreet("Revoluční").getStops().get(0)));
+
 
         List<LocalTime> timetable = new ArrayList<>();
         timetable.add(LocalTime.parse("12:00:00"));
@@ -29,6 +31,7 @@ public class Simulator {
         timetable.add(LocalTime.parse("12:05:00"));
         tmp.createConnection(1001,timetable);
         lines.add(tmp);
+
 
 
 

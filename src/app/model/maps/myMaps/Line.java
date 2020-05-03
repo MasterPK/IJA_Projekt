@@ -20,5 +20,6 @@ public interface Line {
     List<Trip> getLineConnections();
 
     boolean createConnection(Integer id, List<LocalTime> timetable);
+    double getStopsLength(Stop stop1, Stop stop2);
 }
 

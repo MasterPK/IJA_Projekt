@@ -27,7 +27,7 @@ public class MyLine implements Line {
         this.streets = new ArrayList<>();
     }
 
-    public double GetStopsLenght(Stop stop1, Stop stop2){
+    public double getStopsLength(Stop stop1, Stop stop2){
         double lenght = 0;
         List<Street> lineStreets = new ArrayList<>();
         int first = 0;

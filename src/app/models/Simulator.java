@@ -1,15 +1,18 @@
 package app.models;
 
 import app.model.maps.myMaps.*;
+import javafx.application.Platform;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Timer;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAmount;
+import java.time.temporal.TemporalUnit;
+import java.util.*;
 
 public class Simulator {
     private Timer timer;
-    private Date date;
+    private Calendar calendar;
     private StreetMap streetMap;
 
     private List<Line> lines = new ArrayList<>();
@@ -30,11 +33,55 @@ public class Simulator {
         createExampleLine();
     }
 
+    private boolean simulationState = false;
 
+    private void handleBus(Bus bus)
+    {
+
+    }
+
+    private void handleLine(Line line)
+    {
+        for(Bus bus:line.getLineConnections())
+        {
+            handleBus(bus);
+        }
+    }
 
     public void start()
     {
+        final int[] i = {1};
+        final TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                LocalTime time = LocalTime.now();
+                Platform.runLater(() ->{
+
+                });
+                for(Line line:lines)
+                {
+                    handleLine(line);
+                }
+            }
+        };
+
+        this.timer=new Timer("Simulator");
+        this.calendar=Calendar.getInstance();
+
+
+
         System.out.println(lines.get(0).toString());
+        Platform.runLater(() -> {
+            if(!simulationState)
+            {
+                timer.schedule(timerTask,0,1000);
+                this.simulationState=true;
+                System.out.println("Simulation started...");
+            }else {
+                System.out.println("Simulation already running");
+            }
+
+        });
     }
 
 }

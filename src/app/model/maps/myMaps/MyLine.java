@@ -10,15 +10,15 @@ public class MyLine implements Line {
     List<Stop> stops;
     List<Street> streets;
     private String id;
-    private List<LineConnection> lineConnections = new ArrayList<>();
+    private List<Bus> lineConnections = new ArrayList<>();
 
-    public List<LineConnection> getLineConnections() {
+    public List<Bus> getLineConnections() {
         return lineConnections;
     }
 
-    public void addLineConnection(LineConnection lineConnection)
+    public void addBus(Bus bus)
     {
-        this.lineConnections.add(lineConnection);
+        this.lineConnections.add(bus);
     }
 
     public String getId() {

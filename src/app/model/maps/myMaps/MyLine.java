@@ -172,7 +172,7 @@ public class MyLine implements Line {
     }
 
     @Override
-    public boolean createConnection(Integer id, List<LocalTime> timetable)
+    public boolean createTrip(Integer id, List<LocalTime> timetable)
     {
         if(id==null || timetable==null)
         {

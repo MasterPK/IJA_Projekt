@@ -3,7 +3,6 @@ package app.models;
 import app.model.maps.myMaps.*;
 import javafx.application.Platform;
 
-import java.io.FileInputStream;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -29,7 +28,7 @@ public class Simulator {
         timetable.add(LocalTime.parse("12:00:00"));
         timetable.add(LocalTime.parse("12:03:00"));
         timetable.add(LocalTime.parse("12:05:00"));
-        tmp.createConnection(1001,timetable);
+        tmp.createTrip(1001,timetable);
         lines.add(tmp);
 
 

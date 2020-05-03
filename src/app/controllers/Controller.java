@@ -4,6 +4,7 @@ import app.components.ZoomingPane;
 import app.model.maps.myMaps.*;
 import app.models.BaseGui;
 import app.models.Simulator;
+import com.opencsv.CSVReader;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -234,7 +235,12 @@ public class Controller extends BaseController {
     {
         try{
             FileInputStream fin=new FileInputStream("data/stops.txt");
-
+            CSVReader csvReader = new CSVReader(reader);
+            List<String[]> list = new ArrayList<>();
+            list = csvReader.readAll();
+            reader.close();
+            csvReader.close();
+            return list;
         }catch(Exception e){System.out.println(e.getMessage());}
     }
 

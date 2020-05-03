@@ -17,7 +17,7 @@ public interface Line {
         return new MyLine(id);
     }
 
-    List<Connection> getLineConnections();
+    List<Trip> getLineConnections();
 
     boolean createConnection(Integer id, List<LocalTime> timetable);
 }

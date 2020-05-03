@@ -11,10 +11,10 @@ public class MyLine implements Line {
     List<Stop> stops;
     List<Street> streets;
     private String id;
-    private List<Connection> connections = new ArrayList<>();
+    private List<Trip> trips = new ArrayList<>();
 
-    public List<Connection> getLineConnections() {
-        return connections;
+    public List<Trip> getLineConnections() {
+        return trips;
     }
 
     public String getId() {
@@ -90,8 +90,8 @@ public class MyLine implements Line {
             return false;
         }
 
-        Connection connection = new Connection(id,timetable);
-        connections.add(connection);
+        Trip trip = new Trip(id,timetable);
+        trips.add(trip);
         return true;
     }
 }

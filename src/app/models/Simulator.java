@@ -2,8 +2,8 @@ package app.models;
 
 import app.model.maps.myMaps.*;
 import javafx.application.Platform;
-import javafx.scene.shape.Circle;
 
+import java.io.FileInputStream;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -30,6 +30,8 @@ public class Simulator {
         tmp.createConnection(1001,timetable);
         lines.add(tmp);
 
+
+
     }
 
 
@@ -40,20 +42,19 @@ public class Simulator {
     }
 
 
-    private void handleBus(Connection connection) {
-        System.out.println("handleBus:"+connection.getId());
+    private void handleBus(Trip trip) {
+        System.out.println("handleBus:"+ trip.getId());
 
         // Is this connection active at current time?
-        if(connection.getTimetable().get(0).isBefore(currentTime) || currentTime.isAfter(connection.getTimetable().get(connection.getTimetable().size()-1)))
+        if(trip.getTimetable().get(0).isBefore(currentTime) || currentTime.isAfter(trip.getTimetable().get(trip.getTimetable().size()-1)))
         {
             return;
         }
-
     }
 
     private void handleLine(Line line) {
-        for (Connection connection : line.getLineConnections()) {
-            handleBus(connection);
+        for (Trip trip : line.getLineConnections()) {
+            handleBus(trip);
         }
     }
 

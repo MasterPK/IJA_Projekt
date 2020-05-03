@@ -4,6 +4,7 @@ import app.components.ZoomingPane;
 import app.model.maps.myMaps.*;
 import app.models.BaseGui;
 import app.models.Simulator;
+import com.google.transit.realtime.GtfsRealtime;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -24,10 +25,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,11 +45,14 @@ public class Controller extends BaseController {
     public Button startSimulationButton;
     private Simulator simulator;
     private BaseGui baseGui;
+    public GridPane mapGrid;
+    private double scale = 1;
+
     public Controller() {
         streetMap = new MyStreetMap();
     }
 
-    private double scale = 1;
+
 
     private void addNodeToMapPane(Node node) {
         node.setLayoutX(node.getLayoutX() * this.scale);
@@ -174,7 +175,9 @@ public class Controller extends BaseController {
 
     }
 
-    public GridPane mapGrid;
+
+
+
 
     /**
      * Function that is called on Scene start up.
@@ -200,6 +203,7 @@ public class Controller extends BaseController {
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+        loadStops();
 
         scrollPane.setContent(zoomingPane);
 
@@ -224,6 +228,24 @@ public class Controller extends BaseController {
         this.simulator = new Simulator(streetMap,new Date(),this.baseGui);
 
 
+
+    }
+
+    private void loadStops()
+    {
+        try{
+            FileInputStream fin=new FileInputStream("data/stops.txt");
+
+        }catch(Exception e){System.out.println(e.getMessage());}
+    }
+
+    private void loadRoutes()
+    {
+
+    }
+
+    private void loadTrips()
+    {
 
     }
 

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Connection {
+public class Trip {
     private int id;
     private List<LocalTime> timetable = new ArrayList<>();
 
@@ -19,7 +19,7 @@ public class Connection {
         this.id = id;
     }
 
-    public Connection(int id, List<LocalTime> timetable) {
+    public Trip(int id, List<LocalTime> timetable) {
         this.id = id;
         this.timetable=timetable;
     }

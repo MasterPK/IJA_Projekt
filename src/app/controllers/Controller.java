@@ -2,24 +2,20 @@ package app.controllers;
 
 import app.components.ZoomingPane;
 import app.model.maps.myMaps.*;
+import app.models.BaseGui;
 import app.models.Simulator;
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
-import javafx.scene.input.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -28,8 +24,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.awt.*;
-import java.awt.geom.Line2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -49,9 +43,10 @@ public class Controller extends BaseController {
     public ScrollPane scrollPane;
     public ZoomingPane zoomingPane;
     public StreetMap streetMap;
-    public Button startSimulationBtn;
-
+    public Label currentTimeLabel;
+    public Button startSimulationButton;
     private Simulator simulator;
+    private BaseGui baseGui;
     public Controller() {
         streetMap = new MyStreetMap();
     }
@@ -225,13 +220,18 @@ public class Controller extends BaseController {
         this.centerX = this.zoomingPane.getLayoutX();
         this.centerY = this.zoomingPane.getLayoutY();
 
+        this.baseGui = new BaseGui(mapPane,currentTimeLabel);
+        this.simulator = new Simulator(streetMap,new Date(),this.baseGui);
 
-        this.simulator = new Simulator(streetMap,new Date());
+
 
     }
 
     public void startSimulationBtnOnClicked() {
         this.simulator.start();
+        Platform.runLater(() -> {
+            this.startSimulationButton.textProperty().setValue("Stop simulation");
+        });
     }
 
 

@@ -2,6 +2,7 @@ package app.model.maps.myMaps;
 
 
 
+import java.time.LocalTime;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,15 +11,10 @@ public class MyLine implements Line {
     List<Stop> stops;
     List<Street> streets;
     private String id;
-    private List<Bus> lineConnections = new ArrayList<>();
+    private List<Connection> connections = new ArrayList<>();
 
-    public List<Bus> getLineConnections() {
-        return lineConnections;
-    }
-
-    public void addBus(Bus bus)
-    {
-        this.lineConnections.add(bus);
+    public List<Connection> getLineConnections() {
+        return connections;
     }
 
     public String getId() {
@@ -84,5 +80,18 @@ public class MyLine implements Line {
             }
         }
         return result;
+    }
+
+    @Override
+    public boolean createConnection(Integer id, List<LocalTime> timetable)
+    {
+        if(id==null || timetable==null)
+        {
+            return false;
+        }
+
+        Connection connection = new Connection(id,timetable);
+        connections.add(connection);
+        return true;
     }
 }

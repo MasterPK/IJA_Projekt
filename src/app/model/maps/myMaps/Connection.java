@@ -7,9 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Bus {
+public class Connection {
     private int id;
-    private Circle guiCircle;
     private List<LocalTime> timetable = new ArrayList<>();
 
     public int getId() {
@@ -20,15 +19,12 @@ public class Bus {
         this.id = id;
     }
 
-    public Bus(int id, Circle gui){
-        this.id=id;
+    public Connection(int id, List<LocalTime> timetable) {
+        this.id = id;
+        this.timetable=timetable;
     }
 
-    public Circle getGuiCircle() {
-        return guiCircle;
-    }
-
-    public void setGuiCircle(Circle guiCircle) {
-        this.guiCircle = guiCircle;
+    public List<LocalTime> getTimetable() {
+        return timetable;
     }
 }

@@ -1,6 +1,7 @@
 package app.model.maps.myMaps;
 
 
+import java.time.LocalTime;
 import java.util.List;
 
 public interface Line {
@@ -16,6 +17,8 @@ public interface Line {
         return new MyLine(id);
     }
 
-    List<Bus> getLineConnections();
+    List<Connection> getLineConnections();
+
+    boolean createConnection(Integer id, List<LocalTime> timetable);
 }
 

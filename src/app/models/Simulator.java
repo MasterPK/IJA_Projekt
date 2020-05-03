@@ -2,82 +2,101 @@ package app.models;
 
 import app.model.maps.myMaps.*;
 import javafx.application.Platform;
+import javafx.scene.shape.Circle;
 
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
 
 public class Simulator {
     private Timer timer;
-    private Calendar calendar;
     private StreetMap streetMap;
-
+    private double refreshTimer = 0;
+    private boolean simulationState = false;
     private List<Line> lines = new ArrayList<>();
+    private BaseGui gui;
+    private LocalTime currentTime = LocalTime.now();
 
-    private void createExampleLine()
-    {
+    private void createExampleLine() {
         Line tmp = new MyLine("1");
         tmp.addStop(this.streetMap.getStreet("Koželužská").getStop("Za Rybníkem"));
         tmp.addStop(this.streetMap.getStreet("Koželužská").getStops().get(1));
         tmp.addStreet(this.streetMap.getStreet("Řípovská"));
         tmp.addStop(this.streetMap.getStreet("Revoluční").getStops().get(0));
+
+        List<LocalTime> timetable = new ArrayList<>();
+        timetable.add(LocalTime.parse("12:00:00"));
+        timetable.add(LocalTime.parse("12:03:00"));
+        timetable.add(LocalTime.parse("12:05:00"));
+        tmp.createConnection(1001,timetable);
         lines.add(tmp);
 
     }
 
-    public Simulator(StreetMap streetMap, Date startTime) {
-        this.streetMap=streetMap;
+
+    public Simulator(StreetMap streetMap, Date startTime, BaseGui gui) {
+        this.streetMap = streetMap;
         createExampleLine();
+        this.gui=gui;
     }
 
-    private boolean simulationState = false;
 
-    private void handleBus(Bus bus)
-    {
+    private void handleBus(Connection connection) {
+        System.out.println("handleBus:"+connection.getId());
 
-    }
-
-    private void handleLine(Line line)
-    {
-        for(Bus bus:line.getLineConnections())
+        // Is this connection active at current time?
+        if(connection.getTimetable().get(0).isBefore(currentTime) || currentTime.isAfter(connection.getTimetable().get(connection.getTimetable().size()-1)))
         {
-            handleBus(bus);
+            return;
+        }
+
+    }
+
+    private void handleLine(Line line) {
+        for (Connection connection : line.getLineConnections()) {
+            handleBus(connection);
         }
     }
 
-    public void start()
+    private void simulationHandle()
     {
+        refreshTimer++;
+        currentTime = LocalTime.now();
+        gui.showTime(currentTime);
+    }
+
+    public void start() {
+
+
         final int[] i = {1};
         final TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                LocalTime time = LocalTime.now();
-                Platform.runLater(() ->{
+                simulationHandle();
 
-                });
-                for(Line line:lines)
-                {
-                    handleLine(line);
+
+                if (refreshTimer == 3) {
+                    refreshTimer = 0;
+
+                    gui.clearGui();
+
+                    System.out.println("Refresh simulation...");
+                    for (Line line : lines) {
+                        handleLine(line);
+                    }
                 }
+
             }
         };
 
-        this.timer=new Timer("Simulator");
-        this.calendar=Calendar.getInstance();
-
-
+        this.timer = new Timer("Simulator");
 
         System.out.println(lines.get(0).toString());
         Platform.runLater(() -> {
-            if(!simulationState)
-            {
-                timer.schedule(timerTask,0,1000);
-                this.simulationState=true;
+            if (!simulationState) {
+                timer.schedule(timerTask, 0, 1000);
+                this.simulationState = true;
                 System.out.println("Simulation started...");
-            }else {
+            } else {
                 System.out.println("Simulation already running");
             }
 

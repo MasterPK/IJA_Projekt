@@ -34,7 +34,9 @@ public class Simulator {
 
 
     }
-
+    public Coordinate DotPosition(LocalTime currentTime, LocalTime startTimePos, LocalTime endTimePos, Stop startStop, Stop endStop){
+        LocalTime tripTime = endTimePos.minus();
+    }
 
 
     public Simulator(StreetMap streetMap, Date startTime, BaseGui gui) {

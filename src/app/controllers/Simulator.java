@@ -11,15 +11,20 @@ import java.util.*;
 import static java.time.temporal.ChronoUnit.MILLIS;
 
 public class Simulator {
+
+    // Simulation
     private Timer timer;
-    private StreetMap streetMap;
     private double refreshTimer = 0;
     private boolean simulationState = false;
-    private List<Line> lines = new ArrayList<>();
-    private BaseGui gui;
     private LocalTime simulationTime;
     private int simulationSpeed = 1000; //ms
 
+    // Model
+    private StreetMap streetMap;
+    private List<Line> lines = new ArrayList<>();
+
+    // View
+    private BaseGui gui;
 
 
     private void loadLines() throws Exception {

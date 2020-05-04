@@ -53,8 +53,6 @@ public class Controller extends BaseController {
     private Simulator simulator;
     @FXML
     private BaseGui baseGui;
-    @FXML
-    public GridPane mapGrid;
 
 
     private double scale = 1;
@@ -122,23 +120,25 @@ public class Controller extends BaseController {
 
         JSONArray streets = (JSONArray) map.get("streets");
 
-        for (JSONObject tmp : (Iterable<JSONObject>) streets) {
-            JSONArray coordinates = (JSONArray) tmp.get("coordinates");
+        for (JSONObject streetJson : (Iterable<JSONObject>) streets) {
+            JSONArray coordinates = (JSONArray) streetJson.get("coordinates");
+
+            // Get coordinates array
             List<Coordinate> listCoordinates = new ArrayList<>();
             for (JSONArray coord : (Iterable<JSONArray>) coordinates) {
                 listCoordinates.add(new Coordinate(Math.toIntExact((long) coord.get(0)), Math.toIntExact((long) coord.get(1))));
             }
 
-
-            Street street = Street.create(tmp.get("id").toString(), listCoordinates);
+            // Try create street
+            Street street = Street.create(streetJson.get("id").toString(), listCoordinates);
             if (street == null) {
                 System.err.println("Error: Invalid format of input data!");
                 continue;
             }
 
+            // Add stops to street
+            JSONArray stops = (JSONArray) streetJson.get("stops");
 
-            JSONArray stops = (JSONArray) tmp.get("stops");
-            List<Stop> listStop = new ArrayList<>();
             for (JSONObject stop : (Iterable<JSONObject>) stops) {
                 JSONArray coordinate = (JSONArray) stop.get("coordinates");
                 Stop stopNew = Stop.defaultStop(stop.get("id").toString(), new Coordinate(Math.toIntExact((long) coordinate.get(0)), Math.toIntExact((long) coordinate.get(1))));
@@ -146,6 +146,7 @@ public class Controller extends BaseController {
                 street.addStop(stopNew);
             }
 
+            // Draw street name
             Coordinate streetNameCoord = street.getCoordinates().get(0);
             int x = streetNameCoord.getX();
             int y = streetNameCoord.getY();
@@ -154,6 +155,7 @@ public class Controller extends BaseController {
             streetName.setLayoutY(y + 5);
             addNodeToMapPane(streetName);
 
+            // Draw street
             for (int i = 0; i < street.getCoordinates().size() - 1; i++) {
                 Coordinate start = street.getCoordinates().get(i);
                 Coordinate end = street.getCoordinates().get(i + 1);

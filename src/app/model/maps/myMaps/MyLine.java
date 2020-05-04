@@ -11,6 +11,7 @@ public class MyLine implements Line {
     List<Stop> stops;
     List<Street> streets;
     private String id;
+    private String name;
     private List<Trip> trips = new ArrayList<>();
 
     public List<Trip> getLineConnections() {
@@ -21,8 +22,13 @@ public class MyLine implements Line {
         return id;
     }
 
-    public MyLine(String id) {
+    public String getName() {
+        return name;
+    }
+
+    public MyLine(String id, String name) {
         this.id = id;
+        this.name=name;
         this.stops = new ArrayList<>();
         this.streets = new ArrayList<>();
     }
@@ -180,15 +186,8 @@ public class MyLine implements Line {
     }
 
     @Override
-    public boolean createTrip(Integer id, List<LocalTime> timetable)
-    {
-        if(id==null || timetable==null)
-        {
-            return false;
-        }
-
-        Trip trip = new Trip(id,timetable);
+    public void addTrip(Trip trip) {
         trips.add(trip);
-        return true;
     }
+
 }

@@ -1,27 +1,28 @@
 package app.model.maps.myMaps;
 
-import javafx.scene.shape.Circle;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Trip {
-    private int id;
+    private String id;
     private List<LocalTime> timetable = new ArrayList<>();
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Trip(int id, List<LocalTime> timetable) {
+    public Trip(String id, List<LocalTime> timetable) {
         this.id = id;
         this.timetable=timetable;
+    }
+
+    public Trip(String id) {
+        this.id = id;
     }
 
     public List<LocalTime> getTimetable() {

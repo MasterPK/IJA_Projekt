@@ -13,13 +13,9 @@ public interface Line {
 
     String getId();
 
-    static Line defaultLine(String id) {
-        return new MyLine(id);
-    }
-
     List<Trip> getLineConnections();
 
-    boolean createTrip(Integer id, List<LocalTime> timetable);
+    void addTrip(Trip trip);
     double getStopsLength(Stop stop1, Stop stop2);
 }
 

@@ -176,7 +176,7 @@ public class Controller extends BaseController {
      * Function that is called on Scene start up.
      */
     @Override
-    public void startUp() {
+    public void startUp(){
         this.gridPane.setAlignment(Pos.TOP_LEFT);
         this.gridPane.paddingProperty().setValue(new Insets(20, 20, 20, 20));
 
@@ -196,7 +196,6 @@ public class Controller extends BaseController {
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
-        loadRoutes();
 
         scrollPane.setContent(zoomingPane);
 
@@ -218,34 +217,15 @@ public class Controller extends BaseController {
         this.centerY = this.zoomingPane.getLayoutY();
 
         this.baseGui = new BaseGui(mapPane,currentTimeLabel);
-        this.simulator = new Simulator(streetMap,new Date(),this.baseGui);
-
+        try {
+            this.simulator = new Simulator(streetMap,new Date(),this.baseGui);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
 
-
-    private void loadRoutes()
-    {
-        try{
-            Reader reader=new FileReader("data/routes.txt");
-            List<String[]> list = new ArrayList<>();
-            CSVReader csvReader = new CSVReader(reader);
-            String[] firstLine = {"route_id","route_short_name"};
-            String[] line;
-            line = csvReader.readNext();
-            if (!Arrays.equals(line, firstLine))
-            {
-                throw new InvalidFormatException();
-            }
-
-            while ((line = csvReader.readNext()) != null) {
-                list.add(line);
-            }
-            reader.close();
-            csvReader.close();
-        }catch(Exception e){System.out.println(e.getMessage());}
-    }
 
     private void loadTrips()
     {

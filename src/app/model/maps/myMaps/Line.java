@@ -18,5 +18,8 @@ public interface Line {
 
     void addTrip(Trip trip);
     double getStopsLength(Stop stop1, Stop stop2);
+    List<Street> getStreetsBetween(Stop stop1, Stop stop2);
+    Coordinate followPoint(Street street1, Street street2);
+    boolean changeX(Street street);
 }
 

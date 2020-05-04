@@ -94,6 +94,23 @@ public class MyLine implements Line {
         return lenght;
     }
 
+    public List<Street> getStreetsBetween(Stop stop1, Stop stop2){
+        List<Street> lineStreets = new ArrayList<>();
+        int first = 0;
+        int last = 0;
+
+        first = this.streets.indexOf(stop1.getStreet());
+        last = this.streets.indexOf(stop2.getStreet());
+        if (stop1.getStreet().equals(stop2.getStreet())){
+            lineStreets.add(stop1.getStreet());
+            return lineStreets;
+        }
+        for (;first <= last ; first++){
+            lineStreets.add(this.streets.get(first));
+        }
+        return lineStreets;
+    }
+
     public Coordinate followPoint(Street street1, Street street2){
         Coordinate start = street1.getCoordinates().get(0);
         Coordinate end = street1.getCoordinates().get(1);
@@ -114,6 +131,28 @@ public class MyLine implements Line {
             return end;
         }
         return null;
+    }
+
+    public boolean plusX(Coordinate coord1, Coordinate coord2){
+        boolean plus;
+        if (coord1.getX()-coord2.getX() < 0){
+            plus = true;
+        }
+        else{
+            plus = false;
+        }
+        return plus;
+    }
+
+    public boolean plusY(Coordinate coord1, Coordinate coord2){
+        boolean plus;
+        if (coord1.getY()-coord2.getY() < 0){
+            plus = true;
+        }
+        else{
+            plus = false;
+        }
+        return plus;
     }
 
     public boolean changeX(Street street){

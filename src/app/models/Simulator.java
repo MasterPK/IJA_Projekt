@@ -80,8 +80,60 @@ public class Simulator {
                 }
             }
         }
+    }
+
+
+    public Coordinate DotPosition(LocalTime currentTime, LocalTime startTimePos, LocalTime endTimePos, Stop startStop, Stop endStop, Line line){
+
+        Coordinate finalCoord = startStop.getCoordinate();
+        Coordinate follow;
+        List<Street> Streets = new ArrayList<>();
+
+        LocalTime tripTimeTotal = endTimePos.minusHours(startTimePos.getHour())
+                .minusMinutes(startTimePos.getMinute())
+                .minusSeconds(startTimePos.getSecond());
+
+        LocalTime tripTimeActual = currentTime.minusHours(startTimePos.getHour())
+                .minusMinutes(startTimePos.getMinute())
+                .minusSeconds(startTimePos.getSecond());
+
+        int actualSeconds = (tripTimeActual.getHour()*60*60)+(tripTimeActual.getMinute()*60)+(tripTimeActual.getSecond());
+        int totalSeconds = (tripTimeTotal.getHour()*60*60)+(tripTimeTotal.getMinute()*60)+(tripTimeTotal.getSecond());
+
+        float actualPercent = (actualSeconds * 100.0f) / totalSeconds;
+
+        double lineLenght = line.getStopsLength(startStop,endStop);
+
+        double lenghtPassed = (actualPercent/100) * lineLenght;
+
+        int lenghtPassedInt = (int)lenghtPassed;
+
+
+        Streets = line.getStreetsBetween(startStop,endStop);
+
+        for(int i = 0; i< Streets.size();i++){
+            if (lenghtPassed == 0){
+                break;
+            }
+           follow = line.followPoint(Streets.get(i),Streets.get(i+1));
+           if ( i == 0){
+               if (line.changeX(startStop.getStreet())){
+                   if ((Math.abs(follow.getX()-startStop.getCoordinate().getX()))<= lenghtPassed){
+                       finalCoord.setX(Math.abs(follow.getX()-startStop.getCoordinate().getX()));
+                       lenghtPassed -= ((Math.abs(follow.getX()-startStop.getCoordinate().getX())));
+                   }
+                   else{
+                       finalCoord.setX(Math.abs(lenghtPassedInt-startStop.getCoordinate().getX()));
+                       lenghtPassed = 0;
+                   }
+
+               }
+           }
+        }
+        return finalCoord;
 
     }
+
 
     public Simulator(StreetMap streetMap, LocalTime startTime, BaseGui gui) throws Exception {
         this.streetMap = streetMap;

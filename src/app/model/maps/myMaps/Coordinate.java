@@ -25,6 +25,13 @@ public class Coordinate extends Object {
         return y;
     }
 
+    public void setX(int set){
+        this.x = set;
+    }
+    public void setY(int set){
+        this.y = set;
+    }
+
     public Coordinate(int x, int y) {
         this.x = x;
         this.y = y;

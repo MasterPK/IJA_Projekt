@@ -1,3 +1,4 @@
 trip_id,time,stop_id,street_id
 01001,12:00,Za Rybníkem,Koželužská
 01001,12:03,Koželužská,Koželužská
+01001,,,Řípovská

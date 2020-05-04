@@ -62,7 +62,10 @@ public class Simulator {
                         for (Street street : streetMap.getStreets()) {
                             if (streetId.equals(street.getId())) {
                                 if (stopId.isEmpty()) {
-                                    line.addStreet(street);
+                                    if(time.isEmpty())
+                                    {
+                                        line.addStreet(street);
+                                    }
                                 } else {
                                     for (Stop stop : street.getStops()) {
                                         if (stop.getId().equals(stopId)) {

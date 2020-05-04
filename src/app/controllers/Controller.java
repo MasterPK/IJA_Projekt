@@ -227,10 +227,6 @@ public class Controller extends BaseController {
     }
 
 
-    private void loadTrips()
-    {
-
-    }
 
     public void startSimulationBtnOnClicked() {
         this.simulator.start();

@@ -15,33 +15,42 @@ public class Simulator {
     private BaseGui gui;
     private LocalTime currentTime = LocalTime.now();
 
-    private void createExampleLine() {
-        Line tmp = new MyLine("1");
-        tmp.addStop(this.streetMap.getStreet("Koželužská").getStop("Za Rybníkem"));
-        tmp.addStop(this.streetMap.getStreet("Koželužská").getStops().get(1));
-        tmp.addStreet(this.streetMap.getStreet("Řípovská"));
-        tmp.addStop(this.streetMap.getStreet("Revoluční").getStops().get(0));
-        System.out.println( tmp.getStopsLength(this.streetMap.getStreet("Koželužská").getStop("Za Rybníkem"),this.streetMap.getStreet("Revoluční").getStops().get(0)));
+    private void loadLines() {
+        List<String[]> list = CSVLoader.load("data/routes.txt", new String[]{"route_id", "route_short_name"});
 
-        List<LocalTime> timetable = new ArrayList<>();
-        timetable.add(LocalTime.parse("12:00:00"));
-        timetable.add(LocalTime.parse("12:03:00"));
-        timetable.add(LocalTime.parse("12:05:00"));
-        tmp.createTrip(1001,timetable);
-        lines.add(tmp);
-
-
-
-
-    }
-    public Coordinate DotPosition(LocalTime currentTime, LocalTime startTimePos, LocalTime endTimePos, Stop startStop, Stop endStop){
-        LocalTime tripTime = endTimePos.minus();
+        for (String[] string : list) {
+            String routeId = string[0];
+            String routeShortTime = string[1];
+            Line route = new MyLine(routeId, routeShortTime);
+            this.lines.add(route);
+        }
     }
 
+    private void loadTrips() throws Exception {
 
-    public Simulator(StreetMap streetMap, Date startTime, BaseGui gui) {
+        List<String[]> list = CSVLoader.load("data/trips.txt", new String[]{"route_id", "trip_id"});
+
+        for (String[] string : list) {
+            String routeId = string[0];
+            String tripId = string[1];
+
+            for(Line line:this.lines)
+            {
+                if(!routeId.equals(line.getId()))
+                {
+                    throw new Exception("Route "+routeId+" doesnt exist!");
+                }
+                Trip trip = new Trip(tripId);
+                line.addTrip(trip);
+            }
+        }
+
+    }
+
+    public Simulator(StreetMap streetMap, Date startTime, BaseGui gui) throws Exception {
         this.streetMap = streetMap;
-        createExampleLine();
+        loadLines();
+        loadTrips();
         this.gui=gui;
     }
 
@@ -69,35 +78,32 @@ public class Simulator {
         gui.showTime(currentTime);
     }
 
-    public void start() {
+    final TimerTask timerTask = new TimerTask() {
+        @Override
+        public void run() {
+            simulationHandle();
 
 
-        final int[] i = {1};
-        final TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                simulationHandle();
+            if (refreshTimer == 3) {
+                refreshTimer = 0;
 
+                gui.clearGui();
 
-                if (refreshTimer == 3) {
-                    refreshTimer = 0;
-
-                    gui.clearGui();
-
-                    System.out.println("Refresh simulation...");
-                    for (Line line : lines) {
-                        handleLine(line);
-                    }
+                System.out.println("Refresh simulation...");
+                for (Line line : lines) {
+                    handleLine(line);
                 }
-
             }
-        };
 
-        this.timer = new Timer("Simulator");
+        }
+    };
+
+    public void start() {
 
         System.out.println(lines.get(0).toString());
         Platform.runLater(() -> {
             if (!simulationState) {
+                this.timer = new Timer("Simulator");
                 timer.schedule(timerTask, 0, 1000);
                 this.simulationState = true;
                 System.out.println("Simulation started...");
@@ -106,6 +112,17 @@ public class Simulator {
             }
 
         });
+    }
+
+
+    public boolean getSimulationState() {
+        return this.simulationState;
+    }
+
+    public void stop() {
+        this.simulationState = false;
+        this.timer.cancel();
+        this.timer.purge();
     }
 
 }

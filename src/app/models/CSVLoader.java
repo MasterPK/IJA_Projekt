@@ -10,8 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public interface CSVLoader {
-    static List<String[]> load(String filename, String[] firstLine) {
-        try {
+    static List<String[]> load(String filename, String[] firstLine) throws Exception {
             Reader reader = new FileReader(filename);
             List<String[]> list = new ArrayList<>();
             CSVReader csvReader = new CSVReader(reader);
@@ -31,10 +30,5 @@ public interface CSVLoader {
             reader.close();
             csvReader.close();
             return list;
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return null;
-        }
-
     }
 }

@@ -4,6 +4,8 @@
  */
 package app.model.maps.myMaps;
 
+import java.util.List;
+
 /**
  * Reprezentuje jednu mapu, která obsahuje ulice.
  * @author koci
@@ -21,4 +23,5 @@ public interface StreetMap {
      * @return Nalezenou ulici. Pokud ulice s daným identifikátorem není součástí mapy, vrací null.
      */
     public Street getStreet(String id);
+    List<Street> getStreets();
 }

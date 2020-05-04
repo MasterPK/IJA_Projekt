@@ -27,6 +27,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.time.LocalTime;
 import java.util.*;
 
 
@@ -218,7 +219,7 @@ public class Controller extends BaseController {
 
         this.baseGui = new BaseGui(mapPane,currentTimeLabel);
         try {
-            this.simulator = new Simulator(streetMap,new Date(),this.baseGui);
+            this.simulator = new Simulator(streetMap,LocalTime.now(),this.baseGui);
         } catch (Exception e) {
             e.printStackTrace();
         }

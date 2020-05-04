@@ -190,4 +190,7 @@ public class MyLine implements Line {
         trips.add(trip);
     }
 
+    public List<Trip> getTrips() {
+        return trips;
+    }
 }

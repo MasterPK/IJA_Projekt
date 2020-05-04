@@ -14,6 +14,7 @@ public interface Line {
     String getId();
 
     List<Trip> getLineConnections();
+    List<Trip> getTrips();
 
     void addTrip(Trip trip);
     double getStopsLength(Stop stop1, Stop stop2);

@@ -49,4 +49,7 @@ public class MyStreetMap implements StreetMap {
         return streets.equals(that.streets);
     }
 
+    public List<Street> getStreets() {
+        return streets;
+    }
 }

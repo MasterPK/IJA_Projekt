@@ -28,4 +28,10 @@ public class Trip {
     public List<LocalTime> getTimetable() {
         return timetable;
     }
+
+    public void addTimetableItem(String time)
+    {
+        LocalTime localTime = LocalTime.parse(time);
+        timetable.add(localTime);
+    }
 }

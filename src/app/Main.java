@@ -8,9 +8,11 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    private Controller controller;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader root = new FXMLLoader(getClass().getResource("main.fxml"));
+        FXMLLoader root = new FXMLLoader(getClass().getResource("view/main.fxml"));
 
 
         primaryStage.setTitle("Public Transport Map");
@@ -18,13 +20,27 @@ public class Main extends Application {
         primaryStage.setMaximized(true);
         primaryStage.show();
 
-        Controller controller = root.getController();
+        this.controller = root.getController();
         controller.startUp();
-
-
 
     }
 
+    /**
+     * This method is called when the application should stop, and provides a
+     * convenient place to prepare for application exit and destroy resources.
+     *
+     * <p>
+     * The implementation of this method provided by the Application class does nothing.
+     * </p>
+     *
+     * <p>
+     * NOTE: This method is called on the JavaFX Application Thread.
+     * </p>
+     */
+    @Override
+    public void stop() throws Exception {
+        this.controller.close();
+    }
 
     public static void main(String[] args) {
         launch(args);

@@ -1,14 +1,12 @@
 package app.controllers;
 
 import app.components.ZoomingPane;
-import app.model.maps.myMaps.*;
-import app.models.BaseGui;
-import app.models.Simulator;
-import com.opencsv.CSVReader;
-import com.sun.media.sound.InvalidFormatException;
+import app.models.maps.*;
+import app.view.BaseGui;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -33,18 +31,32 @@ import java.util.*;
 
 public class Controller extends BaseController {
 
+    @FXML
     public Pane mapPane;
+    @FXML
     public GridPane gridPane;
+    @FXML
     public Slider zoomSlider;
+    @FXML
     public Label zoomLabel;
+    @FXML
     public ScrollPane scrollPane;
+    @FXML
     public ZoomingPane zoomingPane;
+    @FXML
     public StreetMap streetMap;
+    @FXML
     public Label currentTimeLabel;
+    @FXML
     public Button startSimulationButton;
+    @FXML
     private Simulator simulator;
+    @FXML
     private BaseGui baseGui;
+    @FXML
     public GridPane mapGrid;
+
+
     private double scale = 1;
 
     public Controller() {
@@ -101,11 +113,6 @@ public class Controller extends BaseController {
         }
 
     }
-
-    public double centerX = 0;
-    public double centerY = 0;
-    public double oldCenterX = 0;
-    public double oldCenterY = 0;
 
     private double maxX = 0;
     private double maxY = 0;
@@ -182,12 +189,9 @@ public class Controller extends BaseController {
         this.gridPane.paddingProperty().setValue(new Insets(20, 20, 20, 20));
 
         this.mapPane = new Pane();
-        //this.mapPane.setMaxSize(1.0,1.0);
-        this.mapPane.setStyle("-fx-border-color: green;");
 
         ZoomingPane zoomingPane = new ZoomingPane(this.mapPane);
-        //zoomingPane.setMaxSize(1.0,1.0);
-        zoomingPane.setStyle("-fx-border-color: orange;");
+
 
         JSONObject map = loadMap("data/map.json");
 
@@ -199,7 +203,6 @@ public class Controller extends BaseController {
         }
 
         scrollPane.setContent(zoomingPane);
-
 
         zoomingPane.zoomFactorProperty().bind(zoomSlider.valueProperty());
         this.zoomLabel.textProperty().bind(zoomSlider.valueProperty().asString());
@@ -214,8 +217,6 @@ public class Controller extends BaseController {
         });
 
         this.zoomingPane = zoomingPane;
-        this.centerX = this.zoomingPane.getLayoutX();
-        this.centerY = this.zoomingPane.getLayoutY();
 
         this.baseGui = new BaseGui(mapPane,currentTimeLabel);
         try {
@@ -227,6 +228,13 @@ public class Controller extends BaseController {
 
     }
 
+    /**
+     * Function that is called on Scene close.
+     */
+    @Override
+    public void close() {
+        this.simulator.stop();
+    }
 
 
     public void startSimulationBtnOnClicked() {

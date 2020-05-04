@@ -1,4 +1,4 @@
-package app.model.maps.myMaps;
+package app.models.maps;
 
 
 

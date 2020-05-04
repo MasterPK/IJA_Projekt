@@ -1,7 +1,6 @@
-package app.models;
+package app.view;
 
-import app.components.ZoomingPane;
-import app.model.maps.myMaps.Coordinate;
+import app.models.maps.Coordinate;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -28,12 +27,11 @@ public class BaseGui {
     {
         Platform.runLater(() -> {
             Circle circle = new Circle(coordinate.getX(),coordinate.getY(),1);
-            mapPane.getChildren().add(circle);
-            garbage.add(circle);
+            addSimulationNode(circle);
         });
     }
 
-    public void addNode(Node node)
+    public void addSimulationNode(Node node)
     {
         Platform.runLater(() -> {
             mapPane.getChildren().add(node);
@@ -48,7 +46,7 @@ public class BaseGui {
         });
     }
 
-    public void clearGui()
+    public void clearSimulationGui()
     {
         for(Node node:garbage)
         {

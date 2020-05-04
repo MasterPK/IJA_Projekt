@@ -2,7 +2,7 @@
  * Zdrojové kódy josu součástí zadání 1. úkolu pro předmětu IJA v ak. roce 2019/2020.
  * (C) Radek Kočí
  */
-package app.model.maps.myMaps;
+package app.models.maps;
 
 import java.util.List;
 

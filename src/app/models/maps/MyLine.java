@@ -1,8 +1,7 @@
-package app.model.maps.myMaps;
+package app.models.maps;
 
 
 
-import java.time.LocalTime;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;

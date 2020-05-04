@@ -1,10 +1,11 @@
-package app.models;
+package app.controllers;
 
-import app.model.maps.myMaps.*;
+import app.models.maps.*;
+import app.view.BaseGui;
+import app.models.CSVLoader;
 import javafx.application.Platform;
 
 import java.time.LocalTime;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
 
 import static java.time.temporal.ChronoUnit.MILLIS;
@@ -18,6 +19,8 @@ public class Simulator {
     private BaseGui gui;
     private LocalTime simulationTime;
     private int simulationSpeed = 1000; //ms
+
+
 
     private void loadLines() throws Exception {
         List<String[]> list = CSVLoader.load("data/routes.txt", new String[]{"route_id", "route_short_name"});
@@ -166,7 +169,7 @@ public class Simulator {
 
     private void simulationRefresh() {
         refreshTimer = 0;
-        gui.clearGui();
+        gui.clearSimulationGui();
 
         System.out.println("Refresh simulation...");
         for (Line line : lines) {

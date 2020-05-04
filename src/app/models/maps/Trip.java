@@ -1,4 +1,4 @@
-package app.model.maps.myMaps;
+package app.models.maps;
 
 import java.time.LocalTime;
 import java.util.ArrayList;

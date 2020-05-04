@@ -2,7 +2,7 @@
  * Zdrojové kódy josu součástí zadání 1. úkolu pro předmětu IJA v ak. roce 2019/2020.
  * (C) Radek Kočí
  */
-package app.model.maps.myMaps;
+package app.models.maps;
 
 import java.util.Objects;
 
@@ -35,6 +35,11 @@ public class Coordinate extends Object {
     public Coordinate(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Coordinate(double x, double y) {
+        this.x = (int) x;
+        this.y = (int) y;
     }
 
     public static Coordinate create(int x, int y) {

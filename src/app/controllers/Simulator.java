@@ -105,7 +105,7 @@ public class Simulator {
 
         Coordinate finalCoord = null;
         try {
-            finalCoord = (Coordinate)startStop.getCoordinate().clone();
+            finalCoord = (Coordinate) startStop.getCoordinate().clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
@@ -134,7 +134,7 @@ public class Simulator {
 
         Streets = line.getStreetsBetween(startStop, endStop);
 
-        for (int i = 0; i < Streets.size()-1; i++) {
+        for (int i = 0; i < Streets.size() - 1; i++) {
             if (lenghtPassedInt == 0) {
                 break;
             }
@@ -202,16 +202,16 @@ public class Simulator {
             return;
         }
 
-        List<LocalTime> timeTable= trip.getTimetable();
-        for (int i =0;i<timeTable.size()-1;i++) {
-            if (simulationTime.isAfter(timeTable.get(i)) && simulationTime.isBefore(timeTable.get(i+1))) {
-                Coordinate currentTripPosition = dotPosition(this.simulationTime, trip.getTimetable().get(i), trip.getTimetable().get(i+1), line.getStops().get(0), line.getStops().get(2), line);
+        List<LocalTime> timeTable = trip.getTimetable();
+        for (int i = 0; i < timeTable.size() - 1; i++) {
+            LocalTime firstTime = timeTable.get(i);
+            LocalTime secondTime = timeTable.get(i + 1);
+            if (!(simulationTime.isBefore(firstTime) || simulationTime.isAfter(secondTime))) {
+                Coordinate currentTripPosition = dotPosition(this.simulationTime, trip.getTimetable().get(i), trip.getTimetable().get(i + 1), line.getStopByIndex(i), line.getStopByIndex(i+1), line);
                 this.gui.createDot(currentTripPosition);
+                break;
             }
         }
-
-
-
 
 
     }

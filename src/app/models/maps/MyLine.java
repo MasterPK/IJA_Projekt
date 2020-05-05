@@ -1,7 +1,6 @@
 package app.models.maps;
 
 
-
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,62 +30,56 @@ public class MyLine implements Line {
 
     public MyLine(String id, String name) {
         this.id = id;
-        this.name=name;
+        this.name = name;
         this.stops = new ArrayList<>();
         this.streets = new ArrayList<>();
     }
 
-    public double getStopsLength(Stop stop1, Stop stop2){
+    public double getStopsLength(Stop stop1, Stop stop2) {
         double lenght = 0;
         List<Street> lineStreets = new ArrayList<>();
         int first = 0;
         int last = 0;
-        if (this.stops.contains(stop1) && this.stops.contains(stop2)){
-            if (this.streets.contains(stop1.getStreet()) && this.streets.contains(stop2.getStreet())){
+        if (this.stops.contains(stop1) && this.stops.contains(stop2)) {
+            if (this.streets.contains(stop1.getStreet()) && this.streets.contains(stop2.getStreet())) {
                 first = this.streets.indexOf(stop1.getStreet());
                 last = this.streets.indexOf(stop2.getStreet());
-                if (stop1.getStreet().equals(stop2.getStreet())){
-                    if (changeX(stop1.getStreet())){
+                if (stop1.getStreet().equals(stop2.getStreet())) {
+                    if (changeX(stop1.getStreet())) {
                         return Math.abs(stop1.getCoordinate().getX() - stop2.getCoordinate().getX());
-                    }
-                    else {
+                    } else {
                         return Math.abs(stop1.getCoordinate().getY() - stop2.getCoordinate().getY());
                     }
                 }
-                for (;first <= last ; first++){
+                for (; first <= last; first++) {
                     lineStreets.add(this.streets.get(first));
                 }
-                for (int i = 0; i < lineStreets.size();i++){
-                    if ( i == 0){
-                        Coordinate endCoord = followPoint(lineStreets.get(i),lineStreets.get(i+1));
+                for (int i = 0; i < lineStreets.size(); i++) {
+                    if (i == 0) {
+                        Coordinate endCoord = followPoint(lineStreets.get(i), lineStreets.get(i + 1));
                         Coordinate stopCoord = stop1.getCoordinate();
-                        if (changeX(lineStreets.get(i))){
-                            lenght += Math.abs(stopCoord.getX()-endCoord.getX());
+                        if (changeX(lineStreets.get(i))) {
+                            lenght += Math.abs(stopCoord.getX() - endCoord.getX());
+                        } else {
+                            lenght += Math.abs(stopCoord.getY() - endCoord.getY());
                         }
-                        else {
-                            lenght += Math.abs(stopCoord.getY()-endCoord.getY());
-                        }
-                    }
-                    else if (i == lineStreets.size()-1){
-                        Coordinate endCoord2 = followPoint(lineStreets.get(i-1),lineStreets.get(i));
+                    } else if (i == lineStreets.size() - 1) {
+                        Coordinate endCoord2 = followPoint(lineStreets.get(i - 1), lineStreets.get(i));
                         Coordinate stopCoord2 = stop2.getCoordinate();
 
-                        if (changeX(lineStreets.get(i))){
-                            lenght += Math.abs(stopCoord2.getX()-endCoord2.getX());
+                        if (changeX(lineStreets.get(i))) {
+                            lenght += Math.abs(stopCoord2.getX() - endCoord2.getX());
+                        } else {
+                            lenght += Math.abs(stopCoord2.getY() - endCoord2.getY());
                         }
-                        else {
-                            lenght += Math.abs(stopCoord2.getY()-endCoord2.getY());
-                        }
-                    }
-                    else{
+                    } else {
                         Coordinate start11 = lineStreets.get(i).getCoordinates().get(0);
                         Coordinate end11 = lineStreets.get(i).getCoordinates().get(1);
 
-                        if (changeX(lineStreets.get(i))){
-                            lenght += Math.abs(start11.getX()-end11.getX());
-                        }
-                        else{
-                            lenght += Math.abs(start11.getY()-end11.getY());
+                        if (changeX(lineStreets.get(i))) {
+                            lenght += Math.abs(start11.getX() - end11.getX());
+                        } else {
+                            lenght += Math.abs(start11.getY() - end11.getY());
                         }
                     }
 
@@ -97,76 +90,86 @@ public class MyLine implements Line {
         return lenght;
     }
 
-    public List<Street> getStreetsBetween(Stop stop1, Stop stop2){
+    public Stop getStopByIndex(int index) {
+        int counter = 0;
+        for (Stop stop : this.stops) {
+            if (stop != null) {
+                if (counter == index) {
+                    return stop;
+                }
+                counter++;
+            }
+        }
+        return null;
+    }
+
+    public List<Street> getStreetsBetween(Stop stop1, Stop stop2) {
         List<Street> lineStreets = new ArrayList<>();
         int first = 0;
         int last = 0;
 
         first = this.streets.indexOf(stop1.getStreet());
         last = this.streets.indexOf(stop2.getStreet());
-        if (stop1.getStreet().equals(stop2.getStreet())){
+        if (stop1.getStreet().equals(stop2.getStreet())) {
             lineStreets.add(stop1.getStreet());
             return lineStreets;
         }
-        for (;first <= last ; first++){
+        for (; first <= last; first++) {
             lineStreets.add(this.streets.get(first));
         }
         return lineStreets;
     }
 
-    public Coordinate followPoint(Street street1, Street street2){
+    public Coordinate followPoint(Street street1, Street street2) {
         Coordinate start = street1.getCoordinates().get(0);
         Coordinate end = street1.getCoordinates().get(1);
 
         Coordinate start2 = street2.getCoordinates().get(0);
         Coordinate end2 = street2.getCoordinates().get(1);
 
-        if (start.equals(start2)){
+        if (start.equals(start2)) {
             return start;
         }
-        if (start.equals(end2)){
+        if (start.equals(end2)) {
             return start;
         }
-        if (end.equals(start2)){
+        if (end.equals(start2)) {
             return end;
         }
-        if (end.equals(end2)){
+        if (end.equals(end2)) {
             return end;
         }
         return null;
     }
 
-    public boolean plusX(Coordinate coord1, Coordinate coord2){
+    public boolean plusX(Coordinate coord1, Coordinate coord2) {
         boolean plus;
-        if (coord1.getX()-coord2.getX() < 0){
+        if (coord1.getX() - coord2.getX() < 0) {
             plus = true;
-        }
-        else{
+        } else {
             plus = false;
         }
         return plus;
     }
 
-    public boolean plusY(Coordinate coord1, Coordinate coord2){
+    public boolean plusY(Coordinate coord1, Coordinate coord2) {
         boolean plus;
-        if (coord1.getY()-coord2.getY() < 0){
+        if (coord1.getY() - coord2.getY() < 0) {
             plus = true;
-        }
-        else{
+        } else {
             plus = false;
         }
         return plus;
     }
 
-    public boolean changeX(Street street){
+    public boolean changeX(Street street) {
         boolean zmenaX;
         Coordinate first = street.getCoordinates().get(0);
         Coordinate second = street.getCoordinates().get(1);
 
-        if (first.getX() != second.getX()){
+        if (first.getX() != second.getX()) {
             zmenaX = true;
-        }
-        else {
+        } else {
             zmenaX = false;
         }
         return zmenaX;
@@ -221,7 +224,7 @@ public class MyLine implements Line {
             if (stop == null) {
                 result += street.getId() + ":null;";
             } else {
-                result += street.getId() + ":"+stop+";";
+                result += street.getId() + ":" + stop + ";";
             }
         }
         return result;

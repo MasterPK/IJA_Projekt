@@ -23,6 +23,7 @@ public interface Line {
     boolean plusY(Coordinate coord1, Coordinate coord2);
     boolean plusX(Coordinate coord1, Coordinate coord2);
     List<Stop> getStops();
+    Stop getStopByIndex(int index);
 
 }
 

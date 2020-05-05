@@ -278,7 +278,7 @@ public class Simulator {
 
                 this.simulationTime = time;
                 this.timer = new Timer("Simulator");
-                timer.schedule(timerTask, 0, this.simulationSpeed);
+                timer.schedule(timerTask, 0, 1000);
                 this.simulationState = true;
                 System.err.println("Simulation started.");
             } else {

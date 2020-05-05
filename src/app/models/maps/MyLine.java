@@ -92,6 +92,7 @@ public class MyLine implements Line {
 
     /**
      * Get stop by real index, ignore streets with no stop
+     *
      * @param index
      * @return
      */
@@ -184,13 +185,21 @@ public class MyLine implements Line {
     public boolean addStop(Stop stop) {
         if (this.stops.isEmpty()) {
             this.stops.add(stop);
-            this.streets.add(stop.getStreet());
+            if (this.streets.isEmpty()) {
+                this.streets.add(stop.getStreet());
+            } else {
+                if (!this.streets.get(this.streets.size() - 1).getId().equals(stop.getId())) {
+                    this.streets.add(stop.getStreet());
+                }
+            }
             return true;
         }
 
         if (this.streets.get(this.streets.size() - 1).follows(stop.getStreet())) {
             this.stops.add(stop);
-            this.streets.add(stop.getStreet());
+            if (!this.streets.get(this.streets.size() - 1).getId().equals(stop.getStreet().getId())) {
+                this.streets.add(stop.getStreet());
+            }
             return true;
         }
         return false;

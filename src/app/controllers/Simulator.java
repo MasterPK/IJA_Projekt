@@ -18,6 +18,7 @@ public class Simulator {
     private boolean simulationState = false;
     private LocalTime simulationTime;
     private int simulationSpeed = 1000; //ms
+    private boolean simulationTask=false;
 
     // Model
     private StreetMap streetMap;
@@ -254,14 +255,17 @@ public class Simulator {
         System.out.println(lines.get(0).toString());
         Platform.runLater(() -> {
             if (!simulationState) {
-                this.refreshTimer = 0;
                 final TimerTask timerTask = new TimerTask() {
                     @Override
                     public void run() {
-                        simulationHandle();
-                        if (refreshTimer == 1) {
+                        if(!simulationTask)
+                        {
+                            simulationTask=true;
                             simulationRefresh();
+                            simulationHandle();
+                            simulationTask=false;
                         }
+
                     }
                 };
 
@@ -284,9 +288,17 @@ public class Simulator {
      * @param simulationSpeed
      */
     public void setSimulationSpeed(int simulationSpeed) {
-        this.simulationSpeed = simulationSpeed;
-        stop();
-        start(this.simulationTime);
+        if(this.simulationState)
+        {
+            stop();
+            this.simulationSpeed = simulationSpeed;
+            start(this.simulationTime);
+        }
+        else
+        {
+            this.simulationSpeed = simulationSpeed;
+        }
+
     }
 
     /**

@@ -90,6 +90,11 @@ public class MyLine implements Line {
         return lenght;
     }
 
+    /**
+     * Get stop by real index, ignore streets with no stop
+     * @param index
+     * @return
+     */
     public Stop getStopByIndex(int index) {
         int counter = 0;
         for (Stop stop : this.stops) {

@@ -220,6 +220,7 @@ public class Controller extends BaseController {
         this.baseGui = new BaseGui(this);
         try {
             this.simulator = new Simulator(streetMap,this.baseGui);
+            //this.simulator.setSimulationSpeed(100);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -70,8 +70,7 @@ public class Simulator {
                         for (Street street : streetMap.getStreets()) {
                             if (streetId.equals(street.getId())) {
                                 if (stopId.isEmpty()) {
-                                    if(time.isEmpty())
-                                    {
+                                    if (time.isEmpty()) {
                                         line.addStreet(street);
                                     }
                                 } else {
@@ -93,7 +92,6 @@ public class Simulator {
     }
 
     /**
-     *
      * @param currentTime
      * @param startTimePos
      * @param endTimePos
@@ -102,9 +100,15 @@ public class Simulator {
      * @param line
      * @return Coord of a point where the actual bus is
      */
-    public Coordinate dotPosition(LocalTime currentTime, LocalTime startTimePos, LocalTime endTimePos, Stop startStop, Stop endStop, Line line){
+    public Coordinate dotPosition(LocalTime currentTime, LocalTime startTimePos, LocalTime endTimePos, Stop startStop, Stop endStop, Line line) {
 
-        Coordinate finalCoord = startStop.getCoordinate();
+
+        Coordinate finalCoord = null;
+        try {
+            finalCoord = (Coordinate)startStop.getCoordinate().clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
         Coordinate follow;
         List<Street> Streets = new ArrayList<>();
 
@@ -116,67 +120,59 @@ public class Simulator {
                 .minusMinutes(startTimePos.getMinute())
                 .minusSeconds(startTimePos.getSecond());
 
-        int actualSeconds = (tripTimeActual.getHour()*60*60)+(tripTimeActual.getMinute()*60)+(tripTimeActual.getSecond());
-        int totalSeconds = (tripTimeTotal.getHour()*60*60)+(tripTimeTotal.getMinute()*60)+(tripTimeTotal.getSecond());
+        int actualSeconds = (tripTimeActual.getHour() * 60 * 60) + (tripTimeActual.getMinute() * 60) + (tripTimeActual.getSecond());
+        int totalSeconds = (tripTimeTotal.getHour() * 60 * 60) + (tripTimeTotal.getMinute() * 60) + (tripTimeTotal.getSecond());
 
         float actualPercent = (actualSeconds * 100.0f) / totalSeconds;
 
-        double lineLenght = line.getStopsLength(startStop,endStop);
+        double lineLenght = line.getStopsLength(startStop, endStop);
 
-        double lenghtPassed = (actualPercent/100) * lineLenght;
+        double lenghtPassed = (actualPercent / 100) * lineLenght;
 
-        int lenghtPassedInt = (int)lenghtPassed;
+        int lenghtPassedInt = (int) lenghtPassed;
 
 
-        Streets = line.getStreetsBetween(startStop,endStop);
+        Streets = line.getStreetsBetween(startStop, endStop);
 
-        for(int i = 0; i< Streets.size()-1;i++){
-            if (lenghtPassed == 0){
+        for (int i = 0; i < Streets.size()-1; i++) {
+            if (lenghtPassedInt == 0) {
                 break;
             }
-           follow = line.followPoint(Streets.get(i),Streets.get(i+1)); // bod konca ulice na ktorej sa bus nachádza
+            follow = line.followPoint(Streets.get(i), Streets.get(i + 1)); // bod konca ulice na ktorej sa bus nachádza
 
-           if (line.changeX(Streets.get(i))){ // kontrola či sa hýbeme po X ose
-               if ((Math.abs(follow.getX()-finalCoord.getX()))<= lenghtPassed){ //kontrola či sa bod nachádza na aktuálnej ulici
-                   if (line.plusX(finalCoord,follow)){ //kontrola smeru po X ose
-                       finalCoord.setX(finalCoord.getX()+(Math.abs(follow.getX()-finalCoord.getX())));
-                   }
-                   else{
-                       finalCoord.setX(finalCoord.getX()-(Math.abs(follow.getX()-finalCoord.getX())));
-                   }
-                   lenghtPassed -= ((Math.abs(follow.getX()-finalCoord.getX())));
-               }
-               else{
-                   if (line.plusX(finalCoord,follow)){ //kontrola smeru po X ose
-                       finalCoord.setX(finalCoord.getX()+lenghtPassedInt);
-                   }
-                   else{
-                       finalCoord.setX(finalCoord.getX()-lenghtPassedInt);
-                   }
-                   lenghtPassed = 0;
-               }
-           }
-           else
-           {
-               if ((Math.abs(follow.getY()-finalCoord.getY()))<= lenghtPassed){ //kontrola či sa bod nachádza na aktuálnej ulici
-                   if (line.plusY(finalCoord,follow)){ //kontrola smeru po Y ose
-                       finalCoord.setY(finalCoord.getY()+(Math.abs(follow.getY()-finalCoord.getY())));
-                   }
-                   else{
-                       finalCoord.setY(finalCoord.getY()-(Math.abs(follow.getY()-finalCoord.getY())));
-                   }
-                   lenghtPassed -= ((Math.abs(follow.getY()-finalCoord.getY())));
-               }
-               else{
-                   if (line.plusY(finalCoord,follow)){ //kontrola smeru po Y ose
-                       finalCoord.setY(finalCoord.getY()+lenghtPassedInt);
-                   }
-                   else{
-                       finalCoord.setY(finalCoord.getY()-lenghtPassedInt);
-                   }
-                   lenghtPassed = 0;
-               }
-           }
+            if (line.changeX(Streets.get(i))) { // kontrola či sa hýbeme po X ose
+                if ((Math.abs(follow.getX() - finalCoord.getX())) <= lenghtPassedInt) { //kontrola či sa bod nachádza na aktuálnej ulici
+                    if (line.plusX(finalCoord, follow)) { //kontrola smeru po X ose
+                        finalCoord.setX(finalCoord.getX() + (Math.abs(follow.getX() - finalCoord.getX())));
+                    } else {
+                        finalCoord.setX(finalCoord.getX() - (Math.abs(follow.getX() - finalCoord.getX())));
+                    }
+                    lenghtPassedInt -= ((Math.abs(follow.getX() - finalCoord.getX())));
+                } else {
+                    if (line.plusX(finalCoord, follow)) { //kontrola smeru po X ose
+                        finalCoord.setX(finalCoord.getX() + lenghtPassedInt);
+                    } else {
+                        finalCoord.setX(finalCoord.getX() - lenghtPassedInt);
+                    }
+                    lenghtPassedInt = 0;
+                }
+            } else {
+                if ((Math.abs(follow.getY() - finalCoord.getY())) <= lenghtPassedInt) { //kontrola či sa bod nachádza na aktuálnej ulici
+                    if (line.plusY(finalCoord, follow)) { //kontrola smeru po Y ose
+                        finalCoord.setY(finalCoord.getY() + (Math.abs(follow.getY() - finalCoord.getY())));
+                    } else {
+                        finalCoord.setY(finalCoord.getY() - (Math.abs(follow.getY() - finalCoord.getY())));
+                    }
+                    lenghtPassedInt -= ((Math.abs(follow.getY() - finalCoord.getY())));
+                } else {
+                    if (line.plusY(finalCoord, follow)) { //kontrola smeru po Y ose
+                        finalCoord.setY(finalCoord.getY() + lenghtPassedInt);
+                    } else {
+                        finalCoord.setY(finalCoord.getY() - lenghtPassedInt);
+                    }
+                    lenghtPassedInt = 0;
+                }
+            }
         }
         return finalCoord;
 
@@ -193,7 +189,7 @@ public class Simulator {
     }
 
 
-    private void handleTrip(Trip trip,Line line) {
+    private void handleTrip(Trip trip, Line line) {
         System.out.println("handleBus:" + trip.getId());
 
         if (trip.getTimetable().isEmpty()) {
@@ -206,15 +202,23 @@ public class Simulator {
             return;
         }
 
-        Coordinate tmp = dotPosition(this.simulationTime,trip.getTimetable().get(0),trip.getTimetable().get(1),line.getStops().get(0),line.getStops().get(2),line);
+        List<LocalTime> timeTable= trip.getTimetable();
+        for (int i =0;i<timeTable.size()-1;i++) {
+            if (simulationTime.isAfter(timeTable.get(i)) && simulationTime.isBefore(timeTable.get(i+1))) {
+                Coordinate currentTripPosition = dotPosition(this.simulationTime, trip.getTimetable().get(i), trip.getTimetable().get(i+1), line.getStops().get(0), line.getStops().get(2), line);
+                this.gui.createDot(currentTripPosition);
+            }
+        }
 
-        this.gui.createDot(tmp);
+
+
+
 
     }
 
     private void handleLine(Line line) {
         for (Trip trip : line.getLineConnections()) {
-            handleTrip(trip,line);
+            handleTrip(trip, line);
         }
     }
 
@@ -235,8 +239,6 @@ public class Simulator {
     }
 
 
-
-
     /**
      * Start simulation at realtime
      */
@@ -252,18 +254,18 @@ public class Simulator {
         System.out.println(lines.get(0).toString());
         Platform.runLater(() -> {
             if (!simulationState) {
-                this.refreshTimer=9;
+                this.refreshTimer = 0;
                 final TimerTask timerTask = new TimerTask() {
                     @Override
                     public void run() {
                         simulationHandle();
-                        if (refreshTimer == 10) {
+                        if (refreshTimer == 1) {
                             simulationRefresh();
                         }
                     }
                 };
 
-                this.simulationTime=time;
+                this.simulationTime = time;
                 this.timer = new Timer("Simulator");
                 timer.schedule(timerTask, 0, this.simulationSpeed);
                 this.simulationState = true;

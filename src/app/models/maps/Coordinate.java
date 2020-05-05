@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author koci
  */
-public class Coordinate extends Object {
+public class Coordinate extends Object implements Cloneable {
 
     private int x;
     private int y;
@@ -80,4 +80,8 @@ public class Coordinate extends Object {
     }
 
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

@@ -177,10 +177,11 @@ public class Simulator {
            }
         }
         return finalCoord;
+
     }
 
 
-    public Simulator(StreetMap streetMap, LocalTime startTime, BaseGui gui) throws Exception {
+    public Simulator(StreetMap streetMap, BaseGui gui) throws Exception {
         this.streetMap = streetMap;
         this.gui = gui;
         this.simulationTime = startTime;
@@ -225,32 +226,42 @@ public class Simulator {
         gui.showTime(simulationTime);
     }
 
-    final TimerTask timerTask = new TimerTask() {
-        @Override
-        public void run() {
-            simulationHandle();
-            if (refreshTimer == 10) {
-                simulationRefresh();
-            }
 
-        }
-    };
 
 
     /**
-     * Start simulation
+     * Start simulation at realtime
      */
     public void start() {
+        start(LocalTime.now());
+    }
+
+    /**
+     * Start simulation at specified time
+     */
+    public void start(LocalTime time) {
 
         System.out.println(lines.get(0).toString());
         Platform.runLater(() -> {
             if (!simulationState) {
+
+                final TimerTask timerTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        simulationHandle();
+                        if (refreshTimer == 10) {
+                            simulationRefresh();
+                        }
+                    }
+                };
+
+                this.simulationTime=time;
                 this.timer = new Timer("Simulator");
                 timer.schedule(timerTask, 0, this.simulationSpeed);
                 this.simulationState = true;
-                System.out.println("Simulation started...");
+                System.err.println("Simulation started.");
             } else {
-                System.out.println("Simulation already running");
+                System.err.println("Simulation already running...");
             }
 
         });
@@ -265,7 +276,7 @@ public class Simulator {
     public void setSimulationSpeed(int simulationSpeed) {
         this.simulationSpeed = simulationSpeed;
         stop();
-        start();
+        start(this.simulationTime);
     }
 
     /**
@@ -284,8 +295,12 @@ public class Simulator {
      */
     public void stop() {
         this.simulationState = false;
-        this.timer.cancel();
-        this.timer.purge();
+        if (this.timer != null) {
+            this.timer.cancel();
+            this.timer.purge();
+            System.err.println("Simulation stopped.");
+        }
+
     }
 
     /**

@@ -3,17 +3,13 @@ package app.controllers;
 import app.components.ZoomingPane;
 import app.models.maps.*;
 import app.view.BaseGui;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
@@ -44,15 +40,17 @@ public class Controller extends BaseController {
     @FXML
     public ZoomingPane zoomingPane;
     @FXML
-    public StreetMap streetMap;
-    @FXML
     public Label currentTimeLabel;
     @FXML
     public Button startSimulationButton;
     @FXML
+    public TextField simulationTimeTextField;
+
+
     private Simulator simulator;
-    @FXML
     private BaseGui baseGui;
+
+    private StreetMap streetMap;
 
 
     private double scale = 1;
@@ -84,7 +82,6 @@ public class Controller extends BaseController {
             addNodeToMapPane(circle);
         }
     }
-
 
     private JSONObject loadMap(String filePath) {
         File file = new File(
@@ -220,9 +217,9 @@ public class Controller extends BaseController {
 
         this.zoomingPane = zoomingPane;
 
-        this.baseGui = new BaseGui(mapPane,currentTimeLabel);
+        this.baseGui = new BaseGui(this);
         try {
-            this.simulator = new Simulator(streetMap,LocalTime.now(),this.baseGui);
+            this.simulator = new Simulator(streetMap,this.baseGui);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -240,10 +237,25 @@ public class Controller extends BaseController {
 
 
     public void startSimulationBtnOnClicked() {
-        this.simulator.start();
-        Platform.runLater(() -> {
-            this.startSimulationButton.textProperty().setValue("Stop simulation");
-        });
+
+        if(this.simulator.getSimulationState())
+        {
+            this.simulator.stop();
+            this.baseGui.toggleSimulationButton(false);
+        }
+        else
+        {
+            try{
+                this.simulator.start(LocalTime.parse(this.simulationTimeTextField.getText()));
+            }catch (Exception ignored)
+            {
+                return;
+            }
+
+            this.baseGui.toggleSimulationButton(true);
+        }
+
+
     }
 
 

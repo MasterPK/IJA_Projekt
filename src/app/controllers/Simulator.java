@@ -134,14 +134,22 @@ public class Simulator {
 
         Streets = line.getStreetsBetween(startStop, endStop);
 
-        for (int i = 0; i < Streets.size() - 1; i++) {
+
+        for (int i = 0; i < Streets.size(); i++) {
             if (lenghtPassedInt == 0) {
                 break;
             }
-            follow = line.followPoint(Streets.get(i), Streets.get(i + 1)); // bod konca ulice na ktorej sa bus nachádza
+            if (i == 2){
+                follow = endStop.getCoordinate(); // bod konca ulice na ktorej sa bus nachádza
+            }
+            else
+            {
+                follow = line.followPoint(Streets.get(i), Streets.get(i + 1)); // bod konca ulice na ktorej sa bus nachádza
+            }
 
             if (line.changeX(Streets.get(i))) { // kontrola či sa hýbeme po X ose
                 if ((Math.abs(follow.getX() - finalCoord.getX())) <= lenghtPassedInt) { //kontrola či sa bod nachádza na aktuálnej ulici
+                    lenghtPassedInt -= ((Math.abs(follow.getX() - finalCoord.getX())));
                     if (line.plusX(finalCoord, follow)) { //kontrola smeru po X ose
                         finalCoord.setX(finalCoord.getX() + (Math.abs(follow.getX() - finalCoord.getX())));
                     } else {
@@ -158,6 +166,7 @@ public class Simulator {
                 }
             } else {
                 if ((Math.abs(follow.getY() - finalCoord.getY())) <= lenghtPassedInt) { //kontrola či sa bod nachádza na aktuálnej ulici
+                    lenghtPassedInt -= ((Math.abs(follow.getY() - finalCoord.getY())));
                     if (line.plusY(finalCoord, follow)) { //kontrola smeru po Y ose
                         finalCoord.setY(finalCoord.getY() + (Math.abs(follow.getY() - finalCoord.getY())));
                     } else {
@@ -212,6 +221,9 @@ public class Simulator {
                 break;
             }
         }
+
+
+
 
 
     }

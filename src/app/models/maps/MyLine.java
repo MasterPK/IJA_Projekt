@@ -25,6 +25,10 @@ public class MyLine implements Line {
         return name;
     }
 
+    public List<Stop> getStops() {
+        return stops;
+    }
+
     public MyLine(String id, String name) {
         this.id = id;
         this.name=name;

@@ -22,6 +22,7 @@ public interface Line {
     boolean changeX(Street street);
     boolean plusY(Coordinate coord1, Coordinate coord2);
     boolean plusX(Coordinate coord1, Coordinate coord2);
+    List<Stop> getStops();
 
 }
 

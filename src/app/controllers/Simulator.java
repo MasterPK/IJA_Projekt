@@ -79,12 +79,14 @@ public class Simulator {
                                         if (stop.getId().equals(stopId)) {
                                             line.addStop(stop);
                                             trip.addTimetableItem(time);
+                                            break;
                                         }
                                     }
                                 }
                             }
                         }
                     }
+
                 }
             }
         }
@@ -100,7 +102,7 @@ public class Simulator {
      * @param line
      * @return Coord of a point where the actual bus is
      */
-    public Coordinate DotPosition(LocalTime currentTime, LocalTime startTimePos, LocalTime endTimePos, Stop startStop, Stop endStop, Line line){
+    public Coordinate dotPosition(LocalTime currentTime, LocalTime startTimePos, LocalTime endTimePos, Stop startStop, Stop endStop, Line line){
 
         Coordinate finalCoord = startStop.getCoordinate();
         Coordinate follow;
@@ -128,7 +130,7 @@ public class Simulator {
 
         Streets = line.getStreetsBetween(startStop,endStop);
 
-        for(int i = 0; i< Streets.size();i++){
+        for(int i = 0; i< Streets.size()-1;i++){
             if (lenghtPassed == 0){
                 break;
             }
@@ -191,21 +193,28 @@ public class Simulator {
     }
 
 
-    private void handleTrip(Trip trip) {
+    private void handleTrip(Trip trip,Line line) {
         System.out.println("handleBus:" + trip.getId());
 
         if (trip.getTimetable().isEmpty()) {
             return;
         }
         // Is this connection active at current time?
-        if (trip.getTimetable().get(0).isBefore(simulationTime) || simulationTime.isAfter(trip.getTimetable().get(trip.getTimetable().size() - 1))) {
+        LocalTime tmp1 = trip.getTimetable().get(0);
+        LocalTime tmp2 = trip.getTimetable().get(trip.getTimetable().size() - 1);
+        if (simulationTime.isBefore(tmp1) || simulationTime.isAfter(tmp2)) {
             return;
         }
+
+        Coordinate tmp = dotPosition(this.simulationTime,trip.getTimetable().get(0),trip.getTimetable().get(1),line.getStops().get(0),line.getStops().get(2),line);
+
+        this.gui.createDot(tmp);
+
     }
 
     private void handleLine(Line line) {
         for (Trip trip : line.getLineConnections()) {
-            handleTrip(trip);
+            handleTrip(trip,line);
         }
     }
 
@@ -243,7 +252,7 @@ public class Simulator {
         System.out.println(lines.get(0).toString());
         Platform.runLater(() -> {
             if (!simulationState) {
-
+                this.refreshTimer=9;
                 final TimerTask timerTask = new TimerTask() {
                     @Override
                     public void run() {

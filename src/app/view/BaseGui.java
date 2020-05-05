@@ -5,6 +5,7 @@ import app.models.maps.Coordinate;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 import java.time.LocalTime;
@@ -22,7 +23,7 @@ public class BaseGui {
 
     public void createDot(Coordinate coordinate) {
         Platform.runLater(() -> {
-            Circle circle = new Circle(coordinate.getX(), coordinate.getY(), 1);
+            Circle circle = new Circle(coordinate.getX(), coordinate.getY(), 5, Paint.valueOf("red"));
             addSimulationNode(circle);
         });
     }

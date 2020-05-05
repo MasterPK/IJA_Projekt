@@ -184,7 +184,6 @@ public class Simulator {
     public Simulator(StreetMap streetMap, BaseGui gui) throws Exception {
         this.streetMap = streetMap;
         this.gui = gui;
-        this.simulationTime = startTime;
 
         loadLines();
         loadTrips();

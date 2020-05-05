@@ -90,7 +90,16 @@ public class Simulator {
         }
     }
 
-
+    /**
+     *
+     * @param currentTime
+     * @param startTimePos
+     * @param endTimePos
+     * @param startStop
+     * @param endStop
+     * @param line
+     * @return Coord of a point where the actual bus is
+     */
     public Coordinate DotPosition(LocalTime currentTime, LocalTime startTimePos, LocalTime endTimePos, Stop startStop, Stop endStop, Line line){
 
         Coordinate finalCoord = startStop.getCoordinate();
@@ -123,23 +132,51 @@ public class Simulator {
             if (lenghtPassed == 0){
                 break;
             }
-           follow = line.followPoint(Streets.get(i),Streets.get(i+1));
-           if ( i == 0){
-               if (line.changeX(startStop.getStreet())){
-                   if ((Math.abs(follow.getX()-startStop.getCoordinate().getX()))<= lenghtPassed){
-                       finalCoord.setX(Math.abs(follow.getX()-startStop.getCoordinate().getX()));
-                       lenghtPassed -= ((Math.abs(follow.getX()-startStop.getCoordinate().getX())));
+           follow = line.followPoint(Streets.get(i),Streets.get(i+1)); // bod konca ulice na ktorej sa bus nachádza
+
+           if (line.changeX(Streets.get(i))){ // kontrola či sa hýbeme po X ose
+               if ((Math.abs(follow.getX()-finalCoord.getX()))<= lenghtPassed){ //kontrola či sa bod nachádza na aktuálnej ulici
+                   if (line.plusX(finalCoord,follow)){ //kontrola smeru po X ose
+                       finalCoord.setX(finalCoord.getX()+(Math.abs(follow.getX()-finalCoord.getX())));
                    }
                    else{
-                       finalCoord.setX(Math.abs(lenghtPassedInt-startStop.getCoordinate().getX()));
-                       lenghtPassed = 0;
+                       finalCoord.setX(finalCoord.getX()-(Math.abs(follow.getX()-finalCoord.getX())));
                    }
-
+                   lenghtPassed -= ((Math.abs(follow.getX()-finalCoord.getX())));
+               }
+               else{
+                   if (line.plusX(finalCoord,follow)){ //kontrola smeru po X ose
+                       finalCoord.setX(finalCoord.getX()+lenghtPassedInt);
+                   }
+                   else{
+                       finalCoord.setX(finalCoord.getX()-lenghtPassedInt);
+                   }
+                   lenghtPassed = 0;
+               }
+           }
+           else
+           {
+               if ((Math.abs(follow.getY()-finalCoord.getY()))<= lenghtPassed){ //kontrola či sa bod nachádza na aktuálnej ulici
+                   if (line.plusY(finalCoord,follow)){ //kontrola smeru po Y ose
+                       finalCoord.setY(finalCoord.getY()+(Math.abs(follow.getY()-finalCoord.getY())));
+                   }
+                   else{
+                       finalCoord.setY(finalCoord.getY()-(Math.abs(follow.getY()-finalCoord.getY())));
+                   }
+                   lenghtPassed -= ((Math.abs(follow.getY()-finalCoord.getY())));
+               }
+               else{
+                   if (line.plusY(finalCoord,follow)){ //kontrola smeru po Y ose
+                       finalCoord.setY(finalCoord.getY()+lenghtPassedInt);
+                   }
+                   else{
+                       finalCoord.setY(finalCoord.getY()-lenghtPassedInt);
+                   }
+                   lenghtPassed = 0;
                }
            }
         }
         return finalCoord;
-
     }
 
 

@@ -20,5 +20,8 @@ public interface Line {
     List<Street> getStreetsBetween(Stop stop1, Stop stop2);
     Coordinate followPoint(Street street1, Street street2);
     boolean changeX(Street street);
+    boolean plusY(Coordinate coord1, Coordinate coord2);
+    boolean plusX(Coordinate coord1, Coordinate coord2);
+
 }
 

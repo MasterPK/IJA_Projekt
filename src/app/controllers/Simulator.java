@@ -140,7 +140,7 @@ public class Simulator {
             if (lenghtPassedInt == 0) {
                 break;
             }
-            if (i == 2){
+            if (i == Streets.size()-1){
                 follow = endStop.getCoordinate(); // bod konca ulice na ktorej sa bus nachádza
             }
             else
@@ -222,11 +222,6 @@ public class Simulator {
                 break;
             }
         }
-
-
-
-
-
     }
 
     private void handleLine(Line line) {

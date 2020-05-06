@@ -11,6 +11,7 @@ import java.util.List;
 
 public abstract class TripSimulation {
     /**
+     * Compute current position of vehicle.
      * @param currentTime
      * @param startTimePos
      * @param endTimePos

@@ -1,6 +1,28 @@
 {
   "streets": [
     {
+      "id": "Ulice",
+      "coordinates": [
+        [
+          200,
+          500
+        ],
+        [
+          200,
+          700
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Zas",
+          "coordinates": [
+            200,
+            550
+          ]
+        }
+      ]
+    },
+    {
       "id": "Koželužská",
       "coordinates": [
         [

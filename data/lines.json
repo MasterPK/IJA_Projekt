@@ -1,0 +1,41 @@
+{
+  "lines": [
+    {
+      "lineId": "1",
+      "lineName": "Jednička",
+      "route": [
+        {
+          "stop": "Za Rybníkem",
+          "street": "Koželužská"
+        },
+        {
+          "stop": "Koželužská",
+          "street": "Koželužská"
+        },
+        {
+          "stop": "Zas",
+          "street": "Ulice"
+        },
+        {
+          "stop": null,
+          "street": "Řípovská"
+        },
+        {
+          "stop": "Revoluční",
+          "street": "Revoluční"
+        }
+      ],
+      "trips": [
+        {
+          "tripId": "01001",
+          "times": [
+            "12:00",
+            "12:00:10",
+            "12:00:15",
+            "12:00:25"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -196,14 +196,16 @@ public class Simulator {
      * Stop simulation.
      */
     public void stop() {
-        this.simulationState = false;
-        if (this.timer != null) {
-            this.previousRealTime = null;
-            this.timer.cancel();
-            this.timer.purge();
-            System.err.println("Simulation stopped.");
+        if(this.simulationState)
+        {
+            this.simulationState = false;
+            if (this.timer != null) {
+                this.previousRealTime = null;
+                this.timer.cancel();
+                this.timer.purge();
+                System.err.println("Simulation stopped.");
+            }
         }
-
     }
 
     /**

@@ -25,5 +25,11 @@ public interface Line {
     List<Stop> getStops();
     Stop getStopByIndex(int index);
 
+    /**
+     * Get real stops count.
+     * @return
+     */
+    int getRealStopsCount();
+
 }
 

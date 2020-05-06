@@ -109,6 +109,24 @@ public class MyLine implements Line {
         return null;
     }
 
+    /**
+     * Get real stops count.
+     *
+     * @return
+     */
+    @Override
+    public int getRealStopsCount() {
+        int counter=0;
+        for(Stop stop:this.getStops())
+        {
+            if(stop!=null)
+            {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
     public List<Street> getStreetsBetween(Stop stop1, Stop stop2) {
         List<Street> lineStreets = new ArrayList<>();
         int first = 0;

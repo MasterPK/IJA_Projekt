@@ -1,83 +1,73 @@
 package app.models;
 
 import app.models.maps.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public abstract class LinesLoader {
 
 
-    public static List<Line> load(StreetMap streetMap) throws Exception{
-        List<Line> lines = loadLines();
-        loadTrips(lines);
-        loadTimetable(lines,streetMap);
-        return lines;
-    }
+    public static List<Line> load(StreetMap streetMap) throws Exception {
+        List<Line> lines = new ArrayList<>();
 
+        JSONArray jsonLines = (JSONArray) JSONLoader.load("data/lines.json").get("lines");
 
-    private static List<Line> loadLines() throws Exception {
-        List<String[]> list = CSVLoader.load("data/routes.txt", new String[]{"route_id", "route_short_name"});
-        List<Line> result = new ArrayList<>();
-        for (String[] string : list) {
-            String routeId = string[0];
-            String routeShortTime = string[1];
-            Line route = new MyLine(routeId, routeShortTime);
-            result.add(route);
-        }
-        return result;
-    }
+        for (JSONObject jsonLine : (Iterable<JSONObject>) jsonLines) {
 
-    private static void loadTrips(List<Line> lines) throws Exception {
+            String lineId = (String) jsonLine.get("lineId");
+            String lineName = (String) jsonLine.get("lineName");
 
-        List<String[]> list = CSVLoader.load("data/trips.txt", new String[]{"route_id", "trip_id"});
+            Line line = new MyLine(lineId, lineName);
+            lines.add(line);
 
-        for (String[] string : list) {
-            String routeId = string[0];
-            String tripId = string[1];
+            // Load route
+            for (JSONObject jsonRoute : (Iterable<JSONObject>) jsonLine.get("route")) {
 
-            for (Line line : lines) {
-                if (!routeId.equals(line.getId())) {
-                    throw new Exception("Route " + routeId + " doesnt exist!");
+                String streetName = (String) jsonRoute.get("street");
+                Street street = streetMap.getStreet(streetName);
+                if (street == null) {
+                    throw new Exception("Street \"" + streetName + "\" specified in \"lines.json\" doesnt exist in \"map.json\"!");
                 }
-                Trip trip = new Trip(tripId);
+
+                String stopName = (String) jsonRoute.get("stop");
+                Stop stop= street.getStop(stopName);
+                if (stop != null) {
+                    line.addStop(stop);
+                }
+                else {
+                    line.addStreet(street);
+                }
+
+            }
+
+            // Load trips
+            for (JSONObject jsonTrip : (Iterable<JSONObject>) jsonLine.get("trips")) {
+                String tripId = (String) jsonTrip.get("tripId");
+                List<LocalTime> times = new ArrayList<>();
+
+                for (String jsonTripTime : (Iterable<String>) jsonTrip.get("times")) {
+                    times.add(LocalTime.parse(jsonTripTime));
+                }
+                Trip trip = new Trip(tripId,times);
+
+                if(line.getRealStopsCount() != trip.getTimetable().size())
+                {
+                    throw new Exception("Count of trip stops and line stops at line: \""+line.getId()+"\" and trip: \""+trip.getId()+"\" doesnt match!");
+                }
                 line.addTrip(trip);
             }
+
+
+
         }
-    }
 
-    private static void loadTimetable(List<Line> lines, StreetMap streetMap) throws Exception {
-        List<String[]> list = CSVLoader.load("data/stop_times.txt", new String[]{"trip_id", "time", "stop_id", "street_id"});
+        return lines;
 
-        for (String[] string : list) {
-            String tripId = string[0];
-            String time = string[1];
-            String stopId = string[2];
-            String streetId = string[3];
-            for (Line line : lines) {
-                for (Trip trip : line.getTrips()) {
-                    if (trip.getId().equals(tripId)) {
-                        for (Street street : streetMap.getStreets()) {
-                            if (streetId.equals(street.getId())) {
-                                if (stopId.isEmpty()) {
-                                    if (time.isEmpty()) {
-                                        line.addStreet(street);
-                                    }
-                                } else {
-                                    for (Stop stop : street.getStops()) {
-                                        if (stop.getId().equals(stopId)) {
-                                            line.addStop(stop);
-                                            trip.addTimetableItem(time);
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
     }
 }

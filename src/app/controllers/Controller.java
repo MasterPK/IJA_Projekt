@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.components.ZoomingPane;
+import app.models.JSONLoader;
 import app.models.maps.*;
 import app.view.BaseGui;
 import javafx.beans.value.ChangeListener;
@@ -86,32 +87,6 @@ public class Controller extends BaseController {
         }
     }
 
-    private JSONObject loadMap(String filePath) {
-        File file = new File(
-                Objects.requireNonNull(getClass().getClassLoader().getResource("map.json")).getFile()
-        );
-
-        File file1 = new File(filePath);
-        //System.out.println(file1.getAbsolutePath());
-        FileReader reader = null;
-        try {
-            reader = new FileReader(file1);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        JSONParser jsonParser = new JSONParser();
-        try {
-            JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
-            return jsonObject;
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-    }
-
     private double maxX = 0;
     private double maxY = 0;
 
@@ -194,8 +169,12 @@ public class Controller extends BaseController {
 
         ZoomingPane zoomingPane = new ZoomingPane(this.mapPane);
 
-
-        JSONObject map = loadMap("data/map.json");
+        JSONObject map = null;
+        try {
+            map = JSONLoader.load("data/map.json");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             assert map != null;

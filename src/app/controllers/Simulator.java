@@ -4,11 +4,8 @@ import app.models.LinesLoader;
 import app.models.TripSimulation;
 import app.models.maps.*;
 import app.view.BaseGui;
-import app.models.CSVLoader;
-import javafx.application.Platform;
 
 import java.time.LocalTime;
-import java.time.temporal.TemporalField;
 import java.util.*;
 
 import static java.time.temporal.ChronoUnit.MILLIS;
@@ -21,7 +18,8 @@ public class Simulator {
     private LocalTime simulationTime;
     private int simulationSpeed = 1000; //ms
     private boolean simulationTask = false;
-    private LocalTime previousSimulationTime;
+    private LocalTime previousRealTime;
+    private int simulationRefreshSpeed = 10; //s
 
     // Model
     private StreetMap streetMap;
@@ -89,7 +87,6 @@ public class Simulator {
     }
 
     private void simulationHandle() {
-        gui.showTime(simulationTime);
         simulationTime = simulationTime.plus(this.simulationSpeed, MILLIS);
     }
 
@@ -114,22 +111,21 @@ public class Simulator {
                 public void run() {
                     if (!simulationTask) {
                         simulationTask = true;
-
-                        if (previousSimulationTime == null) {
+                        gui.showTime(simulationTime);
+                        if (previousRealTime == null) {
                             simulationRefresh();
-                            gui.showTime(simulationTime);
-                            previousSimulationTime = LocalTime.of(simulationTime.getHour(), simulationTime.getMinute(), simulationTime.getSecond(), simulationTime.getNano());
+                            previousRealTime = LocalTime.now();
                             simulationTask = false;
                             return;
                         }
-                        LocalTime diff = simulationTime.minusHours(previousSimulationTime.getHour())
-                                .minusMinutes(previousSimulationTime.getMinute())
-                                .minusSeconds(previousSimulationTime.getSecond());
+                        LocalTime diff = LocalTime.now().minusHours(previousRealTime.getHour())
+                                .minusMinutes(previousRealTime.getMinute())
+                                .minusSeconds(previousRealTime.getSecond());
 
                         int actualSeconds = (diff.getHour() * 60 * 60) + (diff.getMinute() * 60) + (diff.getSecond());
-                        if (actualSeconds >= 10) {
+                        if (actualSeconds >= simulationRefreshSpeed) {
                             simulationRefresh();
-                            previousSimulationTime = LocalTime.of(simulationTime.getHour(), simulationTime.getMinute(), simulationTime.getSecond(), simulationTime.getNano());
+                            previousRealTime = LocalTime.now();
                         }
                         simulationHandle();
                         simulationTask = false;
@@ -163,7 +159,20 @@ public class Simulator {
         } else {
             this.simulationSpeed = 1000 * simulationSpeed;
         }
+    }
 
+    public void setSimulationRefreshSpeed(int simulationRefreshSpeed) throws Exception {
+        if(simulationRefreshSpeed<1)
+        {
+            throw new Exception("Simulation refresh speed cant be lower than 1!");
+        }
+        if (this.simulationState) {
+            stop();
+            this.simulationRefreshSpeed = simulationRefreshSpeed;
+            start(this.simulationTime);
+        } else {
+            this.simulationRefreshSpeed = simulationRefreshSpeed;
+        }
     }
 
     /**
@@ -183,6 +192,7 @@ public class Simulator {
     public void stop() {
         this.simulationState = false;
         if (this.timer != null) {
+            this.previousRealTime =null;
             this.timer.cancel();
             this.timer.purge();
             System.err.println("Simulation stopped.");

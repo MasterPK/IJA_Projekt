@@ -204,7 +204,6 @@ public class Controller extends BaseController {
         scrollPane.setContent(zoomingPane);
 
         zoomingPane.zoomFactorProperty().bind(zoomSlider.valueProperty());
-        this.zoomLabel.textProperty().bind(zoomSlider.valueProperty().asString());
 
         mapPane.setPrefSize(this.maxX + 50, this.maxY + 50);
 
@@ -220,7 +219,8 @@ public class Controller extends BaseController {
         this.baseGui = new BaseGui(this);
         try {
             this.simulator = new Simulator(streetMap,this.baseGui);
-            this.simulator.setSimulationSpeed(2);
+            this.simulator.setSimulationSpeed(5);
+            this.simulator.setSimulationRefreshSpeed(1);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -18,7 +18,7 @@
             <children>
                 <Slider fx:id="zoomSlider" majorTickUnit="10.0" max="5.0" min="0.1" minorTickCount="50" value="1.0" GridPane.rowIndex="1" />
                 <Label fx:id="currentTimeLabel" text="00:00:00" visible="false" GridPane.rowIndex="2" />
-                <Label fx:id="zoomLabel" text="Label" />
+                <Label fx:id="zoomLabel" text="Zoom" />
                 <Button fx:id="startSimulationButton" mnemonicParsing="false" onMouseClicked="#startSimulationBtnOnClicked" text="Start simulation" GridPane.rowIndex="3" />
             <TextField fx:id="simulationTimeTextField" alignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
             </children>

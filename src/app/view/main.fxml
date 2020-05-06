@@ -13,14 +13,24 @@
                 <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="30" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <Slider fx:id="zoomSlider" majorTickUnit="10.0" max="5.0" min="0.1" minorTickCount="50" value="1.0" GridPane.rowIndex="1" />
-                <Label fx:id="currentTimeLabel" text="00:00:00" visible="false" GridPane.rowIndex="2" />
+                <Label fx:id="currentTimeLabel" text="00:00:00" visible="false" GridPane.rowIndex="3" />
                 <Label fx:id="zoomLabel" text="Zoom" />
-                <Button fx:id="startSimulationButton" mnemonicParsing="false" onMouseClicked="#startSimulationBtnOnClicked" text="Start simulation" GridPane.rowIndex="3" />
-            <TextField fx:id="simulationTimeTextField" alignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                <Button fx:id="startSimulationButton" mnemonicParsing="false" onMouseClicked="#startSimulationBtnOnClicked" text="Start simulation" GridPane.rowIndex="8" />
+                <TextField fx:id="simulationTimeTextField" alignment="CENTER" text="12:00" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                <Label text="Simulation time" GridPane.rowIndex="2" />
+            <Label text="Simulation speed" GridPane.rowIndex="4" />
+            <Label text="Refresh interval" GridPane.rowIndex="6" />
+            <Slider fx:id="simulationSpeedSlider" majorTickUnit="1.0" max="5.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" value="1.0" GridPane.rowIndex="5" />
+            <Slider fx:id="refreshIntervalSlider" majorTickUnit="10.0" max="60.0" min="1.0" minorTickCount="2" showTickLabels="true" showTickMarks="true" value="10.0" GridPane.rowIndex="7" />
             </children>
         </GridPane>
         <ScrollPane fx:id="scrollPane" pannable="true" prefHeight="200.0" prefWidth="200.0">

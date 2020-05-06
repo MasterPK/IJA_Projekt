@@ -4,6 +4,8 @@ import app.models.LinesLoader;
 import app.models.TripSimulation;
 import app.models.maps.*;
 import app.view.BaseGui;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
 import java.time.LocalTime;
 import java.util.*;
@@ -35,8 +37,7 @@ public class Simulator {
         this.lines = LinesLoader.load(this.streetMap);
     }
 
-    private int minusLocalTime(LocalTime diff1, LocalTime diff2)
-    {
+    private int minusLocalTime(LocalTime diff1, LocalTime diff2) {
         LocalTime diff = diff1.minusHours(diff2.getHour())
                 .minusMinutes(diff2.getMinute())
                 .minusSeconds(diff2.getSecond());
@@ -116,6 +117,7 @@ public class Simulator {
                             simulationRefresh();
                             previousRealTime = LocalTime.now();
                             simulationTask = false;
+                            simulationHandle();
                             return;
                         }
                         LocalTime diff = LocalTime.now().minusHours(previousRealTime.getHour())
@@ -136,7 +138,6 @@ public class Simulator {
             this.simulationState = true;
             this.timer = new Timer("Simulator");
             timer.schedule(timerTask, 0, 1000);
-
             System.err.println("Simulation started.");
         } else {
             System.err.println("Simulation already running...");
@@ -162,8 +163,7 @@ public class Simulator {
     }
 
     public void setSimulationRefreshSpeed(int simulationRefreshSpeed) throws Exception {
-        if(simulationRefreshSpeed<1)
-        {
+        if (simulationRefreshSpeed < 1) {
             throw new Exception("Simulation refresh speed cant be lower than 1!");
         }
         if (this.simulationState) {
@@ -192,7 +192,7 @@ public class Simulator {
     public void stop() {
         this.simulationState = false;
         if (this.timer != null) {
-            this.previousRealTime =null;
+            this.previousRealTime = null;
             this.timer.cancel();
             this.timer.purge();
             System.err.println("Simulation stopped.");

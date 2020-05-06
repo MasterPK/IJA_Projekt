@@ -45,7 +45,10 @@ public class Controller extends BaseController {
     public Button startSimulationButton;
     @FXML
     public TextField simulationTimeTextField;
-
+    @FXML
+    public Slider simulationSpeedSlider;
+    @FXML
+    public Slider refreshIntervalSlider;
 
     private Simulator simulator;
     private BaseGui baseGui;
@@ -216,11 +219,28 @@ public class Controller extends BaseController {
 
         this.zoomingPane = zoomingPane;
 
+        /*this.simulationSpeedSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                simulator.setSimulationSpeed(newValue.intValue());
+            }
+        });
+
+        this.refreshIntervalSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                try {
+                    simulator.setSimulationRefreshSpeed(newValue.intValue());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });*/
+
+
         this.baseGui = new BaseGui(this);
         try {
             this.simulator = new Simulator(streetMap,this.baseGui);
-            this.simulator.setSimulationSpeed(5);
-            this.simulator.setSimulationRefreshSpeed(1);
         } catch (Exception e) {
             e.printStackTrace();
         }

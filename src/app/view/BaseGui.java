@@ -55,11 +55,15 @@ public class BaseGui {
                 this.controller.startSimulationButton.textProperty().setValue("Stop simulation");
                 this.controller.currentTimeLabel.visibleProperty().setValue(true);
                 this.controller.simulationTimeTextField.visibleProperty().setValue(false);
+                this.controller.simulationSpeedSlider.disableProperty().setValue(true);
+                this.controller.refreshIntervalSlider.disableProperty().setValue(true);
             } else {
                 this.controller.startSimulationButton.textProperty().setValue("Start simulation");
                 this.controller.currentTimeLabel.visibleProperty().setValue(false);
                 this.controller.simulationTimeTextField.visibleProperty().setValue(true);
                 this.controller.simulationTimeTextField.textProperty().setValue(this.controller.currentTimeLabel.getText());
+                this.controller.simulationSpeedSlider.disableProperty().setValue(false);
+                this.controller.refreshIntervalSlider.disableProperty().setValue(false);
             }
         });
     }

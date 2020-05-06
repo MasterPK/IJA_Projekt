@@ -2,6 +2,8 @@ package app.view;
 
 import app.controllers.Controller;
 import app.models.maps.Coordinate;
+import app.models.maps.Line;
+import app.models.maps.Trip;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -71,5 +73,19 @@ public class BaseGui {
     public String getSimulationTimeFiledText()
     {
         return this.controller.simulationTimeTextField.getText();
+    }
+
+    public void clearActiveVehicles()
+    {
+        Platform.runLater(() -> {
+            this.controller.activeVehiclesListView.getItems().clear();
+        });
+    }
+
+    public void addActiveVehicle(Line line, Trip trip)
+    {
+        Platform.runLater(() -> {
+            this.controller.activeVehiclesListView.getItems().add("Route:"+line.getId()+"   Trip:"+trip.getId());
+        });
     }
 }

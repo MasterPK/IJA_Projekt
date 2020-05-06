@@ -47,7 +47,6 @@ public class Simulator {
 
 
     private void handleTrip(Trip trip, Line line) {
-        System.out.println("handleBus:" + trip.getId());
 
         if (trip.getTimetable().isEmpty()) {
             return;
@@ -67,6 +66,7 @@ public class Simulator {
             if (!(simulationTime.isBefore(firstTime) || simulationTime.isAfter(secondTime))) {
                 Coordinate currentTripPosition = TripSimulation.dotPosition(this.simulationTime, trip.getTimetable().get(i), trip.getTimetable().get(i + 1), line.getStopByIndex(i), line.getStopByIndex(i + 1), line);
                 this.gui.createDot(currentTripPosition);
+                this.gui.addActiveVehicle(line,trip);
                 break;
             }
         }
@@ -80,8 +80,7 @@ public class Simulator {
 
     private void simulationRefresh() {
         gui.clearSimulationGui();
-
-        System.out.println("Refresh simulation...");
+        gui.clearActiveVehicles();
         for (Line line : lines) {
             handleLine(line);
         }
@@ -113,6 +112,7 @@ public class Simulator {
                     if (!simulationTask) {
                         simulationTask = true;
                         gui.showTime(simulationTime);
+
                         if (previousRealTime == null) {
                             simulationRefresh();
                             previousRealTime = LocalTime.now();

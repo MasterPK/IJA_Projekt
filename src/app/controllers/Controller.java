@@ -18,7 +18,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
@@ -50,6 +49,8 @@ public class Controller extends BaseController {
     public Slider simulationSpeedSlider;
     @FXML
     public Slider refreshIntervalSlider;
+    @FXML
+    public ListView activeVehiclesListView;
 
     private Simulator simulator;
     private BaseGui baseGui;

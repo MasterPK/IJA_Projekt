@@ -152,13 +152,13 @@ public class Simulator {
      *
      * @param simulationSpeed
      */
-    public void setSimulationSpeed(int simulationSpeed) {
+    public void setSimulationSpeed(double simulationSpeed) {
         if (this.simulationState) {
             stop();
-            this.simulationSpeed = 1000 * simulationSpeed;
+            this.simulationSpeed = (int) Math.round(1000 * simulationSpeed);
             start(this.simulationTime);
         } else {
-            this.simulationSpeed = 1000 * simulationSpeed;
+            this.simulationSpeed = (int) Math.round(1000 * simulationSpeed);
         }
     }
 

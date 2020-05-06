@@ -219,10 +219,10 @@ public class Controller extends BaseController {
 
         this.zoomingPane = zoomingPane;
 
-        /*this.simulationSpeedSlider.valueProperty().addListener(new ChangeListener<Number>() {
+        this.simulationSpeedSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                simulator.setSimulationSpeed(newValue.intValue());
+                simulator.setSimulationSpeed(newValue.doubleValue());
             }
         });
 
@@ -230,12 +230,12 @@ public class Controller extends BaseController {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 try {
-                    simulator.setSimulationRefreshSpeed(newValue.intValue());
+                    simulator.setSimulationRefreshSpeed((int) Math.round(newValue.doubleValue()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-        });*/
+        });
 
 
         this.baseGui = new BaseGui(this);

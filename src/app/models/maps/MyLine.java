@@ -127,6 +127,10 @@ public class MyLine implements Line {
         return counter;
     }
 
+    public List<Street> getStreets() {
+        return streets;
+    }
+
     public List<Street> getStreetsBetween(Stop stop1, Stop stop2) {
         List<Street> lineStreets = new ArrayList<>();
         int first = 0;

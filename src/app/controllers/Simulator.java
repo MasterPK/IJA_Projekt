@@ -6,6 +6,9 @@ import app.models.maps.*;
 import app.view.BaseGui;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Circle;
 
 import java.time.LocalTime;
 import java.util.*;
@@ -46,6 +49,7 @@ public class Simulator {
     }
 
 
+
     private void handleTrip(Trip trip, Line line) {
 
         if (trip.getTimetable().isEmpty()) {
@@ -65,7 +69,20 @@ public class Simulator {
             LocalTime secondTime = timeTable.get(i + 1);
             if (!(simulationTime.isBefore(firstTime) || simulationTime.isAfter(secondTime))) {
                 Coordinate currentTripPosition = TripSimulation.dotPosition(this.simulationTime, trip.getTimetable().get(i), trip.getTimetable().get(i + 1), line.getStopByIndex(i), line.getStopByIndex(i + 1), line);
-                this.gui.createDot(currentTripPosition);
+                Circle circle = this.gui.createDot(currentTripPosition);
+                trip.setCircle(circle);
+                circle.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        gui.highlightLine(line.getStreets());
+                    }
+                });
+                circle.setOnMouseExited(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        gui.clearHighlight();
+                    }
+                });
                 this.gui.addActiveVehicle(line,trip);
                 break;
             }

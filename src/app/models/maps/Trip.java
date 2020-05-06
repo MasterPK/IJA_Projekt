@@ -1,5 +1,9 @@
 package app.models.maps;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Circle;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +11,8 @@ import java.util.List;
 public class Trip {
     private String id;
     private List<LocalTime> timetable = new ArrayList<>();
+    private Line line;
+    private Circle circle;
 
     public String getId() {
         return id;
@@ -33,5 +39,22 @@ public class Trip {
     {
         LocalTime localTime = LocalTime.parse(time);
         timetable.add(localTime);
+    }
+
+    public void setCircle(Circle circle) {
+        this.circle = circle;
+    }
+
+
+    public Circle getCircle() {
+        return circle;
+    }
+
+    public void setLine(Line line) {
+        this.line = line;
+    }
+
+    public Line getLine() {
+        return line;
     }
 }

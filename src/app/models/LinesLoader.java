@@ -55,7 +55,7 @@ public abstract class LinesLoader {
                     times.add(LocalTime.parse(jsonTripTime));
                 }
                 Trip trip = new Trip(tripId,times);
-
+                trip.setLine(line);
                 if(line.getRealStopsCount() != trip.getTimetable().size())
                 {
                     throw new Exception("Count of trip stops and line stops at line: \""+line.getId()+"\" and trip: \""+trip.getId()+"\" doesnt match!");

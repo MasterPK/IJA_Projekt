@@ -8,6 +8,7 @@ import app.models.CSVLoader;
 import javafx.application.Platform;
 
 import java.time.LocalTime;
+import java.time.temporal.TemporalField;
 import java.util.*;
 
 import static java.time.temporal.ChronoUnit.MILLIS;
@@ -16,11 +17,11 @@ public class Simulator {
 
     // Simulation
     private Timer timer;
-    private double refreshTimer = 0;
     private boolean simulationState = false;
     private LocalTime simulationTime;
     private int simulationSpeed = 1000; //ms
-    private boolean simulationTask=false;
+    private boolean simulationTask = false;
+    private LocalTime previousSimulationTime;
 
     // Model
     private StreetMap streetMap;
@@ -33,7 +34,16 @@ public class Simulator {
     public Simulator(StreetMap streetMap, BaseGui gui) throws Exception {
         this.streetMap = streetMap;
         this.gui = gui;
-        this.lines= LinesLoader.load(this.streetMap);
+        this.lines = LinesLoader.load(this.streetMap);
+    }
+
+    private int minusLocalTime(LocalTime diff1, LocalTime diff2)
+    {
+        LocalTime diff = diff1.minusHours(diff2.getHour())
+                .minusMinutes(diff2.getMinute())
+                .minusSeconds(diff2.getSecond());
+
+        return Math.abs((diff.getHour() * 60 * 60) + (diff.getMinute() * 60) + (diff.getSecond()));
     }
 
 
@@ -46,6 +56,7 @@ public class Simulator {
         // Is this connection active at current time?
         LocalTime tmp1 = trip.getTimetable().get(0);
         LocalTime tmp2 = trip.getTimetable().get(trip.getTimetable().size() - 1);
+
         if (simulationTime.isBefore(tmp1) || simulationTime.isAfter(tmp2)) {
             return;
         }
@@ -55,7 +66,7 @@ public class Simulator {
             LocalTime firstTime = timeTable.get(i);
             LocalTime secondTime = timeTable.get(i + 1);
             if (!(simulationTime.isBefore(firstTime) || simulationTime.isAfter(secondTime))) {
-                Coordinate currentTripPosition = TripSimulation.dotPosition(this.simulationTime, trip.getTimetable().get(i), trip.getTimetable().get(i + 1), line.getStopByIndex(i), line.getStopByIndex(i+1), line);
+                Coordinate currentTripPosition = TripSimulation.dotPosition(this.simulationTime, trip.getTimetable().get(i), trip.getTimetable().get(i + 1), line.getStopByIndex(i), line.getStopByIndex(i + 1), line);
                 this.gui.createDot(currentTripPosition);
                 break;
             }
@@ -69,7 +80,6 @@ public class Simulator {
     }
 
     private void simulationRefresh() {
-        refreshTimer = 0;
         gui.clearSimulationGui();
 
         System.out.println("Refresh simulation...");
@@ -79,9 +89,8 @@ public class Simulator {
     }
 
     private void simulationHandle() {
-        refreshTimer++;
-        simulationTime = simulationTime.plus(this.simulationSpeed, MILLIS);
         gui.showTime(simulationTime);
+        simulationTime = simulationTime.plus(this.simulationSpeed, MILLIS);
     }
 
 
@@ -98,32 +107,46 @@ public class Simulator {
     public void start(LocalTime time) {
 
         System.out.println(lines.get(0).toString());
-        Platform.runLater(() -> {
-            if (!simulationState) {
-                final TimerTask timerTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        if(!simulationTask)
-                        {
-                            simulationTask=true;
+
+        if (!simulationState) {
+            final TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    if (!simulationTask) {
+                        simulationTask = true;
+
+                        if (previousSimulationTime == null) {
                             simulationRefresh();
-                            simulationHandle();
-                            simulationTask=false;
+                            gui.showTime(simulationTime);
+                            previousSimulationTime = LocalTime.of(simulationTime.getHour(), simulationTime.getMinute(), simulationTime.getSecond(), simulationTime.getNano());
+                            simulationTask = false;
+                            return;
                         }
+                        LocalTime diff = simulationTime.minusHours(previousSimulationTime.getHour())
+                                .minusMinutes(previousSimulationTime.getMinute())
+                                .minusSeconds(previousSimulationTime.getSecond());
 
+                        int actualSeconds = (diff.getHour() * 60 * 60) + (diff.getMinute() * 60) + (diff.getSecond());
+                        if (actualSeconds >= 10) {
+                            simulationRefresh();
+                            previousSimulationTime = LocalTime.of(simulationTime.getHour(), simulationTime.getMinute(), simulationTime.getSecond(), simulationTime.getNano());
+                        }
+                        simulationHandle();
+                        simulationTask = false;
                     }
-                };
+                }
+            };
+            this.simulationTime = time;
+            this.simulationState = true;
+            this.timer = new Timer("Simulator");
+            timer.schedule(timerTask, 0, 1000);
 
-                this.simulationTime = time;
-                this.timer = new Timer("Simulator");
-                timer.schedule(timerTask, 0, 1000);
-                this.simulationState = true;
-                System.err.println("Simulation started.");
-            } else {
-                System.err.println("Simulation already running...");
-            }
+            System.err.println("Simulation started.");
+        } else {
+            System.err.println("Simulation already running...");
+        }
 
-        });
+
     }
 
     /**
@@ -133,15 +156,12 @@ public class Simulator {
      * @param simulationSpeed
      */
     public void setSimulationSpeed(int simulationSpeed) {
-        if(this.simulationState)
-        {
+        if (this.simulationState) {
             stop();
-            this.simulationSpeed = simulationSpeed;
+            this.simulationSpeed = 1000 * simulationSpeed;
             start(this.simulationTime);
-        }
-        else
-        {
-            this.simulationSpeed = simulationSpeed;
+        } else {
+            this.simulationSpeed = 1000 * simulationSpeed;
         }
 
     }

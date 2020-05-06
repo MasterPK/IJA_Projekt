@@ -147,7 +147,7 @@ public class Simulator {
     }
 
     /**
-     * Set simulation tick speed in ms. Refresh of GUI is every 10 ticks.
+     * Set simulation tick speed in ms.
      * Implicitly restarts simulation.
      *
      * @param simulationSpeed
@@ -162,6 +162,12 @@ public class Simulator {
         }
     }
 
+
+    /**
+     * Set real time of GUI update in seconds.
+     * @param simulationRefreshSpeed
+     * @throws Exception
+     */
     public void setSimulationRefreshSpeed(int simulationRefreshSpeed) throws Exception {
         if (simulationRefreshSpeed < 1) {
             throw new Exception("Simulation refresh speed cant be lower than 1!");

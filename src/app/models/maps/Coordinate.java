@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author koci
  */
-public class Coordinate extends Object implements Cloneable {
+public class Coordinate implements Cloneable {
 
     private int x;
     private int y;
@@ -24,6 +24,7 @@ public class Coordinate extends Object implements Cloneable {
     public int getY() {
         return y;
     }
+
 
     public void setX(int set){
         this.x = set;

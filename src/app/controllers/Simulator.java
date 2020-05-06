@@ -141,7 +141,7 @@ public class Simulator {
                 break;
             }
             if (i == Streets.size()-1){
-                follow = endStop.getCoordinate(); // bod konca ulice na ktorej sa bus nachádza
+                follow = endStop.getCoordinate(); // bod konečnej zastávky
             }
             else
             {
@@ -156,7 +156,6 @@ public class Simulator {
                     } else {
                         finalCoord.setX(finalCoord.getX() - (Math.abs(follow.getX() - finalCoord.getX())));
                     }
-                    lenghtPassedInt -= ((Math.abs(follow.getX() - finalCoord.getX())));
                 } else {
                     if (line.plusX(finalCoord, follow)) { //kontrola smeru po X ose
                         finalCoord.setX(finalCoord.getX() + lenghtPassedInt);
@@ -173,7 +172,6 @@ public class Simulator {
                     } else {
                         finalCoord.setY(finalCoord.getY() - (Math.abs(follow.getY() - finalCoord.getY())));
                     }
-                    lenghtPassedInt -= ((Math.abs(follow.getY() - finalCoord.getY())));
                 } else {
                     if (line.plusY(finalCoord, follow)) { //kontrola smeru po Y ose
                         finalCoord.setY(finalCoord.getY() + lenghtPassedInt);
@@ -185,7 +183,6 @@ public class Simulator {
             }
         }
         return finalCoord;
-
     }
 
 

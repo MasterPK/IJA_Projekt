@@ -25,6 +25,7 @@ public class Simulator {
     private boolean simulationTask = false;
     private LocalTime previousRealTime;
     private int simulationRefreshSpeed = 10; //s
+    private Trip selectedTrip;
 
     // Model
     private StreetMap streetMap;
@@ -75,6 +76,9 @@ public class Simulator {
                     @Override
                     public void handle(MouseEvent event) {
                         gui.highlightLine(line.getStreets());
+                        gui.clearTripTimetable();
+                        gui.showTripTimetable(trip);
+                        selectedTrip=trip;
                     }
                 });
                 circle.setOnMouseExited(new EventHandler<MouseEvent>() {
@@ -83,7 +87,7 @@ public class Simulator {
                         gui.clearHighlight();
                     }
                 });
-                this.gui.addActiveVehicle(line,trip);
+                this.gui.addActiveVehicle(trip);
                 break;
             }
         }

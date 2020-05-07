@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
@@ -50,7 +51,12 @@ public class Controller extends BaseController {
     @FXML
     public Slider refreshIntervalSlider;
     @FXML
-    public ListView activeVehiclesListView;
+    public TableView activeVehiclesTableView;
+    @FXML
+    public Label selectedTripLabel;
+    @FXML
+    public TableView selectedTripTableView;
+
 
     private Simulator simulator;
     private BaseGui baseGui;
@@ -216,6 +222,26 @@ public class Controller extends BaseController {
                 }
             }
         });
+
+        TableColumn routeId = new TableColumn("Route");
+        routeId.setCellValueFactory(new PropertyValueFactory<>("routeId"));
+
+        TableColumn tripId = new TableColumn("Trip");
+        tripId.setCellValueFactory(new PropertyValueFactory<>("tripId"));
+
+        this.activeVehiclesTableView.getColumns().addAll(routeId,tripId);
+
+
+        TableColumn stopId = new TableColumn("Stop");
+        stopId.setCellValueFactory(new PropertyValueFactory<>("stopId"));
+
+        TableColumn plannedTime = new TableColumn("Planned time");
+        plannedTime.setCellValueFactory(new PropertyValueFactory<>("plannedTime"));
+
+        TableColumn actualTime = new TableColumn("Actual time");
+        actualTime.setCellValueFactory(new PropertyValueFactory<>("actualTime"));
+
+        this.selectedTripTableView.getColumns().addAll(stopId,plannedTime,actualTime);
 
 
         this.baseGui = new BaseGui(this);

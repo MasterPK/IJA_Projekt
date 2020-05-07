@@ -1,5 +1,7 @@
 package app.view;
 
+import app.components.ActiveVehicleTableItem;
+import app.components.TimetableTableItem;
 import app.controllers.Controller;
 import app.models.maps.Coordinate;
 import app.models.maps.Line;
@@ -8,9 +10,12 @@ import app.models.maps.Trip;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
+import java.sql.Time;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -36,6 +41,7 @@ public class BaseGui {
             this.controller.mapPane.getChildren().add(node);
             garbage.add(node);
         });
+
     }
 
     public void showTime(LocalTime time) {
@@ -71,7 +77,27 @@ public class BaseGui {
                 this.highlight.add(line);
             }
         }
+    }
 
+
+
+    public void showTripTimetable(Trip trip)
+    {
+
+        Platform.runLater(() -> {
+            for(int i =0;i<trip.getLine().getRealStops().size();i++)
+            {
+                TimetableTableItem item;
+                if(trip.getActualTimetable().isEmpty()){
+                    item = new TimetableTableItem(trip.getLine().getRealStops().get(i).getId(),trip.getTimetable().get(i).toString(),trip.getTimetable().get(i).toString());
+                }
+                else{
+                    item = new TimetableTableItem(trip.getLine().getRealStops().get(i).getId(),trip.getTimetable().get(i).toString(),trip.getActualTimetable().get(i).toString());
+                }
+                this.controller.selectedTripTableView.getItems().add(item);
+                this.controller.selectedTripLabel.textProperty().setValue(trip.getId());
+            }
+        });
     }
 
     public void clearHighlight() {
@@ -80,6 +106,10 @@ public class BaseGui {
                 this.controller.mapPane.getChildren().remove(node);
             });
         }
+    }
+
+    public void clearTripTimetable() {
+        this.controller.selectedTripTableView.getItems().clear();
     }
 
     public void toggleSimulationButton(final boolean state) {
@@ -107,13 +137,14 @@ public class BaseGui {
 
     public void clearActiveVehicles() {
         Platform.runLater(() -> {
-            this.controller.activeVehiclesListView.getItems().clear();
+            this.controller.activeVehiclesTableView.getItems().clear();
         });
     }
 
-    public void addActiveVehicle(Line line, Trip trip) {
+    public void addActiveVehicle(Trip trip) {
         Platform.runLater(() -> {
-            this.controller.activeVehiclesListView.getItems().add("Route:" + line.getId() + "   Trip:" + trip.getId());
+            ActiveVehicleTableItem item = new ActiveVehicleTableItem(trip.getLine().getId(),trip.getId());
+            this.controller.activeVehiclesTableView.getItems().add(item);
         });
     }
 }

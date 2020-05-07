@@ -1,7 +1,7 @@
 package app.models;
 
 
-import app.models.maps.Coordinate;
+/*import app.models.maps.Coordinate;
 import app.models.maps.MyStop;
 import app.models.maps.Stop;
 import app.models.maps.Street;
@@ -37,3 +37,4 @@ public interface CSVLoader {
     }
 
 }
+*/

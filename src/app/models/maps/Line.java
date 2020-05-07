@@ -31,6 +31,7 @@ public interface Line {
      */
     int getRealStopsCount();
 
+    List<Stop> getRealStops();
     List<Street> getStreets();
 
 }

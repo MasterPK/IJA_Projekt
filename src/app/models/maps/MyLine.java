@@ -4,6 +4,7 @@ package app.models.maps;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MyLine implements Line {
     List<Stop> stops;
@@ -125,6 +126,19 @@ public class MyLine implements Line {
             }
         }
         return counter;
+    }
+
+    @Override
+    public List<Stop> getRealStops() {
+        List<Stop> stops = new ArrayList<>();
+        for(Stop stop:this.getStops())
+        {
+            if(stop!=null)
+            {
+                stops.add(stop);
+            }
+        }
+        return stops;
     }
 
     public List<Street> getStreets() {

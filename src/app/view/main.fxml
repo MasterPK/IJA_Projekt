@@ -25,7 +25,7 @@
             <children>
                 <Slider fx:id="zoomSlider" majorTickUnit="10.0" max="5.0" min="0.1" minorTickCount="50" value="1.0"
                         GridPane.rowIndex="1"/>
-                <Label fx:id="currentTimeLabel" text="00:00:00" visible="false" GridPane.rowIndex="3"/>
+                <Label fx:id="currentTimeLabel" style="-fx-font-weight: bold; -fx-font-size: 15;" text="00:00:00" visible="false" GridPane.rowIndex="3"/>
                 <Label fx:id="zoomLabel" text="Zoom"/>
                 <Button fx:id="startSimulationButton" mnemonicParsing="false"
                         onMouseClicked="#startSimulationBtnOnClicked" text="Start simulation" GridPane.rowIndex="8"/>
@@ -40,8 +40,13 @@
                         showTickLabels="true" showTickMarks="true" value="10.0" GridPane.rowIndex="7"/>
                 <VBox alignment="TOP_CENTER" GridPane.rowIndex="9">
                     <children>
-                        <Label text="Active vehicles"/>
-                        <ListView fx:id="activeVehiclesListView"/>
+                        <Label text="Active vehicles" style="-fx-font-weight: bold; -fx-font-size: 15;"/>
+                        <TableView fx:id="activeVehiclesTableView" >
+                        </TableView>
+                        <Label text="Selected vehicle" style="-fx-font-weight: bold; -fx-font-size: 15;"/>
+                        <Label fx:id="selectedTripLabel" style="-fx-font-weight: bold; -fx-font-size: 15;"/>
+                        <TableView fx:id="selectedTripTableView" >
+                        </TableView>
                     </children>
                 </VBox>
             </children>

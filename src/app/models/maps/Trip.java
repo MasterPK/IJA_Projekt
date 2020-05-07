@@ -11,6 +11,7 @@ import java.util.List;
 public class Trip {
     private String id;
     private List<LocalTime> timetable = new ArrayList<>();
+    private List<LocalTime> actualTimetable = new ArrayList<>();
     private Line line;
     private Circle circle;
 
@@ -25,6 +26,14 @@ public class Trip {
     public Trip(String id, List<LocalTime> timetable) {
         this.id = id;
         this.timetable=timetable;
+    }
+
+    public List<LocalTime> getActualTimetable() {
+        return actualTimetable;
+    }
+
+    public void setActualTimetable(List<LocalTime> actualTimetable) {
+        this.actualTimetable = actualTimetable;
     }
 
     public Trip(String id) {

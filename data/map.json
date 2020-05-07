@@ -23,7 +23,7 @@
       ]
     },
     {
-      "id": "Koželužská",
+      "id": "Kozeluzska",
       "coordinates": [
         [
           20,
@@ -36,14 +36,14 @@
       ],
       "stops": [
         {
-          "id": "Za Rybníkem",
+          "id": "Za Rybnikem",
           "coordinates": [
             50,
             500
           ]
         },
         {
-          "id": "Koželužská",
+          "id": "Kozeluzska",
           "coordinates": [
             180,
             500
@@ -52,7 +52,7 @@
       ]
     },
     {
-      "id": "Řípovská",
+      "id": "Ripovska",
       "coordinates": [
         [
           200,
@@ -67,7 +67,7 @@
       ]
     },
     {
-      "id": "Revoluční",
+      "id": "Revolucni",
       "coordinates": [
         [
           200,
@@ -80,7 +80,7 @@
       ],
       "stops": [
         {
-          "id": "Revoluční",
+          "id": "Revolucni",
           "coordinates": [
             280,
             450
@@ -89,7 +89,7 @@
       ]
     },
     {
-      "id": "Spojenců",
+      "id": "Spojencu",
       "coordinates": [
         [
           300,
@@ -106,7 +106,7 @@
       ],
       "stops": [
         {
-          "id": "U Kapličky",
+          "id": "U Kaplicky",
           "coordinates": [
             340,
             450
@@ -115,7 +115,7 @@
       ]
     },
     {
-      "id": "Pražská",
+      "id": "Prazska",
       "coordinates": [
         [
           350,
@@ -152,7 +152,7 @@
       ]
     },
     {
-      "id": "Komenského náměstí",
+      "id": "Komenskeho namesti",
       "coordinates": [
         [
           550,
@@ -165,7 +165,7 @@
       ],
       "stops": [
         {
-          "id": "Komenského náměstí",
+          "id": "Komenskeho namesti",
           "coordinates": [
             550,
             410
@@ -174,7 +174,7 @@
       ]
     },
     {
-      "id": "Karlovo náměstí",
+      "id": "Karlovo namesti",
       "coordinates": [
         [
           550,
@@ -203,7 +203,7 @@
       ],
       "stops": [
         {
-          "id": "Karlovo náměstí",
+          "id": "Karlovo namesti",
           "coordinates": [
             650,
             410

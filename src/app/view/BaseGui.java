@@ -30,7 +30,7 @@ public class BaseGui {
     }
 
     public Circle createDot(Coordinate coordinate) {
-        Circle circle = new Circle(coordinate.getX(), coordinate.getY(), 5, Paint.valueOf("green"));
+        Circle circle = new Circle(coordinate.getX(), coordinate.getY(), 7, Paint.valueOf("green"));
         addSimulationNode(circle);
         return circle;
     }

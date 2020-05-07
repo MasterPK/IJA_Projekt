@@ -124,8 +124,6 @@ public class Simulator {
      */
     public void start(LocalTime time) {
 
-        System.out.println(lines.get(0).toString());
-
         if (!simulationState) {
             final TimerTask timerTask = new TimerTask() {
                 @Override

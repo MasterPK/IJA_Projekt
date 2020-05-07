@@ -2,15 +2,15 @@
   "lines": [
     {
       "lineId": "1",
-      "lineName": "Jednička",
+      "lineName": "Jednicka",
       "route": [
         {
-          "stop": "Za Rybníkem",
-          "street": "Koželužská"
+          "stop": "Za Rybnikem",
+          "street": "Kozeluzska"
         },
         {
-          "stop": "Koželužská",
-          "street": "Koželužská"
+          "stop": "Kozeluzska",
+          "street": "Kozeluzska"
         },
         {
           "stop": "Zas",
@@ -18,11 +18,11 @@
         },
         {
           "stop": null,
-          "street": "Řípovská"
+          "street": "Ripovska"
         },
         {
-          "stop": "Revoluční",
-          "street": "Revoluční"
+          "stop": "Revolucni",
+          "street": "Revolucni"
         }
       ],
       "trips": [

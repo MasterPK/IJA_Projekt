@@ -88,7 +88,7 @@ public class Controller extends BaseController {
 
     private void drawStops(Street street) {
         for (Stop stop : street.getStops()) {
-            Circle circle = new Circle(stop.getCoordinate().getX(), stop.getCoordinate().getY(), 5, Paint.valueOf("blue"));
+            Circle circle = new Circle(stop.getCoordinate().getX(), stop.getCoordinate().getY(), 7, Paint.valueOf("blue"));
             addLabelOverStop(stop.getId(), stop.getCoordinate().getX(), stop.getCoordinate().getY());
             addNodeToMapPane(circle);
         }

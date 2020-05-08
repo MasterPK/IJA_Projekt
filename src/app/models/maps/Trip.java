@@ -33,6 +33,12 @@ public class Trip {
 
     }
 
+    public void resetTimetable()
+    {
+        this.actualTimetable=new ArrayList<>();
+        this.actualTimetable.addAll(this.plannedTimetable);
+    }
+
 
     public List<LocalTime> getPlannedTimetable() {
         return plannedTimetable;

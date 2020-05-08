@@ -13,6 +13,12 @@ import java.util.Map;
 public abstract class LinesLoader {
 
 
+    /**
+     * Load lines from file lines.json. Create references in streetMap.
+     * @param streetMap StreetMap to be referenced.
+     * @return List of lines
+     * @throws Exception Throws when file not exist or in bad format.
+     */
     public static List<Line> load(StreetMap streetMap) throws Exception {
         List<Line> lines = new ArrayList<>();
 

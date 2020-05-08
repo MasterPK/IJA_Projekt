@@ -17,11 +17,14 @@ public class Main extends Application {
 
         primaryStage.setTitle("Public Transport Map");
         primaryStage.setScene(new Scene(root.load()));
-        primaryStage.setMaximized(true);
-        primaryStage.show();
 
         this.controller = root.getController();
         controller.startUp();
+
+        primaryStage.setMaximized(true);
+        primaryStage.show();
+
+
 
     }
 

@@ -3,6 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <GridPane fx:id="gridPane" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal"
           xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.Controller">
     <children>
@@ -37,7 +39,7 @@
                 <Slider fx:id="simulationSpeedSlider" majorTickUnit="1.0" max="5.0" minorTickCount="0"
                         showTickLabels="true" showTickMarks="true" value="1.0" GridPane.rowIndex="5"/>
                 <Slider fx:id="refreshIntervalSlider" majorTickUnit="10.0" max="60.0" min="1.0" minorTickCount="2"
-                        showTickLabels="true" showTickMarks="true" value="10.0" GridPane.rowIndex="7"/>
+                        showTickLabels="true" showTickMarks="true" value="1.0" GridPane.rowIndex="7"/>
                 <VBox alignment="TOP_CENTER" GridPane.rowIndex="9">
                     <children>
                         <Label text="Active vehicles" style="-fx-font-weight: bold; -fx-font-size: 15;"/>

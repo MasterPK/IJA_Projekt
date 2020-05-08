@@ -1,15 +1,20 @@
 package app.controllers;
 
 import app.components.ZoomingPane;
+import app.core.AlertHandler;
+import app.core.ExceptionHandler;
 import app.models.JSONLoader;
 import app.models.maps.*;
 import app.view.BaseGui;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
@@ -17,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.stage.Stage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -24,6 +30,8 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Controller extends BaseController {
@@ -57,7 +65,6 @@ public class Controller extends BaseController {
     @FXML
     public TableView selectedTripTableView;
 
-
     private Simulator simulator;
     private BaseGui baseGui;
 
@@ -69,7 +76,6 @@ public class Controller extends BaseController {
     public Controller() {
         streetMap = new MyStreetMap();
     }
-
 
 
     private void addNodeToMapPane(Node node) {
@@ -154,8 +160,51 @@ public class Controller extends BaseController {
                     this.maxY = end.getY();
                 }
                 Line drawableLine = new Line(start.getX() * scale, start.getY() * scale, end.getX() * scale, end.getY() * scale);
+                drawableLine.setStyle("-fx-stroke-width: 2;");
                 addNodeToMapPane(drawableLine);
+                street.setGui(drawableLine);
+                drawableLine.setOnMouseClicked(event -> {
+                    if (!simulator.getSimulationState()) {
+                        try {
+                            /*
 
+                            !!! Kod pro zobrazení nového okna, zatím nechat zde !!!
+
+                            FXMLLoader fxmlLoader = new FXMLLoader();
+                            fxmlLoader.setLocation(getClass().getResource("/app/view/streetSettings.fxm"));
+                            StreetSettingsController streetSettingsController = new StreetSettingsController(street);
+                            fxmlLoader.setController(streetSettingsController);
+                            Scene scene = new Scene(fxmlLoader.load(), 200, 100);
+                            streetSettingsController.startUp();
+                            Stage stage = new Stage();
+                            stage.setTitle("Street settings");
+                            stage.setScene(scene);
+                            stage.show();
+                            */
+                            TextInputDialog dialog = new TextInputDialog(Integer.toString(street.getTrafficCoefficient()));
+                            dialog.setTitle("Street settings");
+                            dialog.setHeaderText("Enter street traffic coefficient");
+                            dialog.setContentText("You can set coefficient 1-10, where 1 is normal traffic and 10 is maximum traffic.");
+
+                            Optional<String> result = dialog.showAndWait();
+                            result.ifPresent(s -> {
+                                try {
+                                    street.setTrafficCoefficient(Integer.parseInt(s));
+                                    simulator.computeTraffic();
+                                }catch (NumberFormatException e)
+                                {
+                                    AlertHandler.showWarning(new Exception("Input is not integer!"));
+                                }
+                                catch (Exception e) {
+                                    AlertHandler.showWarning(e);
+                                }
+                            });
+                        } catch (Exception e) {
+                            ExceptionHandler.show(e);
+                        }
+                    }
+
+                });
             }
 
             drawStops(street);
@@ -168,7 +217,7 @@ public class Controller extends BaseController {
      * Function that is called on Scene start up.
      */
     @Override
-    public void startUp(){
+    public void startUp() {
         this.gridPane.setAlignment(Pos.TOP_LEFT);
         this.gridPane.paddingProperty().setValue(new Insets(20, 20, 20, 20));
 
@@ -180,14 +229,14 @@ public class Controller extends BaseController {
         try {
             map = JSONLoader.load("data/map.json");
         } catch (Exception e) {
-            e.printStackTrace();
+            AlertHandler.showError(e);
         }
 
         try {
             assert map != null;
             drawMap(map);
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            AlertHandler.showError(e);
         }
 
         scrollPane.setContent(zoomingPane);
@@ -218,7 +267,7 @@ public class Controller extends BaseController {
                 try {
                     simulator.setSimulationRefreshSpeed((int) Math.round(newValue.doubleValue()));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    AlertHandler.showError(e);
                 }
             }
         });
@@ -229,7 +278,7 @@ public class Controller extends BaseController {
         TableColumn tripId = new TableColumn("Trip");
         tripId.setCellValueFactory(new PropertyValueFactory<>("tripId"));
 
-        this.activeVehiclesTableView.getColumns().addAll(routeId,tripId);
+        this.activeVehiclesTableView.getColumns().addAll(routeId, tripId);
 
 
         TableColumn stopId = new TableColumn("Stop");
@@ -241,14 +290,14 @@ public class Controller extends BaseController {
         TableColumn actualTime = new TableColumn("Actual time");
         actualTime.setCellValueFactory(new PropertyValueFactory<>("actualTime"));
 
-        this.selectedTripTableView.getColumns().addAll(stopId,plannedTime,actualTime);
+        this.selectedTripTableView.getColumns().addAll(stopId, plannedTime, actualTime);
 
 
         this.baseGui = new BaseGui(this);
         try {
-            this.simulator = new Simulator(streetMap,this.baseGui);
+            this.simulator = new Simulator(streetMap, this.baseGui);
         } catch (Exception e) {
-            e.printStackTrace();
+            ExceptionHandler.show(e);
         }
 
 
@@ -265,17 +314,14 @@ public class Controller extends BaseController {
 
     public void startSimulationBtnOnClicked() {
 
-        if(this.simulator.getSimulationState())
-        {
+        if (this.simulator.getSimulationState()) {
             this.simulator.stop();
             this.baseGui.toggleSimulationButton(false);
-        }
-        else
-        {
-            try{
+        } else {
+            try {
                 this.simulator.start(LocalTime.parse(this.simulationTimeTextField.getText()));
-            }catch (Exception ignored)
-            {
+            } catch (Exception e) {
+                AlertHandler.showError(e);
                 return;
             }
 

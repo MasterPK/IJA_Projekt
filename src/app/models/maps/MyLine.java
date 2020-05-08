@@ -88,6 +88,17 @@ public class MyLine implements Line {
         return lenght;
     }
 
+    /**
+     * Reset actual timetable to original for every trips in line.
+     */
+    @Override
+    public void resetTimetable() {
+        for(Trip trip:this.trips)
+        {
+            trip.resetTimetable();
+        }
+    }
+
     public double getStopsLength(Stop stop1, Stop stop2) {
         double lenght = 0;
         List<Street> lineStreets = new ArrayList<>();

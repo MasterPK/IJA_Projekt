@@ -35,5 +35,10 @@ public interface Line {
     List<Street> getStreets();
     double getStopAndCoordinateLength(Stop stop1, Stop stop2);
 
+    /**
+     * Reset actual timetable to original for every trips in line.
+     */
+    void resetTimetable();
+
 }
 

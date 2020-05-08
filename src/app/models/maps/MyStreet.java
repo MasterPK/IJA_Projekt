@@ -1,6 +1,8 @@
 package app.models.maps;
 
 
+import javafx.scene.shape.Line;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +12,7 @@ public class MyStreet implements Street {
     private List<Coordinate> coordinates;
     private List<Stop> stops;
     private int trafficCoefficient = 1;
+    private Line lineGui;
 
     public MyStreet(String id, Coordinate[] coordinates) {
         this.id = id;
@@ -24,7 +27,11 @@ public class MyStreet implements Street {
         this.stops = new ArrayList<>();
     }
 
-    public void setTrafficCoefficient(int trafficCoefficient) {
+    public void setTrafficCoefficient(int trafficCoefficient) throws Exception {
+        if(trafficCoefficient < 1 || trafficCoefficient > 10)
+        {
+            throw new Exception("Traffic coefficient have to be in range 1..10! Value will remain unchanged.");
+        }
         this.trafficCoefficient = trafficCoefficient;
     }
 
@@ -221,5 +228,11 @@ public class MyStreet implements Street {
         return null;
     }
 
+    public void setGui(Line gui) {
+        this.lineGui = gui;
+    }
 
+    public Line getGui() {
+        return lineGui;
+    }
 }

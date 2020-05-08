@@ -1,0 +1,215 @@
+{
+  "streets": [
+    {
+      "id": "Ulice",
+      "coordinates": [
+        [
+          200,
+          500
+        ],
+        [
+          200,
+          700
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Zas",
+          "coordinates": [
+            200,
+            550
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Kozeluzska",
+      "coordinates": [
+        [
+          20,
+          500
+        ],
+        [
+          200,
+          500
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Za Rybnikem",
+          "coordinates": [
+            50,
+            500
+          ]
+        },
+        {
+          "id": "Kozeluzska",
+          "coordinates": [
+            180,
+            500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Ripovska",
+      "coordinates": [
+        [
+          200,
+          500
+        ],
+        [
+          200,
+          450
+        ]
+      ],
+      "stops": [
+      ]
+    },
+    {
+      "id": "Revolucni",
+      "coordinates": [
+        [
+          200,
+          450
+        ],
+        [
+          300,
+          450
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Revolucni",
+          "coordinates": [
+            280,
+            450
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Spojencu",
+      "coordinates": [
+        [
+          300,
+          450
+        ],
+        [
+          350,
+          450
+        ],
+        [
+          350,
+          430
+        ]
+      ],
+      "stops": [
+        {
+          "id": "U Kaplicky",
+          "coordinates": [
+            340,
+            450
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Prazska",
+      "coordinates": [
+        [
+          350,
+          430
+        ],
+        [
+          450,
+          430
+        ]
+      ],
+      "stops": [
+      ]
+    },
+    {
+      "id": "Sucheniova",
+      "coordinates": [
+        [
+          450,
+          430
+        ],
+        [
+          550,
+          430
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Sucheniova",
+          "coordinates": [
+            500,
+            430
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Komenskeho namesti",
+      "coordinates": [
+        [
+          550,
+          430
+        ],
+        [
+          550,
+          390
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Komenskeho namesti",
+          "coordinates": [
+            550,
+            410
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Karlovo namesti",
+      "coordinates": [
+        [
+          550,
+          390
+        ],
+        [
+          630,
+          390
+        ],
+        [
+          630,
+          410
+        ],
+        [
+          680,
+          410
+        ],
+        [
+          680,
+          390
+        ],
+        [
+          1700,
+          390
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Karlovo namesti",
+          "coordinates": [
+            650,
+            410
+          ]
+        }
+      ]
+    }
+  ]
+}

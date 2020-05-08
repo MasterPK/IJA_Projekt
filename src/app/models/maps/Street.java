@@ -16,6 +16,8 @@ import java.util.List;
  * @author koci
  */
 public interface Street {
+
+    public int getStreetCoefficient();
     /**
      * Vrátí identifikátor ulice.
      *

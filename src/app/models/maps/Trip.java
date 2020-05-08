@@ -1,6 +1,5 @@
 package app.models.maps;
 
-import com.sun.org.apache.bcel.internal.generic.LoadClass;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;

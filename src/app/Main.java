@@ -12,7 +12,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader root = new FXMLLoader(getClass().getResource("view/main.fxml"));
+        FXMLLoader root = new FXMLLoader(getClass().getResource("/app/fxml/main.fxml"));
 
 
         primaryStage.setTitle("Public Transport Map");

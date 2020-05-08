@@ -33,6 +33,7 @@ public interface Line {
 
     List<Stop> getRealStops();
     List<Street> getStreets();
+    double getStopAndCoordinateLength(Stop stop1, Stop stop2);
 
 }
 

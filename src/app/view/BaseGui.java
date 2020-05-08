@@ -88,12 +88,7 @@ public class BaseGui {
             for(int i =0;i<trip.getLine().getRealStops().size();i++)
             {
                 TimetableTableItem item;
-                if(trip.getActualTimetable().isEmpty()){
-                    item = new TimetableTableItem(trip.getLine().getRealStops().get(i).getId(),trip.getTimetable().get(i).toString(),trip.getTimetable().get(i).toString());
-                }
-                else{
-                    item = new TimetableTableItem(trip.getLine().getRealStops().get(i).getId(),trip.getTimetable().get(i).toString(),trip.getActualTimetable().get(i).toString());
-                }
+                item = new TimetableTableItem(trip.getLine().getRealStops().get(i).getId(),trip.getPlannedTimetable().get(i).toString(),trip.getActualTimetable().get(i).toString());
                 this.controller.selectedTripTableView.getItems().add(item);
                 this.controller.selectedTripLabel.textProperty().setValue(trip.getId());
             }

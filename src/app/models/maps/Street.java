@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface Street {
 
-    public int getStreetCoefficient();
+
     /**
      * Vrátí identifikátor ulice.
      *
@@ -89,4 +89,7 @@ public interface Street {
     Coordinate end();
     boolean follows(Street s);
     public Stop getStop(String id);
+    void setTrafficCoefficient(int trafficCoefficient);
+    int getTrafficCoefficient();
+
 }

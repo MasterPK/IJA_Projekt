@@ -39,6 +39,8 @@ public class Simulator {
         this.streetMap = streetMap;
         this.gui = gui;
         this.lines = LinesLoader.load(this.streetMap);
+        this.streetMap.getStreets().get(3).setTrafficCoefficient(2);
+        this.computeTraffic();
     }
 
     private int minusLocalTime(LocalTime diff1, LocalTime diff2) {
@@ -46,9 +48,8 @@ public class Simulator {
                 .minusMinutes(diff2.getMinute())
                 .minusSeconds(diff2.getSecond());
 
-        return Math.abs((diff.getHour() * 60 * 60) + (diff.getMinute() * 60) + (diff.getSecond()));
+        return (diff.getHour() * 60 * 60) + (diff.getMinute() * 60) + (diff.getSecond());
     }
-
 
 
     private void handleTrip(Trip trip, Line line) {
@@ -78,7 +79,7 @@ public class Simulator {
                         gui.highlightLine(line.getStreets());
                         gui.clearTripTimetable();
                         gui.showTripTimetable(trip);
-                        selectedTrip=trip;
+                        selectedTrip = trip;
                     }
                 });
                 circle.setOnMouseExited(new EventHandler<MouseEvent>() {
@@ -111,45 +112,66 @@ public class Simulator {
         simulationTime = simulationTime.plus(this.simulationSpeed, MILLIS);
     }
 
-    private List<Street> streetKoef(){
-        List<Street> streets = new ArrayList<>();
-        for (Street street:this.streetMap.getStreets()){
-            if (street.getStreetCoefficient() > 1){
-                streets.add(street);
+    private void computeTraffic() {
+        for (Street street : this.streetMap.getStreets()) {
+            if (street.getTrafficCoefficient() > 1) {
+                trafficCore(street);
             }
         }
-        return streets;
     }
 
-    private List<Line> core(Street street){
+    private void trafficCore(Street street) {
         List<Line> returnLines = new ArrayList<>();
         List<Stop> lineStops = new ArrayList<>();
-        for ( int i = 0; i < this.lines.size();i++){
-            if (this.lines.get(i).getStreets().contains(street)){
+        for (int i = 0; i < this.lines.size(); i++) {
+            if (this.lines.get(i).getStreets().contains(street)) {
                 returnLines.add(this.lines.get(i));
             }
         }
-        for (Line line:returnLines){
+        for (Line line : returnLines) {
             lineStops = line.getRealStops();
-            for ( int i = 0; i < lineStops.size()-1; i++){
-                List<Street> streetsBetween = line.getStreetsBetween(lineStops.get(i),lineStops.get(i+1));
-                if (streetsBetween.contains(street)){
-                    for (int j = 0; j< streetsBetween.size();j++){
-                        if (streetsBetween.get(j).equals(street)){
-                            if (lineStops.get(i).getStreet().equals(street)){
-                                Coordinate follow = line.followPoint(streetsBetween.get(j),streetsBetween.get(j+1));
-                                Stop stoptmp = new MyStop("tmp",follow);
+            for (int i = 0; i < lineStops.size() - 1; i++) {
+                List<Street> streetsBetween = line.getStreetsBetween(lineStops.get(i), lineStops.get(i + 1));
+                if (streetsBetween.contains(street)) {
+                    for (int j = 0; j < streetsBetween.size(); j++) {
+                        if (streetsBetween.get(j).equals(street)) {
+                            if (lineStops.get(i).getStreet().equals(street)) {
+                                Coordinate follow = line.followPoint(streetsBetween.get(j), streetsBetween.get(j + 1));
+                                Stop stoptmp = new MyStop("tmp", follow);
                                 stoptmp.setStreet(street);
-                                double tmp = line.getStopsLength(lineStops.get(i),stoptmp);
-                                double lenght = line.getStopsLength(lineStops.get(i),lineStops.get(i+1));
-                                for(int k = 0; k < line.getTrips().size();k++){
-                                    List<LocalTime> times = line.getTrips().get(k).getTimetable();
+                                double tmp = line.getStopAndCoordinateLength(lineStops.get(i), stoptmp);
+                                double length = line.getStopAndCoordinateLength(lineStops.get(i), lineStops.get(i + 1));
+                                for (int k = 0; k < line.getTrips().size(); k++) {
+                                    List<LocalTime> times = line.getTrips().get(k).getActualTimetable();
+                                    LocalTime first = times.get(i);
+                                    LocalTime second = times.get(i + 1);
+                                    int sumTime = minusLocalTime(second, first);
+                                    long trafficTime = Math.round((double) (tmp / length * sumTime) * street.getTrafficCoefficient() - (tmp / length * sumTime));
+                                    for (int t = i + 1; t < times.size(); t++) {
+                                        LocalTime newTime = times.get(t);
+                                        newTime = newTime.plusSeconds(trafficTime);
+                                        times.set(t, newTime);
+                                    }
                                 }
-                            }
-                            else if (lineStops.get(i+1).getStreet().equals(street)){
-
-                            }
-                            else{
+                            } else if (lineStops.get(i + 1).getStreet().equals(street)) {
+                                Coordinate follow = line.followPoint(streetsBetween.get(j-1), streetsBetween.get(j));
+                                Stop stoptmp = new MyStop("tmp", follow);
+                                stoptmp.setStreet(street);
+                                double tmp = line.getStopAndCoordinateLength(lineStops.get(i), stoptmp);
+                                double length = line.getStopAndCoordinateLength(lineStops.get(i), lineStops.get(i+1));
+                                for (int k = 0; k < line.getTrips().size(); k++) {
+                                    List<LocalTime> times = line.getTrips().get(k).getActualTimetable();
+                                    LocalTime first = times.get(i);
+                                    LocalTime second = times.get(i + 1);
+                                    int sumTime = minusLocalTime(second, first);
+                                    long trafficTime = Math.round((double) (tmp / length * sumTime) * street.getTrafficCoefficient() - (tmp / length * sumTime));
+                                    for (int t = i + 1; t < times.size(); t++) {
+                                        LocalTime newTime = times.get(t);
+                                        newTime = newTime.plusSeconds(trafficTime);
+                                        times.set(t, newTime);
+                                    }
+                                }
+                            } else {
 
                             }
                         }
@@ -157,7 +179,6 @@ public class Simulator {
                 }
             }
         }
-        return returnLines;
     }
 
 
@@ -233,6 +254,7 @@ public class Simulator {
 
     /**
      * Set real time of GUI update in seconds.
+     *
      * @param simulationRefreshSpeed
      * @throws Exception
      */
@@ -264,8 +286,7 @@ public class Simulator {
      * Stop simulation.
      */
     public void stop() {
-        if(this.simulationState)
-        {
+        if (this.simulationState) {
             this.simulationState = false;
             if (this.timer != null) {
                 this.previousRealTime = null;

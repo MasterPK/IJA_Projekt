@@ -1,16 +1,19 @@
 package app.models.maps;
 
+import com.sun.org.apache.bcel.internal.generic.LoadClass;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 
 import java.time.LocalTime;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Trip {
     private String id;
-    private List<LocalTime> timetable = new ArrayList<>();
+    private List<LocalTime> plannedTimetable = new ArrayList<>();
     private List<LocalTime> actualTimetable = new ArrayList<>();
     private Line line;
     private Circle circle;
@@ -25,16 +28,18 @@ public class Trip {
 
     public Trip(String id, List<LocalTime> timetable) {
         this.id = id;
-        this.timetable=timetable;
-        this.actualTimetable = timetable;
+        this.plannedTimetable=timetable;
+        this.actualTimetable.addAll(timetable);
+
+    }
+
+
+    public List<LocalTime> getPlannedTimetable() {
+        return plannedTimetable;
     }
 
     public List<LocalTime> getActualTimetable() {
         return actualTimetable;
-    }
-
-    public void setActualTimetable(List<LocalTime> actualTimetable) {
-        this.actualTimetable = actualTimetable;
     }
 
     public Trip(String id) {
@@ -42,13 +47,13 @@ public class Trip {
     }
 
     public List<LocalTime> getTimetable() {
-        return timetable;
+        return actualTimetable;
     }
 
     public void addTimetableItem(String time)
     {
         LocalTime localTime = LocalTime.parse(time);
-        timetable.add(localTime);
+        plannedTimetable.add(localTime);
     }
 
     public void setCircle(Circle circle) {

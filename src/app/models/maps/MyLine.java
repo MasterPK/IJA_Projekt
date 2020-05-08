@@ -37,8 +37,55 @@ public class MyLine implements Line {
     }
 
 
-    public double getCoordinatesLength(Coordinate coord1, Coordinate coord2){
-        return Math.abs(coord1.getX()-coord2.getX())+Math.abs(coord1.getY()-coord2.getY());
+    public double getStopAndCoordinateLength(Stop stop1, Stop stop2) {
+        double lenght = 0;
+        List<Street> lineStreets = new ArrayList<>();
+        int first = 0;
+        int last = 0;
+                first = this.streets.indexOf(stop1.getStreet());
+                last = this.streets.indexOf(stop2.getStreet());
+                if (stop1.getStreet().equals(stop2.getStreet())) {
+                    if (changeX(stop1.getStreet())) {
+                        return Math.abs(stop1.getCoordinate().getX() - stop2.getCoordinate().getX());
+                    } else {
+                        return Math.abs(stop1.getCoordinate().getY() - stop2.getCoordinate().getY());
+                    }
+                }
+                for (; first <= last; first++) {
+                    lineStreets.add(this.streets.get(first));
+                }
+                for (int i = 0; i < lineStreets.size(); i++) {
+                    if (i == 0) {
+                        Coordinate endCoord = followPoint(lineStreets.get(i), lineStreets.get(i + 1));
+                        Coordinate stopCoord = stop1.getCoordinate();
+                        if (changeX(lineStreets.get(i))) {
+                            lenght += Math.abs(stopCoord.getX() - endCoord.getX());
+                        } else {
+                            lenght += Math.abs(stopCoord.getY() - endCoord.getY());
+                        }
+                    } else if (i == lineStreets.size() - 1) {
+                        Coordinate endCoord2 = followPoint(lineStreets.get(i - 1), lineStreets.get(i));
+                        Coordinate stopCoord2 = stop2.getCoordinate();
+
+                        if (changeX(lineStreets.get(i))) {
+                            lenght += Math.abs(stopCoord2.getX() - endCoord2.getX());
+                        } else {
+                            lenght += Math.abs(stopCoord2.getY() - endCoord2.getY());
+                        }
+                    } else {
+                        Coordinate start11 = lineStreets.get(i).getCoordinates().get(0);
+                        Coordinate end11 = lineStreets.get(i).getCoordinates().get(1);
+
+                        if (changeX(lineStreets.get(i))) {
+                            lenght += Math.abs(start11.getX() - end11.getX());
+                        } else {
+                            lenght += Math.abs(start11.getY() - end11.getY());
+                        }
+                    }
+
+
+                }
+        return lenght;
     }
 
     public double getStopsLength(Stop stop1, Stop stop2) {

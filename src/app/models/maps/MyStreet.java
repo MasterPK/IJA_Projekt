@@ -9,6 +9,7 @@ public class MyStreet implements Street {
     private String id;
     private List<Coordinate> coordinates;
     private List<Stop> stops;
+    private int streetSituation = 1;
 
     public MyStreet(String id, Coordinate[] coordinates) {
         this.id = id;
@@ -23,6 +24,8 @@ public class MyStreet implements Street {
         this.stops = new ArrayList<>();
     }
 
+
+    public int getStreetCoefficient(){ return this.streetSituation;}
     /**
      * Vrátí identifikátor ulice.
      *

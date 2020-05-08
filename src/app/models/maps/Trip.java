@@ -26,6 +26,7 @@ public class Trip {
     public Trip(String id, List<LocalTime> timetable) {
         this.id = id;
         this.timetable=timetable;
+        this.actualTimetable = timetable;
     }
 
     public List<LocalTime> getActualTimetable() {

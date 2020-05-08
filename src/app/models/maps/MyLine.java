@@ -36,6 +36,11 @@ public class MyLine implements Line {
         this.streets = new ArrayList<>();
     }
 
+
+    public double getCoordinatesLength(Coordinate coord1, Coordinate coord2){
+        return Math.abs(coord1.getX()-coord2.getX())+Math.abs(coord1.getY()-coord2.getY());
+    }
+
     public double getStopsLength(Stop stop1, Stop stop2) {
         double lenght = 0;
         List<Street> lineStreets = new ArrayList<>();

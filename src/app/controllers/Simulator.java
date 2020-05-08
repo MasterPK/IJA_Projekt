@@ -111,6 +111,55 @@ public class Simulator {
         simulationTime = simulationTime.plus(this.simulationSpeed, MILLIS);
     }
 
+    private List<Street> streetKoef(){
+        List<Street> streets = new ArrayList<>();
+        for (Street street:this.streetMap.getStreets()){
+            if (street.getStreetCoefficient() > 1){
+                streets.add(street);
+            }
+        }
+        return streets;
+    }
+
+    private List<Line> core(Street street){
+        List<Line> returnLines = new ArrayList<>();
+        List<Stop> lineStops = new ArrayList<>();
+        for ( int i = 0; i < this.lines.size();i++){
+            if (this.lines.get(i).getStreets().contains(street)){
+                returnLines.add(this.lines.get(i));
+            }
+        }
+        for (Line line:returnLines){
+            lineStops = line.getRealStops();
+            for ( int i = 0; i < lineStops.size()-1; i++){
+                List<Street> streetsBetween = line.getStreetsBetween(lineStops.get(i),lineStops.get(i+1));
+                if (streetsBetween.contains(street)){
+                    for (int j = 0; j< streetsBetween.size();j++){
+                        if (streetsBetween.get(j).equals(street)){
+                            if (lineStops.get(i).getStreet().equals(street)){
+                                Coordinate follow = line.followPoint(streetsBetween.get(j),streetsBetween.get(j+1));
+                                Stop stoptmp = new MyStop("tmp",follow);
+                                stoptmp.setStreet(street);
+                                double tmp = line.getStopsLength(lineStops.get(i),stoptmp);
+                                double lenght = line.getStopsLength(lineStops.get(i),lineStops.get(i+1));
+                                for(int k = 0; k < line.getTrips().size();k++){
+                                    List<LocalTime> times = line.getTrips().get(k).getTimetable();
+                                }
+                            }
+                            else if (lineStops.get(i+1).getStreet().equals(street)){
+
+                            }
+                            else{
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return returnLines;
+    }
+
 
     /**
      * Start simulation at realtime

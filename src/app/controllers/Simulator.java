@@ -141,7 +141,7 @@ public class Simulator {
         }
 
         // Ošetřit pokud jsou na stejné ulici!
-        // Dodělat prostřední ulici
+        // Dodělat prostřední ulici - DONE!---->netestované
         for (Line line : returnLines) {
             line.resetTimetable();
             lineStops = line.getRealStops();
@@ -164,7 +164,7 @@ public class Simulator {
                                     LocalTime first = times.get(i);
                                     LocalTime second = times.get(i + 1);
                                     int sumTime = minusLocalTime(second, first);
-                                    long trafficTime = Math.round((double) (lenghtOfStops / lenghtOfStops * sumTime) * street.getTrafficCoefficient() - (lenghtOfStops / lenghtOfStops * sumTime));
+                                    long trafficTime = Math.round((double) (lenghtOfStreet / lenghtOfStops * sumTime) * street.getTrafficCoefficient() - (lenghtOfStreet / lenghtOfStops * sumTime));
                                     for (int t = i + 1; t < times.size(); t++) {
                                         LocalTime newTime = times.get(t);
                                         newTime = newTime.plusSeconds(trafficTime);

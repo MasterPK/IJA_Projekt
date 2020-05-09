@@ -140,13 +140,20 @@ public class Simulator {
             }
         }
 
-        // Ošetřit pokud jsou na stejné ulici!
+        // Ošetřit pokud jsou na stejné ulici! --DONE! ------> netestované!
         // Dodělat prostřední ulici - DONE!---->netestované
         for (Line line : returnLines) {
             line.resetTimetable();
             lineStops = line.getRealStops();
             for (int i = 0; i < lineStops.size() - 1; i++) {
                 List<Street> streetsBetween = line.getStreetsBetween(lineStops.get(i), lineStops.get(i + 1));
+                /*if (streetsBetween.size() == 1){ //ošetrenie ak sú zastávky na rovnakej ulici a ulica má zápchu
+                    if (streetsBetween.get(0).equals(street)){
+                        double streetLenght = line.getLenghtOfStreet(street);
+                        double stopsLenght = line.getStopsLength(line.getStopByIndex(i),line.getStopByIndex(i+1));
+
+                    }
+                }*/
                 if (streetsBetween.contains(street)) {
                     for (int j = 0; j < streetsBetween.size(); j++) {
                         if (streetsBetween.get(j).equals(street)) {
@@ -156,7 +163,7 @@ public class Simulator {
                             } else if (lineStops.get(i + 1).getStreet().equals(street)) {
                                 Coordinate follow = line.followPoint(streetsBetween.get(j-1), streetsBetween.get(j));
                                 calculateNewTime(street, lineStops, line, i, follow);
-                            } else {
+                            } else { //malo by fungovať aj ako ošetrenie ak sú na rovnakej ulici
                                 double lenghtOfStreet = line.getLenghtOfStreet(street);
                                 double lenghtOfStops = line.getStopsLength(line.getStopByIndex(i),line.getStopByIndex(i+1));
                                 for (int k = 0; k < line.getTrips().size(); k++) {

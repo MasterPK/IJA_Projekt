@@ -88,6 +88,15 @@ public class MyLine implements Line {
         return lenght;
     }
 
+    public int getLenghtOfStreet(Street street){
+        if (Math.abs(street.getCoordinates().get(0).getX()-street.getCoordinates().get(1).getX())>0){
+            return (Math.abs(street.getCoordinates().get(0).getX()-street.getCoordinates().get(1).getX()));
+        }
+        else {
+            return (Math.abs(street.getCoordinates().get(0).getY()-street.getCoordinates().get(1).getY()));
+        }
+    }
+
     /**
      * Reset actual timetable to original for every trips in line.
      */

@@ -157,7 +157,20 @@ public class Simulator {
                                 Coordinate follow = line.followPoint(streetsBetween.get(j-1), streetsBetween.get(j));
                                 calculateNewTime(street, lineStops, line, i, follow);
                             } else {
-
+                                double lenghtOfStreet = line.getLenghtOfStreet(street);
+                                double lenghtOfStops = line.getStopsLength(line.getStopByIndex(i),line.getStopByIndex(i+1));
+                                for (int k = 0; k < line.getTrips().size(); k++) {
+                                    List<LocalTime> times = line.getTrips().get(k).getActualTimetable();
+                                    LocalTime first = times.get(i);
+                                    LocalTime second = times.get(i + 1);
+                                    int sumTime = minusLocalTime(second, first);
+                                    long trafficTime = Math.round((double) (lenghtOfStops / lenghtOfStops * sumTime) * street.getTrafficCoefficient() - (lenghtOfStops / lenghtOfStops * sumTime));
+                                    for (int t = i + 1; t < times.size(); t++) {
+                                        LocalTime newTime = times.get(t);
+                                        newTime = newTime.plusSeconds(trafficTime);
+                                        times.set(t, newTime);
+                                    }
+                                }
                             }
                         }
                     }

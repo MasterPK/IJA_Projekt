@@ -81,11 +81,11 @@ public class MyStreet implements Street {
             return false;
 
         for (int i = 0; i < this.coordinates.size() - 1; i++) {
-            int x1 = this.coordinates.get(i).getX();
-            int y1 = this.coordinates.get(i).getY();
+            double x1 = this.coordinates.get(i).getX();
+            double y1 = this.coordinates.get(i).getY();
 
-            int x2 = this.coordinates.get(i + 1).getX();
-            int y2 = this.coordinates.get(i + 1).getY();
+            double x2 = this.coordinates.get(i + 1).getX();
+            double y2 = this.coordinates.get(i + 1).getY();
 
 
             if (x1 == x2 && x1==stop.getCoordinate().getX()) {

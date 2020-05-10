@@ -47,16 +47,13 @@ public abstract class TripSimulation {
 
         double lineLenght = line.getStopsLength(startStop, endStop);
 
-        double lenghtPassed = (actualPercent / 100) * lineLenght;
-
-        int lenghtPassedInt = (int) lenghtPassed;
-
+        double lenghtPassed = (actualPercent / 100.0) * lineLenght;
 
         Streets = line.getStreetsBetween(startStop, endStop);
 
 
         for (int i = 0; i < Streets.size(); i++) {
-            if (lenghtPassedInt == 0) {
+            if (lenghtPassed == 0) {
                 break;
             }
             if (i == Streets.size()-1){
@@ -68,38 +65,38 @@ public abstract class TripSimulation {
             }
 
             if (line.changeX(Streets.get(i))) { // kontrola či sa hýbeme po X ose
-                if ((Math.abs(follow.getX() - finalCoord.getX())) <= lenghtPassedInt) { //kontrola či sa bod nachádza na aktuálnej ulici
-                    lenghtPassedInt -= ((Math.abs(follow.getX() - finalCoord.getX())));
+                if ((Math.abs(follow.getX() - finalCoord.getX())) <= lenghtPassed) { //kontrola či sa bod nachádza na aktuálnej ulici
+                    lenghtPassed -= ((Math.abs(follow.getX() - finalCoord.getX())));
                     if (line.plusX(finalCoord, follow)) { //kontrola smeru po X ose
                         finalCoord.setX(finalCoord.getX() + (Math.abs(follow.getX() - finalCoord.getX())));
                     } else {
                         finalCoord.setX(finalCoord.getX() - (Math.abs(follow.getX() - finalCoord.getX())));
                     }
-                    lenghtPassedInt -= ((Math.abs(follow.getX() - finalCoord.getX())));
+                    lenghtPassed -= ((Math.abs(follow.getX() - finalCoord.getX())));
                 } else {
                     if (line.plusX(finalCoord, follow)) { //kontrola smeru po X ose
-                        finalCoord.setX(finalCoord.getX() + lenghtPassedInt);
+                        finalCoord.setX(finalCoord.getX() + lenghtPassed);
                     } else {
-                        finalCoord.setX(finalCoord.getX() - lenghtPassedInt);
+                        finalCoord.setX(finalCoord.getX() - lenghtPassed);
                     }
-                    lenghtPassedInt = 0;
+                    lenghtPassed = 0;
                 }
             } else {
-                if ((Math.abs(follow.getY() - finalCoord.getY())) <= lenghtPassedInt) { //kontrola či sa bod nachádza na aktuálnej ulici
-                    lenghtPassedInt -= ((Math.abs(follow.getY() - finalCoord.getY())));
+                if ((Math.abs(follow.getY() - finalCoord.getY())) <= lenghtPassed) { //kontrola či sa bod nachádza na aktuálnej ulici
+                    lenghtPassed -= ((Math.abs(follow.getY() - finalCoord.getY())));
                     if (line.plusY(finalCoord, follow)) { //kontrola smeru po Y ose
                         finalCoord.setY(finalCoord.getY() + (Math.abs(follow.getY() - finalCoord.getY())));
                     } else {
                         finalCoord.setY(finalCoord.getY() - (Math.abs(follow.getY() - finalCoord.getY())));
                     }
-                    lenghtPassedInt -= ((Math.abs(follow.getY() - finalCoord.getY())));
+                    lenghtPassed -= ((Math.abs(follow.getY() - finalCoord.getY())));
                 } else {
                     if (line.plusY(finalCoord, follow)) { //kontrola smeru po Y ose
-                        finalCoord.setY(finalCoord.getY() + lenghtPassedInt);
+                        finalCoord.setY(finalCoord.getY() + lenghtPassed);
                     } else {
-                        finalCoord.setY(finalCoord.getY() - lenghtPassedInt);
+                        finalCoord.setY(finalCoord.getY() - lenghtPassed);
                     }
-                    lenghtPassedInt = 0;
+                    lenghtPassed = 0;
                 }
             }
         }

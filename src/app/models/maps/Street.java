@@ -54,12 +54,12 @@ public interface Street {
             return null;
 
         for (int i = 0; i < coordinates.length-2; i++) {
-            int diffX1 = coordinates[i].diffX(coordinates[i+1]);
-            int diffY1 = coordinates[i].diffY(coordinates[i+1]);
-            int diffX2 = coordinates[i+1].diffX(coordinates[i+2]);
-            int diffY2 = coordinates[i+1].diffY(coordinates[i+2]);
+            double diffX1 = coordinates[i].diffX(coordinates[i+1]);
+            double diffY1 = coordinates[i].diffY(coordinates[i+1]);
+            double diffX2 = coordinates[i+1].diffX(coordinates[i+2]);
+            double diffY2 = coordinates[i+1].diffY(coordinates[i+2]);
 
-            int res = diffX1 * diffX2 + diffY1 * diffY2;
+            double res = diffX1 * diffX2 + diffY1 * diffY2;
 
             if (res != 0) {
                 return null;
@@ -73,12 +73,12 @@ public interface Street {
             return null;
 
         for (int i = 0; i < coordinates.size()-2; i++) {
-            int diffX1 = coordinates.get(i).diffX(coordinates.get(i + 1));
-            int diffY1 = coordinates.get(i).diffY(coordinates.get(i + 1));
-            int diffX2 = coordinates.get(i + 1).diffX(coordinates.get(i + 2));
-            int diffY2 = coordinates.get(i + 1).diffY(coordinates.get(i + 2));
+            double diffX1 = coordinates.get(i).diffX(coordinates.get(i + 1));
+            double diffY1 = coordinates.get(i).diffY(coordinates.get(i + 1));
+            double diffX2 = coordinates.get(i + 1).diffX(coordinates.get(i + 2));
+            double diffY2 = coordinates.get(i + 1).diffY(coordinates.get(i + 2));
 
-            int res = diffX1 * diffX2 + diffY1 * diffY2;
+            double res = diffX1 * diffX2 + diffY1 * diffY2;
 
             if (res != 0) {
                 return null;

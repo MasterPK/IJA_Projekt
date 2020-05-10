@@ -82,7 +82,7 @@ public class Controller extends BaseController {
     }
 
 
-    private void addLabelOverStop(String text, int x, int y) {
+    private void addLabelOverStop(String text, double x, double y) {
         Label label = new Label(text);
         label.setLayoutX(x);
         label.setLayoutY(y - 25);
@@ -111,7 +111,7 @@ public class Controller extends BaseController {
             // Get coordinates array
             List<Coordinate> listCoordinates = new ArrayList<>();
             for (JSONArray coord : (Iterable<JSONArray>) coordinates) {
-                listCoordinates.add(new Coordinate(Math.toIntExact((long) coord.get(0)), Math.toIntExact((long) coord.get(1))));
+                listCoordinates.add(new Coordinate((double)coord.get(0),(double)coord.get(1)));
             }
 
             // Try create street
@@ -126,15 +126,15 @@ public class Controller extends BaseController {
 
             for (JSONObject stop : (Iterable<JSONObject>) stops) {
                 JSONArray coordinate = (JSONArray) stop.get("coordinates");
-                Stop stopNew = Stop.defaultStop(stop.get("id").toString(), new Coordinate(Math.toIntExact((long) coordinate.get(0)), Math.toIntExact((long) coordinate.get(1))));
+                Stop stopNew = Stop.defaultStop(stop.get("id").toString(), new Coordinate((double) coordinate.get(0), (double) coordinate.get(1)));
 
                 street.addStop(stopNew);
             }
 
             // Draw street name
             Coordinate streetNameCoord = street.getCoordinates().get(0);
-            int x = streetNameCoord.getX();
-            int y = streetNameCoord.getY();
+            double x = streetNameCoord.getX();
+            double y = streetNameCoord.getY();
             Label streetName = new Label(street.getId());
             streetName.setLayoutX(x);
             streetName.setLayoutY(y + 5);

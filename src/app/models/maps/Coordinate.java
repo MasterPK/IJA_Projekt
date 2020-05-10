@@ -33,14 +33,9 @@ public class Coordinate implements Cloneable {
         this.y = set;
     }
 
-    public Coordinate(int x, int y) {
+    public Coordinate(double x, double y) {
         this.x = x;
         this.y = y;
-    }
-
-    public Coordinate(double x, double y) {
-        this.x = (int) x;
-        this.y = (int) y;
     }
 
     public static Coordinate create(int x, int y) {

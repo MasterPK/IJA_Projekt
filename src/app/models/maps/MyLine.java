@@ -329,7 +329,7 @@ public class MyLine implements Line {
             return false;
         }
         if (this.streets.get(this.streets.size() - 1).follows(street)) {
-            //this.stops.add(null);
+            this.stops.add(null);
             this.streets.add(street);
             return true;
         }

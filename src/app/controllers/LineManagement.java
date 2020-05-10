@@ -59,7 +59,10 @@ public class LineManagement {
             List<Street> streets = getNextStreets(lastGoodStreet);
             for(Street street:streets)
             {
-                this.selectStreetListView.getItems().add(street.getId());
+                if(street.isOpen())
+                {
+                    this.selectStreetListView.getItems().add(street.getId());
+                }
             }
         });
     }
@@ -116,7 +119,11 @@ public class LineManagement {
                 List<Street> streets = getNextStreets(this.streetMap.getStreet(streetId));
                 for(Street street:streets)
                 {
-                    this.selectStreetListView.getItems().add(street.getId());
+                    if(street.isOpen())
+                    {
+                        this.selectStreetListView.getItems().add(street.getId());
+                    }
+
                 }
             });
 

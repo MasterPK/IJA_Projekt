@@ -6,6 +6,7 @@ import app.models.maps.Coordinate;
 import app.models.maps.Line;
 import app.models.maps.Street;
 import app.models.maps.StreetMap;
+import app.models.maps.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -43,6 +44,7 @@ public class LineManagement {
                 if(street.isClosed())
                 {
                     found=true;
+
                 }
                 if(!found)
                 {
@@ -117,10 +119,30 @@ public class LineManagement {
                     this.selectStreetListView.getItems().add(street.getId());
                 }
             });
+
         }
 
     }
     public void updateTimetable(Line line, List<Street> newStreets, Street closedStreet){
+        int indexOfClosed = line.getStreets().indexOf(closedStreet);
+        double povodnaDlzka = line.getStopsLength(line.getStopByIndex(0),line.getStopByIndex(line.getStops().size()-1));
+
+        line.getStreets().remove(closedStreet);
+        for (int i = 0; i<newStreets.size();i++,indexOfClosed++){
+            line.getStreets().add(indexOfClosed,newStreets.get(i));
+        }
+        if (closedStreet.getStops().size() > 0){
+            for (Stop stop:closedStreet.getStops()){
+                for (Trip trip:line.getTrips()){
+                    trip.getTimetable().remove(line.getStops().indexOf(stop));
+                    trip.getActualTimetable().remove(line.getStops().indexOf(stop));
+                }
+                line.getStops().remove(stop);
+            }
+        }
+        double objizdka = line.getStopsLength(line.getStopByIndex(0),line.getStopByIndex(line.getStops().size()-1));
+
+        double rozdiel = Math.abs(povodnaDlzka - objizdka);
 
     }
 

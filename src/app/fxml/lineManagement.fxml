@@ -7,15 +7,15 @@
 <?import javafx.scene.layout.*?>
 
 <GridPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="app.controllers.LineManagement"
-            prefHeight="400.0" prefWidth="600.0">
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="app.controllers.LineManagement"
+          prefHeight="400.0" prefWidth="600.0">
     <rowConstraints>
+        <RowConstraints maxHeight="50"/>
         <RowConstraints/>
     </rowConstraints>
     <columnConstraints>
-        <ColumnConstraints percentWidth="100"/>
+        <ColumnConstraints/>
+        <ColumnConstraints/>
     </columnConstraints>
-    <TableView fx:id="linesTableView">
-    </TableView>
 </GridPane>

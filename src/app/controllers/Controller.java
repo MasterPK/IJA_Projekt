@@ -13,7 +13,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,8 +31,6 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class Controller extends BaseController {
@@ -340,7 +337,7 @@ public class Controller extends BaseController {
             Stage currentWindow = (Stage) this.selectedTripLabel.getScene().getWindow();
 
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/app/fxml/lineManagement.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/app/fxml/linesManagement.fxml"));
             Scene scene = null;
             try {
                 scene = new Scene(fxmlLoader.load(), 500, 500);
@@ -348,9 +345,9 @@ public class Controller extends BaseController {
                 e.printStackTrace();
                 return;
             }
-            ((LineManagement)fxmlLoader.getController()).startUp(this.simulator.getLines());
+            ((LinesManagement)fxmlLoader.getController()).startUp(this.simulator.getLines());
             Stage stage = new Stage();
-            stage.setTitle("Line manager");
+            stage.setTitle("Lines manager");
             stage.setScene(scene);
             stage.initOwner(currentWindow);
             stage.initModality(Modality.APPLICATION_MODAL);

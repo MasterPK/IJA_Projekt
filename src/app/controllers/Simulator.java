@@ -225,6 +225,7 @@ public class Simulator {
                 }
                 if (street.isClosed()){
                     line.setConflict(true);
+                    break;
                 }
             }
         }

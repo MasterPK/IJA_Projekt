@@ -218,15 +218,13 @@ public class Simulator {
     }
 
     public void setLinesBlock(){
-        for (Street street:this.streetMap.getStreets()){
-            if (street.isClosed()){
-                for (Line line:street.getLines()){
-                    line.setConflict(true);
-                }
-            }
-            if (street.isOpen()){
-                for (Line line:street.getLines()){
+        for (Line line:this.getLines()){
+            for (Street street:line.getStreets()){
+                if (street.isOpen()){
                     line.setConflict(false);
+                }
+                if (street.isClosed()){
+                    line.setConflict(true);
                 }
             }
         }

@@ -329,7 +329,7 @@ public class MyLine implements Line {
             return false;
         }
         if (this.streets.get(this.streets.size() - 1).follows(street)) {
-            this.stops.add(null);
+            //this.stops.add(null);
             this.streets.add(street);
             return true;
         }
@@ -341,22 +341,6 @@ public class MyLine implements Line {
         List<AbstractMap.SimpleImmutableEntry<Street, Stop>> result = new ArrayList<>();
         for (int i = 0; i < this.streets.size(); i++) {
             result.add(new AbstractMap.SimpleImmutableEntry<Street, Stop>(this.streets.get(i), this.stops.get(i)));
-        }
-        return result;
-    }
-
-
-    @Override
-    public String toString() {
-        String result = "";
-        for (int i = 0; i < this.streets.size(); i++) {
-            Street street = this.streets.get(i);
-            Stop stop = this.stops.get(i);
-            if (stop == null) {
-                result += street.getId() + ":null;";
-            } else {
-                result += street.getId() + ":" + stop + ";";
-            }
         }
         return result;
     }

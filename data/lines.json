@@ -13,10 +13,6 @@
           "street": "Kozeluzska"
         },
         {
-          "stop": "Zas",
-          "street": "Ulice"
-        },
-        {
           "stop": null,
           "street": "Ripovska"
         },
@@ -35,7 +31,6 @@
           "times": [
             "12:00",
             "12:00:10",
-            "12:00:15",
             "12:00:25",
             "12:00:35"
           ]

@@ -224,6 +224,11 @@ public class Simulator {
                     line.setConflict(true);
                 }
             }
+            if (street.isOpen()){
+                for (Line line:street.getLines()){
+                    line.setConflict(false);
+                }
+            }
         }
     }
 

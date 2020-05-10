@@ -41,6 +41,7 @@ public interface Line {
      * Reset actual timetable to original for every trips in line.
      */
     void resetTimetable();
+    boolean isConflict();
 
 }
 

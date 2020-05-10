@@ -178,6 +178,7 @@ public class Controller extends BaseController {
                             stage.initModality(Modality.APPLICATION_MODAL);
                             stage.showAndWait();
                             simulator.computeTraffic();
+                            simulator.setLinesBlock();
 
                             /*TextInputDialog dialog = new TextInputDialog(Integer.toString(street.getTrafficCoefficient()));
                             dialog.setTitle("Street settings");
@@ -354,6 +355,7 @@ public class Controller extends BaseController {
             stage.initOwner(currentWindow);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
+            simulator.setLinesBlock();
         }
     }
 }

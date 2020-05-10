@@ -365,4 +365,8 @@ public class MyLine implements Line {
     public List<Trip> getTrips() {
         return trips;
     }
+
+    public boolean isConflict() {
+        return conflict;
+    }
 }

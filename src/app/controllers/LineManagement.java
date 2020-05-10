@@ -32,7 +32,7 @@ public class LineManagement {
     {
         for(Line line:lines)
         {
-            this.linesTableView.getItems().add(new LineTableItem(line.getId(),"NO"));
+            this.linesTableView.getItems().add(new LineTableItem(line.getId(),line.isConflict() ? "YES" : "NO"));
         }
     }
 

@@ -217,7 +217,7 @@ public class Simulator {
         }
     }
 
-    private void SetLinesBlock(){
+    public void setLinesBlock(){
         for (Street street:this.streetMap.getStreets()){
             if (street.isClosed()){
                 for (Line line:street.getLines()){

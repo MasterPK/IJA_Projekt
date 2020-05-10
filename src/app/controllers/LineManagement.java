@@ -131,25 +131,55 @@ public class LineManagement {
 
     }
     public void updateTimetable(Line line, List<Street> newStreets, Street closedStreet){
+        int indexOfFirstStopThatIsDeleted = 0;
+        int indexOfLastStopThatIsDeleted = 0;
         int indexOfClosed = line.getStreets().indexOf(closedStreet);
-        double povodnaDlzka = line.getStopsLength(line.getStopByIndex(0),line.getStopByIndex(line.getStops().size()-1));
+        double povodnaDlzka = 0;
+
+        if (closedStreet.getStops().size() > 0){
+            indexOfFirstStopThatIsDeleted = line.getStops().indexOf(0);
+            indexOfLastStopThatIsDeleted = line.getStops().indexOf(closedStreet.getStops().size()-1);
+            povodnaDlzka = line.getStopsLength(line.getStopByIndex(indexOfFirstStopThatIsDeleted-1),line.getStopByIndex(indexOfLastStopThatIsDeleted+1));
+        }
 
         line.getStreets().remove(closedStreet);
         for (int i = 0; i<newStreets.size();i++,indexOfClosed++){
             line.getStreets().add(indexOfClosed,newStreets.get(i));
         }
         if (closedStreet.getStops().size() > 0){
-            for (Stop stop:closedStreet.getStops()){
+            for (int j = 0;j<closedStreet.getStops().size();j++){
                 for (Trip trip:line.getTrips()){
-                    trip.getTimetable().remove(line.getStops().indexOf(stop));
-                    trip.getActualTimetable().remove(line.getStops().indexOf(stop));
+                    trip.getTimetable().remove(line.getStops().indexOf(j));
+                    trip.getActualTimetable().remove(line.getStops().indexOf(j));
                 }
-                line.getStops().remove(stop);
+                line.getStops().remove(j);
             }
         }
-        double objizdka = line.getStopsLength(line.getStopByIndex(0),line.getStopByIndex(line.getStops().size()-1));
 
-        double rozdiel = Math.abs(povodnaDlzka - objizdka);
+        double objizdka = line.getStopsLength(line.getStopByIndex(indexOfFirstStopThatIsDeleted-1),line.getStopByIndex(indexOfLastStopThatIsDeleted+1));
+
+        double actualPercent = 0;
+
+        actualPercent = (objizdka / povodnaDlzka);
+        for (Trip trip:line.getTrips()){
+            LocalTime time1 = trip.getActualTimetable().get(indexOfFirstStopThatIsDeleted-1);
+            LocalTime time2 = trip.getActualTimetable().get(indexOfLastStopThatIsDeleted+1);
+            double previousTime = TimeExtender.minusLocalTime(time1,time2);
+            double newTime = previousTime - (TimeExtender.minusLocalTime(time1,time2) * actualPercent);
+
+            if (newTime > 0){
+                for (int k =indexOfLastStopThatIsDeleted+1; k< line.getStops().size();k++){
+                    LocalTime tmp = trip.getActualTimetable().get(k);
+                    trip.getActualTimetable().set(k,TimeExtender.plusLocalTime(tmp,(long) newTime));
+                }
+            }
+            else{
+                for (int k =indexOfLastStopThatIsDeleted+1; k< line.getStops().size();k++){
+                    LocalTime tmp = trip.getActualTimetable().get(k);
+                    trip.getActualTimetable().set(k,TimeExtender.minusLocalTime(tmp,(long) newTime));
+                }
+            }
+        }
 
     }
 

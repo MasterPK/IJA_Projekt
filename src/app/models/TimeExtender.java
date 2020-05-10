@@ -10,5 +10,16 @@ public abstract class TimeExtender {
 
         return (diff.getHour() * 60 * 60) + (diff.getMinute() * 60) + (diff.getSecond());
     }
+
+    public static LocalTime plusLocalTime(LocalTime diff1, long diff2) {
+        LocalTime diff = diff1.plusSeconds(diff2);
+
+        return diff;
+    }
+    public static LocalTime minusLocalTime(LocalTime diff1, long diff2) {
+        LocalTime diff = diff1.minusSeconds(diff2);
+
+        return diff;
+    }
 }
 

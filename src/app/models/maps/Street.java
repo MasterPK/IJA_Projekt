@@ -95,4 +95,6 @@ public interface Street {
     int getTrafficCoefficient();
     void setGui(Line gui);
     Line getGui();
+    boolean isClosed();
+    void setClosed(boolean closed);
 }

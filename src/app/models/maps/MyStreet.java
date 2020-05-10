@@ -13,6 +13,7 @@ public class MyStreet implements Street {
     private List<Stop> stops;
     private int trafficCoefficient = 1;
     private Line lineGui;
+    private boolean closed=false;
 
     public MyStreet(String id, Coordinate[] coordinates) {
         this.id = id;
@@ -25,6 +26,14 @@ public class MyStreet implements Street {
         this.id = id;
         this.coordinates = coordinates;
         this.stops = new ArrayList<>();
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
     }
 
     public void setTrafficCoefficient(int trafficCoefficient) throws Exception {

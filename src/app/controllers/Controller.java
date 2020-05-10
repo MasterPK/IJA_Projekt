@@ -163,28 +163,26 @@ public class Controller extends BaseController {
                 drawableLine.setOnMouseClicked(event -> {
                     if (!simulator.getSimulationState()) {
                         try {
-                            /*
-
-                            !!! Kod pro zobrazení nového okna, zatím nechat zde !!!
 
                             FXMLLoader fxmlLoader = new FXMLLoader();
-                            fxmlLoader.setLocation(getClass().getResource("/app/view/streetSettings.fxm"));
+                            fxmlLoader.setLocation(getClass().getResource("/app/fxml/streetManagement.fxml"));
                             StreetSettingsController streetSettingsController = new StreetSettingsController(street);
                             fxmlLoader.setController(streetSettingsController);
-                            Scene scene = new Scene(fxmlLoader.load(), 200, 100);
+                            Scene scene = new Scene(fxmlLoader.load(), 500, 150);
                             streetSettingsController.startUp();
                             Stage stage = new Stage();
                             stage.setTitle("Street settings");
                             stage.setScene(scene);
                             stage.show();
-                            */
-                            TextInputDialog dialog = new TextInputDialog(Integer.toString(street.getTrafficCoefficient()));
+
+
+                            /*TextInputDialog dialog = new TextInputDialog(Integer.toString(street.getTrafficCoefficient()));
                             dialog.setTitle("Street settings");
                             dialog.setHeaderText("Enter street traffic coefficient");
                             dialog.setContentText("You can set coefficient 1-10, where 1 is normal traffic and 10 is maximum traffic.");
 
-                            Optional<String> result = dialog.showAndWait();
-                            result.ifPresent(s -> {
+                            Optional<String> result = dialog.showAndWait();*/
+                            /*result.ifPresent(s -> {
                                 try {
                                     street.setTrafficCoefficient(Integer.parseInt(s));
                                     simulator.computeTraffic();
@@ -195,7 +193,7 @@ public class Controller extends BaseController {
                                 catch (Exception e) {
                                     AlertHandler.showWarning(e);
                                 }
-                            });
+                            });*/
                         } catch (Exception e) {
                             ExceptionHandler.show(e);
                         }

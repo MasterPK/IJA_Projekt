@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane prefHeight="100.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+          xmlns:fx="http://javafx.com/fxml/1">
+    <rowConstraints>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints percentWidth="100"/>
+    </columnConstraints>
+    <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <Label text="Enter street traffic coefficient: ">
+            <padding>
+                <Insets right="10.0"/>
+            </padding>
+        </Label>
+        <TextField fx:id="streetCoefficientTextField"/>
+        <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+        </padding>
+    </HBox>
+
+    <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <Label text="You can set coefficient 1-10, where 1 is normal traffic and 10 is maximum traffic.">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Label>
+    </HBox>
+
+    <GridPane alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">
+        <rowConstraints>
+            <RowConstraints/>
+        </rowConstraints>
+        <columnConstraints>
+            <ColumnConstraints percentWidth="33" halignment="CENTER"/>
+            <ColumnConstraints percentWidth="33" halignment="CENTER"/>
+            <ColumnConstraints percentWidth="33" halignment="CENTER"/>
+        </columnConstraints>
+
+        <Button fx:id="closedButton" text="O/C" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Button GridPane.columnIndex="1" GridPane.rowIndex="0" text="Cancel"/>
+        <Button GridPane.columnIndex="2" GridPane.rowIndex="0" text="OK"/>
+        <GridPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+        </GridPane.margin>
+
+    </GridPane>
+
+
+</GridPane>

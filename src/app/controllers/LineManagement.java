@@ -137,9 +137,29 @@ public class LineManagement {
         double povodnaDlzka = 0;
 
         if (closedStreet.getStops().size() > 0){
-            indexOfFirstStopThatIsDeleted = line.getStops().indexOf(0);
+            indexOfFirstStopThatIsDeleted = line.getStops().indexOf(closedStreet.getStops().get(0));
             indexOfLastStopThatIsDeleted = line.getStops().indexOf(closedStreet.getStops().size()-1);
             povodnaDlzka = line.getStopsLength(line.getStopByIndex(indexOfFirstStopThatIsDeleted-1),line.getStopByIndex(indexOfLastStopThatIsDeleted+1));
+        }
+        else{
+            ahoj:
+            for (int t = line.getStreets().indexOf(closedStreet);t>=0;t--){
+                for (Stop stop:line.getStreets().get(t).getStops()){
+                    if (line.getRealStops().contains(stop)){
+                        indexOfFirstStopThatIsDeleted = line.getStops().indexOf(stop)+1;
+                        break ahoj;
+                    }
+                }
+            }
+            ahoj2:
+            for (int t = line.getStreets().indexOf(closedStreet);t<line.getStreets().size();t++){
+                for (Stop stop:line.getStreets().get(t).getStops()){
+                    if (line.getRealStops().contains(stop)){
+                        indexOfLastStopThatIsDeleted = line.getStops().indexOf(stop)-1;
+                        break ahoj2;
+                    }
+                }
+            }
         }
 
         line.getStreets().remove(closedStreet);

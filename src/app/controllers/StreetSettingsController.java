@@ -18,8 +18,10 @@ public class StreetSettingsController {
     public Button closedButton;
 
     private Street street;
+    private Stage currentWindow;
 
-    public void startUp(Street street) {
+    public void startUp(Street street, Stage currentWindow) {
+        this.currentWindow=currentWindow;
         this.street=street;
         Platform.runLater(() -> {
             this.streetCoefficientTextField.setText(Integer.toString(street.getTrafficCoefficient()));
@@ -63,7 +65,7 @@ public class StreetSettingsController {
 
     public void cancelClick() {
         Stage stage = (Stage) this.closedButton.getScene().getWindow();
-        // do what you have to do
         stage.close();
+        this.currentWindow.show();
     }
 }

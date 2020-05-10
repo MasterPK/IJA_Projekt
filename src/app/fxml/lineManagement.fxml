@@ -17,6 +17,5 @@
         <ColumnConstraints/>
     </columnConstraints>
     <TableView fx:id="linesTableView">
-
     </TableView>
 </GridPane>

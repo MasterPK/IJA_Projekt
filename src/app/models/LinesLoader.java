@@ -49,7 +49,7 @@ public abstract class LinesLoader {
                 else {
                     line.addStreet(street);
                 }
-
+                street.addLine(line);
             }
 
             // Load trips

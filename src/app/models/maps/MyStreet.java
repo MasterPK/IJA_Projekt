@@ -2,7 +2,6 @@ package app.models.maps;
 
 
 import javafx.application.Platform;
-import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,8 +12,9 @@ public class MyStreet implements Street {
     private List<Coordinate> coordinates;
     private List<Stop> stops;
     private int trafficCoefficient = 1;
-    private Line lineGui;
-    private boolean closed=false;
+    private javafx.scene.shape.Line lineGui;
+    private boolean closed = false;
+    private List<Line> lines = new ArrayList<>();
 
     public MyStreet(String id, Coordinate[] coordinates) {
         this.id = id;
@@ -29,9 +29,18 @@ public class MyStreet implements Street {
         this.stops = new ArrayList<>();
     }
 
+    public void addLine(Line line) {
+        lines.add(line);
+    }
+
+    public List<Line> getLines() {
+        return lines;
+    }
+
     public boolean isClosed() {
         return closed;
     }
+
     public boolean isOpen() {
         return !closed;
     }
@@ -39,18 +48,16 @@ public class MyStreet implements Street {
     public void setClosed(boolean closed) {
         this.closed = closed;
         Platform.runLater(() -> {
-            if(closed)
-            {
+            if (closed) {
                 this.lineGui.setStyle("-fx-stroke-width: 2; -fx-stroke: red;");
-            }else {
+            } else {
                 this.lineGui.setStyle("-fx-stroke-width: 2; -fx-stroke: black;");
             }
         });
     }
 
     public void setTrafficCoefficient(int trafficCoefficient) throws Exception {
-        if(trafficCoefficient < 1 || trafficCoefficient > 10)
-        {
+        if (trafficCoefficient < 1 || trafficCoefficient > 10) {
             throw new Exception("Traffic coefficient have to be in range 1..10! Value will remain unchanged.");
         }
         this.trafficCoefficient = trafficCoefficient;
@@ -109,7 +116,7 @@ public class MyStreet implements Street {
             double y2 = this.coordinates.get(i + 1).getY();
 
 
-            if (x1 == x2 && x1==stop.getCoordinate().getX()) {
+            if (x1 == x2 && x1 == stop.getCoordinate().getX()) {
                 if (y1 < y2) {
                     if (stop.getCoordinate().getY() >= y1 && stop.getCoordinate().getY() <= y2) {
                         this.stops.add(stop);
@@ -129,7 +136,7 @@ public class MyStreet implements Street {
                 }
             }
 
-            if (y1 == y2 && y1==stop.getCoordinate().getY()) {
+            if (y1 == y2 && y1 == stop.getCoordinate().getY()) {
                 if (x1 < x2) {
                     if (stop.getCoordinate().getX() >= x1 && stop.getCoordinate().getX() <= x2) {
                         this.stops.add(stop);
@@ -222,8 +229,7 @@ public class MyStreet implements Street {
 
     @Override
     public boolean follows(Street s) {
-        if(this.begin().equals(s.begin()) || this.begin().equals(s.end()) || this.end().equals(s.begin()) || this.end().equals(s.end())  )
-        {
+        if (this.begin().equals(s.begin()) || this.begin().equals(s.end()) || this.end().equals(s.begin()) || this.end().equals(s.end())) {
             return true;
         }
         return false;
@@ -241,19 +247,18 @@ public class MyStreet implements Street {
 
     @Override
     public Stop getStop(String id) {
-        for (Stop stop:this.stops)
-        {
-            if(stop.getId().equals(id))
+        for (Stop stop : this.stops) {
+            if (stop.getId().equals(id))
                 return stop;
         }
         return null;
     }
 
-    public void setGui(Line gui) {
+    public void setGui(javafx.scene.shape.Line gui) {
         this.lineGui = gui;
     }
 
-    public Line getGui() {
+    public javafx.scene.shape.Line getGui() {
         return lineGui;
     }
 }

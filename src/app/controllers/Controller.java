@@ -22,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -163,16 +164,19 @@ public class Controller extends BaseController {
                 drawableLine.setOnMouseClicked(event -> {
                     if (!simulator.getSimulationState()) {
                         try {
+                            Stage currentWindow = (Stage) this.selectedTripLabel.getScene().getWindow();
 
                             FXMLLoader fxmlLoader = new FXMLLoader();
                             fxmlLoader.setLocation(getClass().getResource("/app/fxml/streetManagement.fxml"));
                             Scene scene = new Scene(fxmlLoader.load(), 500, 150);
-                            ((StreetSettingsController)fxmlLoader.getController()).startUp(street);
+                            ((StreetSettingsController)fxmlLoader.getController()).startUp(street,currentWindow);
                             Stage stage = new Stage();
                             stage.setTitle("Street settings");
                             stage.setScene(scene);
-                            stage.show();
-
+                            stage.initOwner(currentWindow);
+                            stage.initModality(Modality.APPLICATION_MODAL);
+                            stage.showAndWait();
+                            simulator.computeTraffic();
 
                             /*TextInputDialog dialog = new TextInputDialog(Integer.toString(street.getTrafficCoefficient()));
                             dialog.setTitle("Street settings");

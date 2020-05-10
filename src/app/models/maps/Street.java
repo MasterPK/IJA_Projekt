@@ -6,8 +6,6 @@ package app.models.maps;
 
 
 
-import javafx.scene.shape.Line;
-
 import java.util.List;
 
 /**
@@ -93,9 +91,11 @@ public interface Street {
     public Stop getStop(String id);
     void setTrafficCoefficient(int trafficCoefficient) throws Exception;
     int getTrafficCoefficient();
-    void setGui(Line gui);
-    Line getGui();
+    void setGui(javafx.scene.shape.Line gui);
+    javafx.scene.shape.Line getGui();
     boolean isClosed();
     boolean isOpen();
     void setClosed(boolean closed);
+    List<Line> getLines();
+    void addLine(Line line);
 }

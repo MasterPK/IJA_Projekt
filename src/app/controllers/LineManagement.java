@@ -77,4 +77,7 @@ public class LineManagement {
         return ulice;
     }
 
+    public void updateTimetable(Line line, List<Street> newStreets, Street closedStreet){
+
+    }
 }

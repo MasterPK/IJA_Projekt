@@ -14,22 +14,22 @@ import java.util.Objects;
  */
 public class Coordinate implements Cloneable {
 
-    private int x;
-    private int y;
+    private double x;
+    private double y;
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
 
-    public void setX(int set){
+    public void setX(double set){
         this.x = set;
     }
-    public void setY(int set){
+    public void setY(double set){
         this.y = set;
     }
 
@@ -72,11 +72,11 @@ public class Coordinate implements Cloneable {
         return Objects.hash(x, y);
     }
 
-    public int diffX(Coordinate c) {
+    public double diffX(Coordinate c) {
         return this.x-c.x;
     }
 
-    public int diffY(Coordinate c) {
+    public double diffY(Coordinate c) {
         return this.y-c.y;
     }
 

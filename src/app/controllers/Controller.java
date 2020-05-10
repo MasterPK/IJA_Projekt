@@ -70,17 +70,14 @@ public class Controller extends BaseController {
 
     private StreetMap streetMap;
 
-
-    private double scale = 1;
-
     public Controller() {
         streetMap = new MyStreetMap();
     }
 
 
     private void addNodeToMapPane(Node node) {
-        node.setLayoutX(node.getLayoutX() * this.scale);
-        node.setLayoutY(node.getLayoutY() * this.scale);
+        node.setLayoutX(node.getLayoutX());
+        node.setLayoutY(node.getLayoutY());
         mapPane.getChildren().add(node);
     }
 
@@ -159,7 +156,7 @@ public class Controller extends BaseController {
                 if (end.getY() > this.maxY) {
                     this.maxY = end.getY();
                 }
-                Line drawableLine = new Line(start.getX() * scale, start.getY() * scale, end.getX() * scale, end.getY() * scale);
+                Line drawableLine = new Line(start.getX(), start.getY(), end.getX(), end.getY());
                 drawableLine.setStyle("-fx-stroke-width: 2;");
                 addNodeToMapPane(drawableLine);
                 street.setGui(drawableLine);

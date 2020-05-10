@@ -142,7 +142,6 @@ public class Simulator {
         // Ošetřit pokud jsou na stejné ulici! --DONE! ------> netestované!
         // Dodělat prostřední ulici - DONE!---->netestované
         for (Line line : returnLines) {
-            line.resetTimetable();
             lineStops = line.getRealStops();
             for (int i = 0; i < lineStops.size() - 1; i++) {
                 List<Street> streetsBetween = line.getStreetsBetween(lineStops.get(i), lineStops.get(i + 1));

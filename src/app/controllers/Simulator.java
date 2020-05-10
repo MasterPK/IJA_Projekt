@@ -39,7 +39,6 @@ public class Simulator {
         this.streetMap = streetMap;
         this.gui = gui;
         this.lines = LinesLoader.load(this.streetMap);
-        this.streetMap.getStreets().get(3).setTrafficCoefficient(2);
         this.computeTraffic();
     }
 
@@ -147,14 +146,25 @@ public class Simulator {
             lineStops = line.getRealStops();
             for (int i = 0; i < lineStops.size() - 1; i++) {
                 List<Street> streetsBetween = line.getStreetsBetween(lineStops.get(i), lineStops.get(i + 1));
-                /*if (streetsBetween.size() == 1){ //ošetrenie ak sú zastávky na rovnakej ulici a ulica má zápchu
+                if (streetsBetween.size() == 1){ //ošetrenie ak sú zastávky na rovnakej ulici a ulica má zápchu
                     if (streetsBetween.get(0).equals(street)){
-                        double streetLenght = line.getLenghtOfStreet(street);
-                        double stopsLenght = line.getStopsLength(line.getStopByIndex(i),line.getStopByIndex(i+1));
-
+                        double lenghtOfStreet = line.getLenghtOfStreet(street);
+                        double lenghtOfStops = line.getStopsLength(line.getStopByIndex(i),line.getStopByIndex(i+1));
+                        for (int k = 0; k < line.getTrips().size(); k++) {
+                            List<LocalTime> times = line.getTrips().get(k).getActualTimetable();
+                            LocalTime first = times.get(i);
+                            LocalTime second = times.get(i + 1);
+                            int sumTime = minusLocalTime(second, first);
+                            long trafficTime = Math.round((double) (lenghtOfStreet / lenghtOfStops * sumTime) * street.getTrafficCoefficient() - (lenghtOfStreet / lenghtOfStops * sumTime));
+                            for (int t = i + 1; t < times.size(); t++) {
+                                LocalTime newTime = times.get(t);
+                                newTime = newTime.plusSeconds(trafficTime);
+                                times.set(t, newTime);
+                            }
+                        }
                     }
-                }*/
-                if (streetsBetween.contains(street)) {
+                }
+                else if (streetsBetween.contains(street)) {
                     for (int j = 0; j < streetsBetween.size(); j++) {
                         if (streetsBetween.get(j).equals(street)) {
                             if (lineStops.get(i).getStreet().equals(street)) {

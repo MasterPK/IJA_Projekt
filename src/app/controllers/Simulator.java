@@ -217,6 +217,16 @@ public class Simulator {
         }
     }
 
+    private void SetLinesBlock(){
+        for (Street street:this.streetMap.getStreets()){
+            if (street.isClosed()){
+                for (Line line:street.getLines()){
+                    line.setConflict(true);
+                }
+            }
+        }
+    }
+
 
     /**
      * Start simulation at realtime
@@ -237,7 +247,6 @@ public class Simulator {
                     if (!simulationTask) {
                         simulationTask = true;
                         gui.showTime(simulationTime);
-
                         if (previousRealTime == null) {
                             simulationRefresh();
                             previousRealTime = LocalTime.now();

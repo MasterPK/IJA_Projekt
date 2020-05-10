@@ -35,6 +35,7 @@ public interface Line {
     List<Street> getStreets();
     double getStopAndCoordinateLength(Stop stop1, Stop stop2);
     double getLenghtOfStreet(Street street);
+    void setConflict(boolean conf);
 
     /**
      * Reset actual timetable to original for every trips in line.

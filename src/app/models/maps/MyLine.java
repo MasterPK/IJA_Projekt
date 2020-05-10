@@ -12,6 +12,7 @@ public class MyLine implements Line {
     private String id;
     private String name;
     private List<Trip> trips = new ArrayList<>();
+    private boolean conflict = false;
 
     public List<Trip> getLineConnections() {
         return trips;
@@ -36,6 +37,10 @@ public class MyLine implements Line {
         this.streets = new ArrayList<>();
     }
 
+
+    public void setConflict(boolean conf){
+        this.conflict = conf;
+    }
 
     public double getStopAndCoordinateLength(Stop stop1, Stop stop2) {
         double lenght = 0;

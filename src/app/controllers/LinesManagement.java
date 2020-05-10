@@ -40,6 +40,7 @@ public class LinesManagement {
 
     private void refreshGui()
     {
+
         for(Line line:lines)
         {
             this.linesTableView.getItems().add(new LineTableItem(line.getId(), line.isConflict() ? "YES" : "NO",line));

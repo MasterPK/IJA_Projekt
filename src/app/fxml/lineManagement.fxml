@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane xmlns="http://javafx.com/javafx"
-          xmlns:fx="http://javafx.com/fxml"
-          fx:controller="app.controllers.LineManagement"
-          prefHeight="400.0" prefWidth="600.0">
+<GridPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.LineManagement">
     <rowConstraints>
         <RowConstraints maxHeight="50"/>
-        <RowConstraints/>
+        <RowConstraints maxHeight="50"/>
+        <RowConstraints percentHeight="100"/>
     </rowConstraints>
     <columnConstraints>
-        <ColumnConstraints/>
-        <ColumnConstraints/>
+        <ColumnConstraints percentWidth="33.333"/>
+        <ColumnConstraints percentWidth="33.333"/>
+        <ColumnConstraints percentWidth="33.333"/>
     </columnConstraints>
+    <Label text="Select new route because some street on this line is closed. With double click choose new route from list on right."
+           GridPane.columnSpan="3"/>
+    <Label text="Select new route because some street on this line is closed. With double click choose new route from list on right."
+           GridPane.rowIndex="1"/>
+    <ListView fx:id="newRouteListView" GridPane.rowIndex="2">
+        <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+        </GridPane.margin>
+    </ListView>
+    <ListView fx:id="selectStreetListView" GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+        </GridPane.margin>
+    </ListView>
+    <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+    </padding>
 </GridPane>

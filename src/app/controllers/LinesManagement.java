@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.components.LineTableItem;
+import app.models.TimeExtender;
 import app.models.maps.Line;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -8,11 +9,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -62,7 +61,7 @@ public class LinesManagement {
             return;
         }
 
-        if(minusLocalTime(LocalTime.now(),previous)>1)
+        if(TimeExtender.minusLocalTime(LocalTime.now(),previous)>1)
         {
             clickCounter=0;
             return;
@@ -93,13 +92,7 @@ public class LinesManagement {
 
     }
 
-    private int minusLocalTime(LocalTime diff1, LocalTime diff2) {
-        LocalTime diff = diff1.minusHours(diff2.getHour())
-                .minusMinutes(diff2.getMinute())
-                .minusSeconds(diff2.getSecond());
 
-        return (diff.getHour() * 60 * 60) + (diff.getMinute() * 60) + (diff.getSecond());
-    }
 
     private List<Line> badLines(){
         List<Line> tmp = new ArrayList<>();

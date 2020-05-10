@@ -34,6 +34,9 @@ public class Simulator {
     // View
     private BaseGui gui;
 
+    public List<Line> getLines() {
+        return lines;
+    }
 
     public Simulator(StreetMap streetMap, BaseGui gui) throws Exception {
         this.streetMap = streetMap;

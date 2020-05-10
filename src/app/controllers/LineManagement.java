@@ -13,9 +13,9 @@ public class LineManagement {
 
     private List<Line> lines;
 
-    public void startUp(List<Line> line)
+    public void startUp(List<Line> lines)
     {
-        this.lines=line;
+        this.lines=lines;
 
         TableColumn routeId = new TableColumn("Line");
         routeId.setCellValueFactory(new PropertyValueFactory<>("routeId"));
@@ -24,6 +24,8 @@ public class LineManagement {
         conflict.setCellValueFactory(new PropertyValueFactory<>("conflict"));
 
         this.linesTableView.getColumns().addAll(routeId, conflict);
+
+        refreshGui();
     }
 
     private void refreshGui()

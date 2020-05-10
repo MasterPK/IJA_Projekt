@@ -14,7 +14,7 @@
         <RowConstraints/>
     </rowConstraints>
     <columnConstraints>
-        <ColumnConstraints/>
+        <ColumnConstraints percentWidth="100"/>
     </columnConstraints>
     <TableView fx:id="linesTableView">
     </TableView>

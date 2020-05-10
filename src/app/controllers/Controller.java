@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
@@ -329,4 +330,30 @@ public class Controller extends BaseController {
     }
 
 
+    public void openLinesManagementClick(MouseEvent mouseEvent) {
+        if(this.simulator.getSimulationState())
+        {
+            AlertHandler.showWarning(new Exception("You can not edit lines while simulation running!"));
+        }else
+        {
+            Stage currentWindow = (Stage) this.selectedTripLabel.getScene().getWindow();
+
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/app/fxml/lineManagement.fxml"));
+            Scene scene = null;
+            try {
+                scene = new Scene(fxmlLoader.load(), 500, 500);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            ((LineManagement)fxmlLoader.getController()).startUp(this.simulator.getLines());
+            Stage stage = new Stage();
+            stage.setTitle("Line manager");
+            stage.setScene(scene);
+            stage.initOwner(currentWindow);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        }
+    }
 }

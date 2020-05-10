@@ -25,10 +25,22 @@
                 <RowConstraints valignment="TOP" vgrow="ALWAYS"/>
             </rowConstraints>
             <children>
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="33" halignment="CENTER"/>
+                        <ColumnConstraints percentWidth="33" halignment="CENTER"/>
+                        <ColumnConstraints percentWidth="33" halignment="RIGHT"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints/>
+                    </rowConstraints>
+                    <Label fx:id="zoomLabel" GridPane.columnIndex="1" text="Zoom"/>
+                    <Button onMouseClicked="#openLinesManagementClick" GridPane.columnIndex="2" text="Open lines manager"/>
+                </GridPane>
                 <Slider fx:id="zoomSlider" majorTickUnit="10.0" max="5.0" min="0.1" minorTickCount="50" value="1.0"
                         GridPane.rowIndex="1"/>
                 <Label fx:id="currentTimeLabel" style="-fx-font-weight: bold; -fx-font-size: 15;" text="00:00:00" visible="false" GridPane.rowIndex="3"/>
-                <Label fx:id="zoomLabel" text="Zoom"/>
+
                 <Button fx:id="startSimulationButton" mnemonicParsing="false"
                         onMouseClicked="#startSimulationBtnOnClicked" text="Start simulation" GridPane.rowIndex="8"/>
                 <TextField fx:id="simulationTimeTextField" alignment="CENTER" text="12:00" GridPane.halignment="CENTER"

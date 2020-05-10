@@ -59,12 +59,19 @@ public class LineManagement {
         Coordinate coord1 = street.getCoordinates().get(0);
         Coordinate coord2 = street.getCoordinates().get(1);
 
+
         for (Street str: line.getStreets()){
             if (str.getCoordinates().get(0).equals(coord1) || str.getCoordinates().get(0).equals(coord2)){
-                ulice.add(str);
+                if (!street.equals(str))
+                {
+                    ulice.add(str);
+                }
             }
-            if (str.getCoordinates().get(1).equals(coord1) || str.getCoordinates().get(1).equals(coord2)){
-                ulice.add(str);
+            else if (str.getCoordinates().get(1).equals(coord1) || str.getCoordinates().get(1).equals(coord2)){
+                if (!street.equals(str))
+                {
+                    ulice.add(str);
+                }
             }
         }
         return ulice;

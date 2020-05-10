@@ -345,7 +345,7 @@ public class Controller extends BaseController {
                 e.printStackTrace();
                 return;
             }
-            ((LinesManagement)fxmlLoader.getController()).startUp(this.simulator.getLines());
+            ((LinesManagement)fxmlLoader.getController()).startUp(this.simulator.getLines(),this.streetMap);
             Stage stage = new Stage();
             stage.setTitle("Lines manager");
             stage.setScene(scene);

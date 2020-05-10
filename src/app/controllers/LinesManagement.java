@@ -3,6 +3,7 @@ package app.controllers;
 import app.components.LineTableItem;
 import app.models.TimeExtender;
 import app.models.maps.Line;
+import app.models.maps.StreetMap;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,10 +22,12 @@ public class LinesManagement {
     public TableView linesTableView;
 
     private List<Line> lines;
+    private StreetMap streetMap;
 
-    public void startUp(List<Line> lines)
+    public void startUp(List<Line> lines, StreetMap streetMap)
     {
         this.lines=lines;
+        this.streetMap=streetMap;
 
         TableColumn routeId = new TableColumn("Line");
         routeId.setCellValueFactory(new PropertyValueFactory<>("routeId"));
@@ -80,7 +83,7 @@ public class LinesManagement {
                 e.printStackTrace();
                 return;
             }
-            ((LineManagement)fxmlLoader.getController()).startUp(item.getLine());
+            ((LineManagement)fxmlLoader.getController()).startUp(item.getLine(),this.streetMap);
             Stage stage = new Stage();
             stage.setTitle("Line manager");
             stage.setScene(scene);

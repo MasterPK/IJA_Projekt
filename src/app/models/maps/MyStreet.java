@@ -31,6 +31,9 @@ public class MyStreet implements Street {
     public boolean isClosed() {
         return closed;
     }
+    public boolean isOpen() {
+        return !closed;
+    }
 
     public void setClosed(boolean closed) {
         this.closed = closed;

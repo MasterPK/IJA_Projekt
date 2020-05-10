@@ -24,6 +24,7 @@ public interface Line {
     boolean plusX(Coordinate coord1, Coordinate coord2);
     List<Stop> getStops();
     Stop getStopByIndex(int index);
+    boolean getConflict();
 
     /**
      * Get real stops count.

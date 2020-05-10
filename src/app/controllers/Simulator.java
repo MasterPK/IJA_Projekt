@@ -232,6 +232,11 @@ public class Simulator {
     }
 
 
+    public List<Street> kokotina(Street street){
+        return null;
+    }
+
+
     /**
      * Start simulation at realtime
      */

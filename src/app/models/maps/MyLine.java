@@ -41,6 +41,10 @@ public class MyLine implements Line {
     public void setConflict(boolean conf){
         this.conflict = conf;
     }
+    public boolean getConflict(){
+        return this.conflict;
+    }
+
 
     public double getStopAndCoordinateLength(Stop stop1, Stop stop2) {
         double lenght = 0;

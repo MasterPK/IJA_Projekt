@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LinesManagement {
@@ -97,6 +98,16 @@ public class LinesManagement {
                 .minusSeconds(diff2.getSecond());
 
         return (diff.getHour() * 60 * 60) + (diff.getMinute() * 60) + (diff.getSecond());
+    }
+
+    private List<Line> badLines(){
+        List<Line> tmp = new ArrayList<>();
+        for (Line line:lines){
+            if (line.getConflict() == true){
+                tmp.add(line);
+            }
+        }
+        return tmp;
     }
 
 }

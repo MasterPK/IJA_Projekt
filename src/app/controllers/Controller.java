@@ -166,10 +166,8 @@ public class Controller extends BaseController {
 
                             FXMLLoader fxmlLoader = new FXMLLoader();
                             fxmlLoader.setLocation(getClass().getResource("/app/fxml/streetManagement.fxml"));
-                            StreetSettingsController streetSettingsController = new StreetSettingsController(street);
-                            fxmlLoader.setController(streetSettingsController);
                             Scene scene = new Scene(fxmlLoader.load(), 500, 150);
-                            streetSettingsController.startUp();
+                            ((StreetSettingsController)fxmlLoader.getController()).startUp(street);
                             Stage stage = new Stage();
                             stage.setTitle("Street settings");
                             stage.setScene(scene);

@@ -1,6 +1,7 @@
 package app.models.maps;
 
 
+import javafx.application.Platform;
 import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
@@ -37,6 +38,14 @@ public class MyStreet implements Street {
 
     public void setClosed(boolean closed) {
         this.closed = closed;
+        Platform.runLater(() -> {
+            if(closed)
+            {
+                this.lineGui.setStyle("-fx-stroke-width: 2; -fx-stroke: red;");
+            }else {
+                this.lineGui.setStyle("-fx-stroke-width: 2; -fx-stroke: black;");
+            }
+        });
     }
 
     public void setTrafficCoefficient(int trafficCoefficient) throws Exception {

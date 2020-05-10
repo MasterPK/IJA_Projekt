@@ -96,5 +96,6 @@ public interface Street {
     void setGui(Line gui);
     Line getGui();
     boolean isClosed();
+    boolean isOpen();
     void setClosed(boolean closed);
 }

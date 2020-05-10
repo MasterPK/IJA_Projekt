@@ -1,13 +1,16 @@
 package app.controllers;
 
+import app.models.TimeExtender;
 import app.models.maps.Coordinate;
 import app.models.maps.Line;
 import app.models.maps.Street;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import sun.plugin2.jvm.CircularByteBuffer;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,11 +43,11 @@ public class LineManagement {
                     lastGoodStreet=street;
                 }
             }
-            lastGoooooodStreet.textProperty().setValue(lastGoodStreet.getId());
-            if(lastGoodStreet==null)
+            if(lastGoodStreet==null || line.getStreets().get(line.getStreets().size()-1).equals(lastGoodStreet))
             {
                 return;
             }
+            lastGoooooodStreet.textProperty().setValue("Last open street: "+lastGoodStreet.getId());
             List<Street> streets = getNextStreets(lastGoodStreet);
             for(Street street:streets)
             {
@@ -77,6 +80,36 @@ public class LineManagement {
         return ulice;
     }
 
+    private int clickCounter=0;
+    private LocalTime previous=LocalTime.now();
+    public void addStreetClick(MouseEvent mouseEvent) {
+        if(this.selectStreetListView.getSelectionModel().isEmpty())
+        {
+            return;
+        }
+        clickCounter++;
+        if(clickCounter==1)
+        {
+            previous=LocalTime.now();
+            return;
+        }
+
+        if(TimeExtender.minusLocalTime(LocalTime.now(),previous)>1)
+        {
+            clickCounter=0;
+            return;
+        }
+
+        if(clickCounter == 2){
+            String streetId =(String) this.selectStreetListView.getSelectionModel().getSelectedItem();
+            Platform.runLater(() -> {
+                this.newRouteListView.getItems().add(streetId);
+                this.selectStreetListView.getItems().remove(streetId);
+            });
+
+        }
+
+    }
     public void updateTimetable(Line line, List<Street> newStreets, Street closedStreet){
 
     }

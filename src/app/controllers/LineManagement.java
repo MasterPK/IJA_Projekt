@@ -251,6 +251,15 @@ public class LineManagement {
         }
 
         updateTimetable(this.line, newStreets, closedStreet);
+
+        line.clearConflicts();
+        for (Street street : line.getStreets()) {
+            if (street.isClosed()) {
+                line.addConflictStreet(street);
+            }
+        }
+        line.compressConflicts();
+
         close();
     }
 

@@ -4,53 +4,47 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-          xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.LineManagement">
+<GridPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.LineManagement">
     <rowConstraints>
-        <RowConstraints maxHeight="50"/>
-        <RowConstraints maxHeight="50"/>
-        <RowConstraints/>
+        <RowConstraints maxHeight="50" />
+        <RowConstraints maxHeight="50" />
+        <RowConstraints />
     </rowConstraints>
     <columnConstraints>
-        <ColumnConstraints percentWidth="33.333"/>
-        <ColumnConstraints percentWidth="33.333"/>
-        <ColumnConstraints percentWidth="33.333"/>
+        <ColumnConstraints percentWidth="33.333" />
+        <ColumnConstraints percentWidth="33.333" />
+        <ColumnConstraints percentWidth="33.333" />
     </columnConstraints>
-    <Label text="Select new route because some street on this line is closed. With double click choose new route from list on right."
-           GridPane.columnSpan="3">
+    <Label text="Select new route because some street on this line is closed. With double click choose new route from list on right." GridPane.columnSpan="3">
         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
         </padding>
     </Label>
-    <Label text="Current route:"
-           GridPane.rowIndex="1">
+    <Label fx:id="lastGoooooodStreet" text="" GridPane.rowIndex="1">
         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-        </padding>
-    </Label>
-    <Label text="" fx:id="lastGoooooodStreet"
-           GridPane.rowIndex="1" GridPane.columnIndex="1">
-        <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
         </padding>
     </Label>
     <ListView fx:id="currentRouteListView" GridPane.rowIndex="2">
         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
         </GridPane.margin>
     </ListView>
-    <ListView fx:id="newRouteListView" GridPane.rowIndex="2" GridPane.columnIndex="1">
+    <ListView fx:id="newRouteListView" GridPane.columnIndex="1" GridPane.rowIndex="2">
         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
         </GridPane.margin>
     </ListView>
     <ListView fx:id="selectStreetListView" onMouseClicked="#addStreetClick" GridPane.columnIndex="2" GridPane.rowIndex="2">
         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
         </GridPane.margin>
     </ListView>
+    <Button onMouseClicked="#saveAndCloseClick" text="Save" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      </GridPane.margin></Button>
     <padding>
-        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
     </padding>
-    <Button text="Save and close" GridPane.columnIndex="2" GridPane.rowIndex="1" onMouseClicked="#saveAndCloseClick"/>
 </GridPane>

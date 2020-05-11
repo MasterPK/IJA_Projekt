@@ -258,4 +258,56 @@ public class LineManagement {
         Stage stage = (Stage) this.newRouteListView.getScene().getWindow();
         stage.close();
     }
+
+    public boolean findWay(Stop startingStop, Stop endingStop){
+        List<Street> streetsToCheck = new ArrayList<>();
+        List<Street> checkedStreets = new ArrayList<>();
+
+        boolean výskyt = false;
+
+        Street startingStreet = startingStop.getStreet();
+        Street endingStreet = endingStop.getStreet();
+
+        Street checkingStreet;
+
+        streetsToCheck.add(startingStreet);
+
+        while(streetsToCheck.size()>0){
+            checkingStreet = streetsToCheck.get(0);
+
+            if (checkingStreet.equals(endingStreet)){
+                výskyt = true;
+                break;
+            }
+
+            checkedStreets.add(checkingStreet);
+            
+            streetsToCheck.addAll(followStreets(checkingStreet,checkedStreets));
+            streetsToCheck.remove(0);
+        }
+        return výskyt;
+    }
+
+    private List<Street> followStreets(Street street, List<Street> checked){
+        List<Street> followStreets = new ArrayList<>();
+
+        for (Street str:this.streetMap.getStreets()){
+            if((str.getCoordinates().get(0).equals(street.getCoordinates().get(0))) || ((str.getCoordinates().get(0).equals(street.getCoordinates().get(1))))){
+                if (!checked.contains(str)){ //môže pridať ulicu ktorú kontrolujem..... ošetriť ASI
+                    if (str.isOpen()){
+                        followStreets.add(str);
+                    }
+                }
+            }
+            if((str.getCoordinates().get(1).equals(street.getCoordinates().get(0))) || ((str.getCoordinates().get(1).equals(street.getCoordinates().get(1))))){
+                if (!checked.contains(str)){
+                    if (str.isOpen()){
+                        followStreets.add(str);
+                    }
+                }
+            }
+        }
+        return followStreets;
+    }
+
 }

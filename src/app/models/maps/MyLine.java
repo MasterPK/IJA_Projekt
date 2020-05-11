@@ -12,7 +12,7 @@ public class MyLine implements Line {
     private String id;
     private String name;
     private List<Trip> trips = new ArrayList<>();
-    private boolean conflict = false;
+    private List<List<Street>> conflictStreets = new ArrayList<>();
 
     public List<Trip> getLineConnections() {
         return trips;
@@ -37,13 +37,6 @@ public class MyLine implements Line {
         this.streets = new ArrayList<>();
     }
 
-
-    public void setConflict(boolean conf){
-        this.conflict = conf;
-    }
-    public boolean getConflict(){
-        return this.conflict;
-    }
 
 
     public double getStopAndCoordinateLength(Stop stop1, Stop stop2) {
@@ -115,6 +108,64 @@ public class MyLine implements Line {
         {
             trip.resetTimetable();
         }
+    }
+
+    /**
+     * Add conflict street to list.
+     *
+     * @param street
+     */
+    @Override
+    public void addConflictStreet(Street street) {
+        List<Street> streetTMP= new ArrayList<>();
+        streetTMP.add(street);
+        this.conflictStreets.add(streetTMP);
+    }
+
+    /**
+     * Clear conflicts streets list.
+     */
+    @Override
+    public void clearConflicts() {
+        this.conflictStreets.clear();
+    }
+
+    /**
+     * Move streets that follows in map to same object.
+     */
+    @Override
+    public void compressConflicts() {
+        for(int i =0;i<this.conflictStreets.size()-1;i++)
+        {
+            Street street1 = this.conflictStreets.get(i).get(this.conflictStreets.get(i).size()-1);
+            Street street2 = this.conflictStreets.get(i+1).get(0);
+            if(street1.follows(street2))
+            {
+                this.conflictStreets.get(i).add(street2);
+                this.conflictStreets.remove(i+1);
+                i--;
+            }
+        }
+    }
+
+    /**
+     * Get count of unique conflicts.
+     *
+     * @return
+     */
+    @Override
+    public int getConflictsCount() {
+        return this.conflictStreets.size();
+    }
+
+    /**
+     * Get true if there is some conflict, otherwise false.
+     *
+     * @return
+     */
+    @Override
+    public boolean isConflict() {
+        return !this.conflictStreets.isEmpty();
     }
 
     public double getStopsLength(Stop stop1, Stop stop2) {
@@ -354,7 +405,4 @@ public class MyLine implements Line {
         return trips;
     }
 
-    public boolean isConflict() {
-        return conflict;
-    }
 }

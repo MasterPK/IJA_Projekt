@@ -45,7 +45,7 @@ public class LinesManagement {
         List<Line> lines = badLines();
         for(Line line:lines)
         {
-            this.linesTableView.getItems().add(new LineTableItem(line.getId(), line.isConflict() ? "YES" : "NO",line));
+            this.linesTableView.getItems().add(new LineTableItem(line.getId(), Integer.toString(line.getConflictsCount()),line));
         }
     }
 
@@ -100,7 +100,7 @@ public class LinesManagement {
     private List<Line> badLines(){
         List<Line> tmp = new ArrayList<>();
         for (Line line:lines){
-            if (line.getConflict() == true){
+            if (line.isConflict()){
                 tmp.add(line);
             }
         }

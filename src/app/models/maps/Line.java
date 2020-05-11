@@ -1,8 +1,6 @@
 package app.models.maps;
 
 
-import app.models.Cloneable;
-
 import java.util.List;
 
 public interface Line extends Cloneable {
@@ -54,13 +52,13 @@ public interface Line extends Cloneable {
     /**
      * Clear conflicts streets list.
      */
-    void clearConflicts();
+    //void clearConflicts();
 
 
     /**
      * Move streets that follows in map to same object.
      */
-    void compressConflicts();
+    //void compressConflicts();
 
     /**
      * Get count of unique conflicts.
@@ -79,6 +77,31 @@ public interface Line extends Cloneable {
      * @return
      */
     List<List<Street>> getConflicts();
+
+    /**
+     * Clone
+     * @return
+     * @throws CloneNotSupportedException
+     */
+    Object clone() throws CloneNotSupportedException;
+
+
+    /**
+     * BackUp private lists.
+     */
+    void backUp();
+
+
+    /**
+     * Restore original lists.
+     */
+    void restoreBackUp();
+
+    /**
+     * Compute conflicts.
+     * Implicitly restore backup and compress results.
+     */
+    void computeConflicts();
 
 
 }

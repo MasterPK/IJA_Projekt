@@ -91,15 +91,16 @@ public class LinesManagement {
             }
             try {
                 ((LineManagement)fxmlLoader.getController()).startUp(item.getLine(),this.streetMap);
+                Stage stage = new Stage();
+                stage.setTitle("Line manager");
+                stage.setScene(scene);
+                stage.initOwner(currentWindow);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.showAndWait();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Stage stage = new Stage();
-            stage.setTitle("Line manager");
-            stage.setScene(scene);
-            stage.initOwner(currentWindow);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
+
             refreshGui();
         }
         clickCounter=0;
@@ -119,20 +120,6 @@ public class LinesManagement {
     }
 
 
-    /**
-     * Function that will check if streets in line are good
-     * @param line
-     * @return
-     */
-    private boolean lineCheck(Line line){
-        boolean result = true;
 
-        for (int i = 0; i < line.getStreets().size()-1;i++){
-            if (!line.isFollowing(line.getStreets().get(i),line.getStreets().get(i+1))){
-                result = false;
-            }
-        }
-        return result;
-    }
 
 }

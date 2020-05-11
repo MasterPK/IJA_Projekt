@@ -232,13 +232,7 @@ public class Simulator {
 
     public void setLinesBlock() {
         for (Line line : this.getLines()) {
-            line.clearConflicts();
-            for (Street street : line.getStreets()) {
-                if (street.isClosed()) {
-                    line.addConflictStreet(street);
-                }
-            }
-            line.compressConflicts();
+            line.computeConflicts();
         }
     }
 

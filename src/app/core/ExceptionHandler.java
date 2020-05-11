@@ -52,7 +52,7 @@ public abstract class ExceptionHandler {
     public static void throwException(String message) throws Exception
     {
         Exception exception = new Exception(message);
-        show(exception);
+        AlertHandler.showError(exception);
         throw exception;
     }
 }

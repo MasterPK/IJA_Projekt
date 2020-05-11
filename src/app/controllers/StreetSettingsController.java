@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.core.AlertHandler;
+import app.models.maps.Line;
 import app.models.maps.Street;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -49,6 +50,10 @@ public class StreetSettingsController {
             this.street.setClosed(false);
         }else {
             this.street.setClosed(true);
+            for(Line line:this.street.getLines())
+            {
+                line.computeConflicts();
+            }
         }
         guiRefresh();
     }

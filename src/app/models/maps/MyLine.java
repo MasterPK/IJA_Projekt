@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MyLine implements Line {
-    List<Stop> stops;
-    List<Street> streets;
+    private List<Stop> stops;
+    private List<Street> streets;
     private String id;
     private String name;
     private List<Trip> trips = new ArrayList<>();
     private List<List<Street>> conflictStreets = new ArrayList<>();
+    private List<Stop> stopsBackUp = new ArrayList<>();
+    private List<Street> streetsBackUp = new ArrayList<>();
+    private List<Trip> tripsBackUp = new ArrayList<>();
 
     public List<Trip> getLineConnections() {
         return trips;
@@ -35,8 +38,8 @@ public class MyLine implements Line {
         this.name = name;
         this.stops = new ArrayList<>();
         this.streets = new ArrayList<>();
+        backUp();
     }
-
 
 
     public double getStopAndCoordinateLength(Stop stop1, Stop stop2) {
@@ -44,58 +47,57 @@ public class MyLine implements Line {
         List<Street> lineStreets = new ArrayList<>();
         int first = 0;
         int last = 0;
-                first = this.streets.indexOf(stop1.getStreet());
-                last = this.streets.indexOf(stop2.getStreet());
-                if (stop1.getStreet().equals(stop2.getStreet())) {
-                    if (changeX(stop1.getStreet())) {
-                        return Math.abs(stop1.getCoordinate().getX() - stop2.getCoordinate().getX());
-                    } else {
-                        return Math.abs(stop1.getCoordinate().getY() - stop2.getCoordinate().getY());
-                    }
+        first = this.streets.indexOf(stop1.getStreet());
+        last = this.streets.indexOf(stop2.getStreet());
+        if (stop1.getStreet().equals(stop2.getStreet())) {
+            if (changeX(stop1.getStreet())) {
+                return Math.abs(stop1.getCoordinate().getX() - stop2.getCoordinate().getX());
+            } else {
+                return Math.abs(stop1.getCoordinate().getY() - stop2.getCoordinate().getY());
+            }
+        }
+        for (; first <= last; first++) {
+            lineStreets.add(this.streets.get(first));
+        }
+        for (int i = 0; i < lineStreets.size(); i++) {
+            if (i == 0) {
+                Coordinate endCoord = followPoint(lineStreets.get(i), lineStreets.get(i + 1));
+                Coordinate stopCoord = stop1.getCoordinate();
+                if (changeX(lineStreets.get(i))) {
+                    lenght += Math.abs(stopCoord.getX() - endCoord.getX());
+                } else {
+                    lenght += Math.abs(stopCoord.getY() - endCoord.getY());
                 }
-                for (; first <= last; first++) {
-                    lineStreets.add(this.streets.get(first));
+            } else if (i == lineStreets.size() - 1) {
+                Coordinate endCoord2 = followPoint(lineStreets.get(i - 1), lineStreets.get(i));
+                Coordinate stopCoord2 = stop2.getCoordinate();
+
+                if (changeX(lineStreets.get(i))) {
+                    lenght += Math.abs(stopCoord2.getX() - endCoord2.getX());
+                } else {
+                    lenght += Math.abs(stopCoord2.getY() - endCoord2.getY());
                 }
-                for (int i = 0; i < lineStreets.size(); i++) {
-                    if (i == 0) {
-                        Coordinate endCoord = followPoint(lineStreets.get(i), lineStreets.get(i + 1));
-                        Coordinate stopCoord = stop1.getCoordinate();
-                        if (changeX(lineStreets.get(i))) {
-                            lenght += Math.abs(stopCoord.getX() - endCoord.getX());
-                        } else {
-                            lenght += Math.abs(stopCoord.getY() - endCoord.getY());
-                        }
-                    } else if (i == lineStreets.size() - 1) {
-                        Coordinate endCoord2 = followPoint(lineStreets.get(i - 1), lineStreets.get(i));
-                        Coordinate stopCoord2 = stop2.getCoordinate();
+            } else {
+                Coordinate start11 = lineStreets.get(i).getCoordinates().get(0);
+                Coordinate end11 = lineStreets.get(i).getCoordinates().get(1);
 
-                        if (changeX(lineStreets.get(i))) {
-                            lenght += Math.abs(stopCoord2.getX() - endCoord2.getX());
-                        } else {
-                            lenght += Math.abs(stopCoord2.getY() - endCoord2.getY());
-                        }
-                    } else {
-                        Coordinate start11 = lineStreets.get(i).getCoordinates().get(0);
-                        Coordinate end11 = lineStreets.get(i).getCoordinates().get(1);
-
-                        if (changeX(lineStreets.get(i))) {
-                            lenght += Math.abs(start11.getX() - end11.getX());
-                        } else {
-                            lenght += Math.abs(start11.getY() - end11.getY());
-                        }
-                    }
-
-
+                if (changeX(lineStreets.get(i))) {
+                    lenght += Math.abs(start11.getX() - end11.getX());
+                } else {
+                    lenght += Math.abs(start11.getY() - end11.getY());
                 }
+            }
+
+
+        }
         return lenght;
     }
 
-    public double getLenghtOfStreet(Street street){
-        if (Math.abs(street.getCoordinates().get(0).getX()-street.getCoordinates().get(1).getX())>0){
-            return (Math.abs(street.getCoordinates().get(0).getX()-street.getCoordinates().get(1).getX()));
-        }
-        else {
-            return (Math.abs(street.getCoordinates().get(0).getY()-street.getCoordinates().get(1).getY()));
+    public double getLenghtOfStreet(Street street) {
+        if (Math.abs(street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()) > 0) {
+            return (Math.abs(street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()));
+        } else {
+            return (Math.abs(street.getCoordinates().get(0).getY() - street.getCoordinates().get(1).getY()));
         }
     }
 
@@ -104,8 +106,7 @@ public class MyLine implements Line {
      */
     @Override
     public void resetTimetable() {
-        for(Trip trip:this.trips)
-        {
+        for (Trip trip : this.trips) {
             trip.resetTimetable();
         }
     }
@@ -117,7 +118,7 @@ public class MyLine implements Line {
      */
     @Override
     public void addConflictStreet(Street street) {
-        List<Street> streetTMP= new ArrayList<>();
+        List<Street> streetTMP = new ArrayList<>();
         streetTMP.add(street);
         this.conflictStreets.add(streetTMP);
     }
@@ -125,24 +126,20 @@ public class MyLine implements Line {
     /**
      * Clear conflicts streets list.
      */
-    @Override
-    public void clearConflicts() {
+    private void clearConflicts() {
         this.conflictStreets.clear();
     }
 
     /**
      * Move streets that follows in map to same object.
      */
-    @Override
-    public void compressConflicts() {
-        for(int i =0;i<this.conflictStreets.size()-1;i++)
-        {
-            Street street1 = this.conflictStreets.get(i).get(this.conflictStreets.get(i).size()-1);
-            Street street2 = this.conflictStreets.get(i+1).get(0);
-            if(street1.follows(street2))
-            {
+    private void compressConflicts() {
+        for (int i = 0; i < this.conflictStreets.size() - 1; i++) {
+            Street street1 = this.conflictStreets.get(i).get(this.conflictStreets.get(i).size() - 1);
+            Street street2 = this.conflictStreets.get(i + 1).get(0);
+            if (street1.follows(street2)) {
                 this.conflictStreets.get(i).add(street2);
-                this.conflictStreets.remove(i+1);
+                this.conflictStreets.remove(i + 1);
                 i--;
             }
         }
@@ -259,11 +256,9 @@ public class MyLine implements Line {
      */
     @Override
     public int getRealStopsCount() {
-        int counter=0;
-        for(Stop stop:this.getStops())
-        {
-            if(stop!=null)
-            {
+        int counter = 0;
+        for (Stop stop : this.getStops()) {
+            if (stop != null) {
                 counter++;
             }
         }
@@ -273,10 +268,8 @@ public class MyLine implements Line {
     @Override
     public List<Stop> getRealStops() {
         List<Stop> stops = new ArrayList<>();
-        for(Stop stop:this.getStops())
-        {
-            if(stop!=null)
-            {
+        for (Stop stop : this.getStops()) {
+            if (stop != null) {
                 stops.add(stop);
             }
         }
@@ -328,15 +321,15 @@ public class MyLine implements Line {
 
     /**
      * Function that will find if streets bind to each other
+     *
      * @param street
      * @param street2
      * @return
      */
-    public boolean isFollowing(Street street, Street street2){
-        if ((street.getCoordinates().get(0).equals(street2.getCoordinates().get(0))) || (street.getCoordinates().get(0).equals(street2.getCoordinates().get(1))) || (street.getCoordinates().get(1).equals(street2.getCoordinates().get(0))) || (street.getCoordinates().get(1).equals(street2.getCoordinates().get(1)))){
+    public boolean isFollowing(Street street, Street street2) {
+        if ((street.getCoordinates().get(0).equals(street2.getCoordinates().get(0))) || (street.getCoordinates().get(0).equals(street2.getCoordinates().get(1))) || (street.getCoordinates().get(1).equals(street2.getCoordinates().get(0))) || (street.getCoordinates().get(1).equals(street2.getCoordinates().get(1)))) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -434,5 +427,44 @@ public class MyLine implements Line {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    public void backUp() {
+        this.streetsBackUp.addAll(this.streets);
+        this.tripsBackUp.addAll(this.trips);
+        this.stopsBackUp.addAll(this.stops);
+    }
+
+    /**
+     * Restore original lists.
+     */
+    @Override
+    public void restoreBackUp() {
+        this.streets.clear();
+        this.stops.clear();
+        this.trips.clear();
+        this.streets.addAll(this.streetsBackUp);
+        this.trips.addAll(this.tripsBackUp);
+        this.stops.addAll(this.stopsBackUp);
+
+        for (Trip trip : this.trips) {
+            trip.restoreBackUp();
+        }
+    }
+
+    /**
+     * Compute conflicts.
+     * Implicitly restore backup and compress results.
+     */
+    @Override
+    public void computeConflicts() {
+        clearConflicts();
+        for (Street street : getStreets()) {
+            if (street.isClosed()) {
+                addConflictStreet(street);
+            }
+        }
+        compressConflicts();
+    }
+
 
 }

@@ -39,6 +39,14 @@ public class Trip {
         this.actualTimetable.addAll(this.plannedTimetable);
     }
 
+    public void restoreBackUp()
+    {
+        this.plannedTimetable.clear();
+        this.actualTimetable.clear();
+        this.plannedTimetable.addAll(this.backUpTimetable);
+        this.actualTimetable.addAll(this.backUpTimetable);
+    }
+
     public void loadBackUpTimetable()
     {
         this.actualTimetable=new ArrayList<>(this.backUpTimetable);

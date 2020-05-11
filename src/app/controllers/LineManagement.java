@@ -30,7 +30,7 @@ public class LineManagement {
     private StreetMap streetMap;
 
     public void startUp(Line line, StreetMap streetMap) throws Exception {
-        this.line = (Line) line.clone();
+        this.line = line;
         this.streetMap = streetMap;
         if(!findWay(line.getStopByIndex(getIndexOfFirstStopThatIsGood(line,line.getConflicts().get(0).get(0))),
                 line.getStopByIndex(getIndexOfLastStopThatIsGood(line,line.getConflicts().get(0).get(0))))){
@@ -245,7 +245,7 @@ public class LineManagement {
 
     }
 
-    public void saveAndCloseClick(MouseEvent mouseEvent) {
+    public void saveAndCloseClick(MouseEvent mouseEvent) throws Exception {
         List<Street> newStreets = new ArrayList<>();
         ObservableList list = this.newRouteListView.getItems();
         if (list.isEmpty()) {
@@ -267,15 +267,27 @@ public class LineManagement {
             return;
         }
 
-        updateTimetable(this.line, newStreets, closedStreet);
-
-        line.clearConflicts();
-        for (Street street : line.getStreets()) {
-            if (street.isClosed()) {
-                line.addConflictStreet(street);
-            }
+        if(!findWay(line.getStopByIndex(getIndexOfFirstStopThatIsGood(line,closedStreet)),
+                line.getStopByIndex(getIndexOfLastStopThatIsGood(line,closedStreet)))){
+            line.restoreBackUp();
+            ExceptionHandler.throwException("No route is available between specified stops because of closed street(s)!");
         }
-        line.compressConflicts();
+
+        try{
+            updateTimetable(this.line, newStreets, closedStreet);
+        }catch (Exception e){
+            line.restoreBackUp();
+            ExceptionHandler.throwException("Fatal error: Specified route is not valid!");
+        }
+
+
+        if(!lineCheck(line))
+        {
+            line.restoreBackUp();
+            ExceptionHandler.throwException("Line error: line is not valid!");
+        }
+
+        line.computeConflicts();
 
         close();
     }
@@ -334,6 +346,22 @@ public class LineManagement {
             }
         }
         return followStreets;
+    }
+
+    /**
+     * Function that will check if streets in line are good
+     * @param line
+     * @return
+     */
+    private boolean lineCheck(Line line){
+        boolean result = true;
+
+        for (int i = 0; i < line.getStreets().size()-1;i++){
+            if (!line.isFollowing(line.getStreets().get(i),line.getStreets().get(i+1))){
+                result = false;
+            }
+        }
+        return result;
     }
 
 }

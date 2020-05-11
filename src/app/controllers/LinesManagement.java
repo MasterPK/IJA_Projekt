@@ -88,7 +88,11 @@ public class LinesManagement {
                 e.printStackTrace();
                 return;
             }
-            ((LineManagement)fxmlLoader.getController()).startUp(item.getLine(),this.streetMap);
+            try {
+                ((LineManagement)fxmlLoader.getController()).startUp(item.getLine(),this.streetMap);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             Stage stage = new Stage();
             stage.setTitle("Line manager");
             stage.setScene(scene);

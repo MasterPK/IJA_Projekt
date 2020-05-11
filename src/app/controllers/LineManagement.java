@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.core.AlertHandler;
+import app.core.ExceptionHandler;
 import app.models.TimeExtender;
 import app.models.maps.Coordinate;
 import app.models.maps.Line;
@@ -28,9 +29,13 @@ public class LineManagement {
     private Line line;
     private StreetMap streetMap;
 
-    public void startUp(Line line, StreetMap streetMap) {
-        this.line = line;
+    public void startUp(Line line, StreetMap streetMap) throws Exception {
+        this.line = (Line) line.clone();
         this.streetMap = streetMap;
+        if(!findWay(line.getStopByIndex(getIndexOfFirstStopThatIsGood(line,line.getConflicts().get(0).get(0))),
+                line.getStopByIndex(getIndexOfLastStopThatIsGood(line,line.getConflicts().get(0).get(0))))){
+            ExceptionHandler.throwException("No other route is available because of closed street(s)!");
+        }
         refreshGui();
     }
 
@@ -124,6 +129,10 @@ public class LineManagement {
         int indexOfFirstStopThatIsGood = -1;
         boolean found=false;
         for (int t = line.getStreets().indexOf(closedStreet) - 1; t >= 0; t--) {
+            if(line.getStreets().get(t).isClosed())
+            {
+                continue;
+            }
             List<Stop> stops = new ArrayList<>();
             for (Stop stop : line.getStreets().get(t).getStops()) {
                 if (line.getRealStops().contains(stop)) {
@@ -150,6 +159,10 @@ public class LineManagement {
         int indexOfLastStopThatIsGood = Integer.MAX_VALUE;
         boolean found=false;
         for (int t = line.getStreets().indexOf(closedStreet) + 1; t < line.getStreets().size(); t++) {
+            if(line.getStreets().get(t).isClosed())
+            {
+                continue;
+            }
             List<Stop> stops = new ArrayList<>();
             for (Stop stop : line.getStreets().get(t).getStops()) {
                 if (line.getRealStops().contains(stop)) {

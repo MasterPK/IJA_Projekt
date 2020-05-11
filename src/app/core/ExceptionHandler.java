@@ -48,4 +48,11 @@ public abstract class ExceptionHandler {
 
         alert.showAndWait();
     }
+
+    public static void throwException(String message) throws Exception
+    {
+        Exception exception = new Exception(message);
+        show(exception);
+        throw exception;
+    }
 }

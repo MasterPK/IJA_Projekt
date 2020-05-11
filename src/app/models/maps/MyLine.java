@@ -168,6 +168,16 @@ public class MyLine implements Line {
         return !this.conflictStreets.isEmpty();
     }
 
+    /**
+     * Get all conflicts.
+     *
+     * @return
+     */
+    @Override
+    public List<List<Street>> getConflicts() {
+        return this.conflictStreets;
+    }
+
     public double getStopsLength(Stop stop1, Stop stop2) {
         double lenght = 0;
         List<Street> lineStreets = new ArrayList<>();
@@ -403,6 +413,11 @@ public class MyLine implements Line {
 
     public List<Trip> getTrips() {
         return trips;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }

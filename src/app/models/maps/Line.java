@@ -1,9 +1,11 @@
 package app.models.maps;
 
 
+import app.models.Cloneable;
+
 import java.util.List;
 
-public interface Line {
+public interface Line extends Cloneable {
     boolean addStop(Stop stop);
 
     boolean addStreet(Street street);
@@ -70,5 +72,13 @@ public interface Line {
      * @return
      */
     boolean isConflict();
+
+    /**
+     * Get all conflicts.
+     * @return
+     */
+    List<List<Street>> getConflicts();
+
+
 }
 

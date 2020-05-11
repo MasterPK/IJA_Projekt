@@ -119,20 +119,10 @@ public class LineManagement {
 
     }
 
-    public void updateTimetable(Line line, List<Street> newStreets, Street closedStreet) {
+    int getIndexOfFirstStopThatIsGood(Line line,Street closedStreet)
+    {
         int indexOfFirstStopThatIsGood = -1;
-        int indexOfLastStopThatIsGood = Integer.MAX_VALUE;
-        int indexOfClosed = line.getStreets().indexOf(closedStreet);
-        double povodnaDlzka = 0;
-
-        /*if (closedStreet.getStops().size() > 0){
-            indexOfFirstStopThatIsDeleted = line.getStops().indexOf(closedStreet.getStops().get(0));
-            indexOfLastStopThatIsDeleted = line.getStops().indexOf(closedStreet.getStops().size()-1);
-            povodnaDlzka = line.getStopsLength(line.getStopByIndex(indexOfFirstStopThatIsDeleted-1),line.getStopByIndex(indexOfLastStopThatIsDeleted+1));
-        }
-        else{*/
         boolean found=false;
-        ahoj:
         for (int t = line.getStreets().indexOf(closedStreet) - 1; t >= 0; t--) {
             List<Stop> stops = new ArrayList<>();
             for (Stop stop : line.getStreets().get(t).getStops()) {
@@ -149,11 +139,16 @@ public class LineManagement {
                 }
             }
             if(found){
-                break ahoj;
+                return indexOfFirstStopThatIsGood;
             }
         }
-        found=false;
-        ahoj2:
+        return indexOfFirstStopThatIsGood;
+    }
+
+    int getIndexOfLastStopThatIsGood(Line line,Street closedStreet)
+    {
+        int indexOfLastStopThatIsGood = Integer.MAX_VALUE;
+        boolean found=false;
         for (int t = line.getStreets().indexOf(closedStreet) + 1; t < line.getStreets().size(); t++) {
             List<Stop> stops = new ArrayList<>();
             for (Stop stop : line.getStreets().get(t).getStops()) {
@@ -171,11 +166,20 @@ public class LineManagement {
                 }
             }
             if(found){
-                break ahoj2;
+                return indexOfLastStopThatIsGood;
             }
         }
+        return indexOfLastStopThatIsGood;
+    }
+
+    public void updateTimetable(Line line, List<Street> newStreets, Street closedStreet) {
+
+        double povodnaDlzka = 0;
+
+        int indexOfLastStopThatIsGood = getIndexOfLastStopThatIsGood(line,closedStreet);
+        int indexOfFirstStopThatIsGood = getIndexOfFirstStopThatIsGood(line,closedStreet);
+
         povodnaDlzka = line.getStopsLength(line.getStopByIndex(indexOfFirstStopThatIsGood), line.getStopByIndex(indexOfLastStopThatIsGood));
-        // }
 
         int indexOfLastGoodStreet = line.getStreets().indexOf(line.getRealStops().get(indexOfFirstStopThatIsGood).getStreet());
         int indexOfFirstGoodStreet = line.getStreets().indexOf(line.getRealStops().get(indexOfLastStopThatIsGood).getStreet());

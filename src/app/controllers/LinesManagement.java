@@ -4,6 +4,7 @@ import app.components.LineTableItem;
 import app.models.TimeExtender;
 import app.models.maps.Line;
 import app.models.maps.StreetMap;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -42,11 +43,15 @@ public class LinesManagement {
 
     private void refreshGui()
     {
-        List<Line> lines = badLines();
-        for(Line line:lines)
-        {
-            this.linesTableView.getItems().add(new LineTableItem(line.getId(), Integer.toString(line.getConflictsCount()),line));
-        }
+        Platform.runLater(() -> {
+            this.linesTableView.getItems().clear();
+            List<Line> lines = badLines();
+            for(Line line:lines)
+            {
+                this.linesTableView.getItems().add(new LineTableItem(line.getId(), Integer.toString(line.getConflictsCount()),line));
+            }
+        });
+
     }
 
     private int clickCounter=0;
@@ -90,6 +95,7 @@ public class LinesManagement {
             stage.initOwner(currentWindow);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
+            refreshGui();
         }
         clickCounter=0;
 

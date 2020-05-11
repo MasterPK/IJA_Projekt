@@ -121,7 +121,7 @@ public class LineManagement {
 
     public void updateTimetable(Line line, List<Street> newStreets, Street closedStreet) {
         int indexOfFirstStopThatIsGood = -1;
-        int indexOfLastStopThatIsGood = 0;
+        int indexOfLastStopThatIsGood = Integer.MAX_VALUE;
         int indexOfClosed = line.getStreets().indexOf(closedStreet);
         double povodnaDlzka = 0;
 
@@ -164,7 +164,7 @@ public class LineManagement {
             }
             for(Stop stop:stops)
             {
-                if(line.getRealStops().indexOf(stop)>indexOfFirstStopThatIsGood)
+                if(line.getRealStops().indexOf(stop)<indexOfLastStopThatIsGood)
                 {
                     indexOfLastStopThatIsGood=line.getRealStops().indexOf(stop);
                     found=true;

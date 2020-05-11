@@ -263,7 +263,7 @@ public class LineManagement {
         List<Street> streetsToCheck = new ArrayList<>();
         List<Street> checkedStreets = new ArrayList<>();
 
-        boolean výskyt = false;
+        boolean result = false;
 
         Street startingStreet = startingStop.getStreet();
         Street endingStreet = endingStop.getStreet();
@@ -276,7 +276,7 @@ public class LineManagement {
             checkingStreet = streetsToCheck.get(0);
 
             if (checkingStreet.equals(endingStreet)){
-                výskyt = true;
+                result = true;
                 break;
             }
 
@@ -285,7 +285,7 @@ public class LineManagement {
             streetsToCheck.addAll(followStreets(checkingStreet,checkedStreets));
             streetsToCheck.remove(0);
         }
-        return výskyt;
+        return result;
     }
 
     private List<Street> followStreets(Street street, List<Street> checked){

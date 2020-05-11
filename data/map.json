@@ -42,6 +42,13 @@
         ]
       ],
       "stops": [
+        {
+          "id": "ZastavkaT",
+          "coordinates": [
+            200.0,
+            475.0
+          ]
+        }
       ]
     },
     {
@@ -88,9 +95,16 @@
       ],
       "stops": [
         {
-          "id": "Revolucni",
+          "id": "Revolucni2",
           "coordinates": [
             280.0,
+            450.0
+          ]
+        },
+        {
+          "id": "Revolucni1",
+          "coordinates": [
+            240.0,
             450.0
           ]
         }

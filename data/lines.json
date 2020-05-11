@@ -13,11 +13,15 @@
           "street": "Kozeluzska"
         },
         {
-          "stop": null,
+          "stop": "ZastavkaT",
           "street": "Ripovska"
         },
         {
-          "stop": "Revolucni",
+          "stop": "Revolucni1",
+          "street": "Revolucni"
+        },
+        {
+          "stop": "Revolucni2",
           "street": "Revolucni"
         },
         {
@@ -31,6 +35,8 @@
           "times": [
             "12:00",
             "12:00:10",
+            "12:00:15",
+            "12:00:20",
             "12:00:25",
             "12:00:35"
           ]

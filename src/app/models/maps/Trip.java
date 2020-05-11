@@ -14,6 +14,7 @@ public class Trip {
     private String id;
     private List<LocalTime> plannedTimetable = new ArrayList<>();
     private List<LocalTime> actualTimetable = new ArrayList<>();
+    private List<LocalTime> backUpTimetable = new ArrayList<>();
     private Line line;
     private Circle circle;
 
@@ -29,7 +30,7 @@ public class Trip {
         this.id = id;
         this.plannedTimetable=timetable;
         this.actualTimetable.addAll(timetable);
-
+        this.backUpTimetable.addAll(timetable);
     }
 
     public void resetTimetable()
@@ -38,6 +39,15 @@ public class Trip {
         this.actualTimetable.addAll(this.plannedTimetable);
     }
 
+    public void loadBackUpTimetable()
+    {
+        this.actualTimetable=new ArrayList<>(this.backUpTimetable);
+        this.plannedTimetable=new ArrayList<>(this.backUpTimetable);
+    }
+
+    public List<LocalTime> getBackUpTimetable() {
+        return backUpTimetable;
+    }
 
     public List<LocalTime> getPlannedTimetable() {
         return plannedTimetable;

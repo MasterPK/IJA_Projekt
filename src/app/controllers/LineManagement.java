@@ -28,62 +28,54 @@ public class LineManagement {
     private Line line;
     private StreetMap streetMap;
 
-    public void startUp(Line line,StreetMap streetMap) {
+    public void startUp(Line line, StreetMap streetMap) {
         this.line = line;
-        this.streetMap=streetMap;
+        this.streetMap = streetMap;
         refreshGui();
     }
 
     private void refreshGui() {
         Platform.runLater(() -> {
-            Street lastGoodStreet=null;
-            boolean found=false;
+            Street lastGoodStreet = null;
+            boolean found = false;
             currentRouteListView.getItems().clear();
             for (Street street : line.getStreets()) {
                 currentRouteListView.getItems().add(street.getId());
-                if(street.isClosed())
-                {
-                    found=true;
+                if (street.isClosed()) {
+                    found = true;
 
                 }
-                if(!found)
-                {
-                    lastGoodStreet=street;
+                if (!found) {
+                    lastGoodStreet = street;
                 }
             }
-            if(lastGoodStreet==null || line.getStreets().get(line.getStreets().size()-1).equals(lastGoodStreet))
-            {
+            if (lastGoodStreet == null || line.getStreets().get(line.getStreets().size() - 1).equals(lastGoodStreet)) {
                 return;
             }
-            lastGoooooodStreet.textProperty().setValue("Last open street: "+lastGoodStreet.getId());
+            lastGoooooodStreet.textProperty().setValue("Last open street: " + lastGoodStreet.getId());
             List<Street> streets = getNextStreets(lastGoodStreet);
-            for(Street street:streets)
-            {
-                if(street.isOpen())
-                {
+            for (Street street : streets) {
+                if (street.isOpen()) {
                     this.selectStreetListView.getItems().add(street.getId());
                 }
             }
         });
     }
 
-    public List<Street> getNextStreets(Street street){
+    public List<Street> getNextStreets(Street street) {
         List<Street> ulice = new ArrayList<>();
 
         Coordinate coord1 = street.getCoordinates().get(0);
         Coordinate coord2 = street.getCoordinates().get(1);
 
 
-        for (Street str: this.streetMap.getStreets()){
-            if (str.getCoordinates().get(0).equals(coord1) || str.getCoordinates().get(0).equals(coord2)){
-                if (!street.equals(str))
-                {
+        for (Street str : this.streetMap.getStreets()) {
+            if (str.getCoordinates().get(0).equals(coord1) || str.getCoordinates().get(0).equals(coord2)) {
+                if (!street.equals(str)) {
                     ulice.add(str);
                 }
-            }
-            else if (str.getCoordinates().get(1).equals(coord1) || str.getCoordinates().get(1).equals(coord2)){
-                if (!street.equals(str))
-                {
+            } else if (str.getCoordinates().get(1).equals(coord1) || str.getCoordinates().get(1).equals(coord2)) {
+                if (!street.equals(str)) {
                     ulice.add(str);
                 }
             }
@@ -91,50 +83,45 @@ public class LineManagement {
         return ulice;
     }
 
-    private int clickCounter=0;
-    private LocalTime previous=LocalTime.now();
+    private int clickCounter = 0;
+    private LocalTime previous = LocalTime.now();
+
     public void addStreetClick(MouseEvent mouseEvent) {
-        if(this.selectStreetListView.getSelectionModel().isEmpty())
-        {
+        if (this.selectStreetListView.getSelectionModel().isEmpty()) {
             return;
         }
         clickCounter++;
-        if(clickCounter==1)
-        {
-            previous=LocalTime.now();
+        if (clickCounter == 1) {
+            previous = LocalTime.now();
             return;
         }
 
-        if(TimeExtender.minusLocalTime(LocalTime.now(),previous)>1)
-        {
-            clickCounter=0;
+        if (TimeExtender.minusLocalTime(LocalTime.now(), previous) > 1) {
+            clickCounter = 0;
             return;
         }
 
-        if(clickCounter == 2){
-            String streetId =(String) this.selectStreetListView.getSelectionModel().getSelectedItem();
+        if (clickCounter == 2) {
+            String streetId = (String) this.selectStreetListView.getSelectionModel().getSelectedItem();
             Platform.runLater(() -> {
                 this.newRouteListView.getItems().add(streetId);
                 this.selectStreetListView.getItems().clear();
                 List<Street> streets = getNextStreets(this.streetMap.getStreet(streetId));
-                for(Street street:streets)
-                {
-                    if(street.isOpen())
-                    {
+                for (Street street : streets) {
+                    if (street.isOpen()) {
                         this.selectStreetListView.getItems().add(street.getId());
                     }
 
                 }
             });
-
+            clickCounter = 0;
         }
 
     }
-    public void updateTimetable(Line line, List<Street> newStreets, Street closedStreet){
-        int indexOfFirstStopThatIsDeleted = 0;
-        int indexOfLastStopThatIsDeleted = 0;
-        int indexOfFirstStopThatIsGood=0;
-        int indexOfLastStopThatIsGood=0;
+
+    public void updateTimetable(Line line, List<Street> newStreets, Street closedStreet) {
+        int indexOfFirstStopThatIsGood = 0;
+        int indexOfLastStopThatIsGood = 0;
         int indexOfClosed = line.getStreets().indexOf(closedStreet);
         double povodnaDlzka = 0;
 
@@ -144,61 +131,71 @@ public class LineManagement {
             povodnaDlzka = line.getStopsLength(line.getStopByIndex(indexOfFirstStopThatIsDeleted-1),line.getStopByIndex(indexOfLastStopThatIsDeleted+1));
         }
         else{*/
-            for (int t = line.getStreets().indexOf(closedStreet)-1;t>=0;t--){
-                for (Stop stop:line.getStreets().get(t).getStops()){
-                    if (line.getRealStops().contains(stop)){
-                        indexOfFirstStopThatIsGood = line.getStops().lastIndexOf(stop);
-                    }
+        ahoj:
+        for (int t = line.getStreets().indexOf(closedStreet) - 1; t >= 0; t--) {
+            for (Stop stop : line.getStreets().get(t).getStops()) {
+                if (line.getRealStops().contains(stop)) {
+                    indexOfFirstStopThatIsGood = line.getStops().lastIndexOf(stop);
+                    break ahoj;
                 }
-            }
-            ahoj2:
-            for (int t = line.getStreets().indexOf(closedStreet);t<line.getStreets().size();t++){
-                for (Stop stop:line.getStreets().get(t).getStops()){
-                    if (line.getRealStops().contains(stop)){
-                        indexOfLastStopThatIsGood = line.getStops().indexOf(stop);
-                        break ahoj2;
-                    }
-                }
-            }
-            povodnaDlzka = line.getStopsLength(line.getStopByIndex(indexOfFirstStopThatIsGood),line.getStopByIndex(indexOfLastStopThatIsGood));
-        //}
-
-        line.getStreets().remove(closedStreet);
-        for (int i = 0; i<newStreets.size();i++,indexOfClosed++){
-            line.getStreets().add(indexOfClosed,newStreets.get(i));
-        }
-        if (closedStreet.getStops().size() > 0){
-            for (int j = 0;j<closedStreet.getStops().size();j++){
-                for (Trip trip:line.getTrips()){
-                    trip.getTimetable().remove(line.getStops().indexOf(j));
-                    trip.getActualTimetable().remove(line.getStops().indexOf(j));
-                }
-                line.getStops().remove(j);
             }
         }
+        ahoj2:
+        for (int t = line.getStreets().indexOf(closedStreet) + 1; t < line.getStreets().size(); t++) {
+            for (Stop stop : line.getStreets().get(t).getStops()) {
+                if (line.getRealStops().contains(stop)) {
+                    indexOfLastStopThatIsGood = line.getStops().indexOf(stop);
+                    break ahoj2;
+                }
+            }
+        }
+        povodnaDlzka = line.getStopsLength(line.getStopByIndex(indexOfFirstStopThatIsGood), line.getStopByIndex(indexOfLastStopThatIsGood));
+        // }
 
-        double objizdka = line.getStopsLength(line.getStopByIndex(indexOfFirstStopThatIsGood),line.getStopByIndex(indexOfLastStopThatIsGood));
+        int indexOfLastGoodStreet = line.getStreets().indexOf(line.getRealStops().get(indexOfFirstStopThatIsGood).getStreet());
+        int indexOfFirstGoodStreet = line.getStreets().indexOf(line.getRealStops().get(indexOfLastStopThatIsGood).getStreet());
+
+        int index = indexOfLastGoodStreet + 1;
+        for (int i = indexOfLastGoodStreet + 1; i < indexOfFirstGoodStreet; i++) {
+            line.getStreets().remove(index);
+        }
+
+        line.getStreets().addAll(index, newStreets);
+
+
+        double objizdka = line.getStopsLength(line.getStopByIndex(indexOfFirstStopThatIsGood), line.getStopByIndex(indexOfLastStopThatIsGood));
 
         double actualPercent = 0;
 
         actualPercent = (objizdka / povodnaDlzka);
-        for (Trip trip:line.getTrips()){
+        for (Trip trip : line.getTrips()) {
             LocalTime time1 = trip.getActualTimetable().get(indexOfFirstStopThatIsGood);
             LocalTime time2 = trip.getActualTimetable().get(indexOfLastStopThatIsGood);
-            double previousTime = TimeExtender.minusLocalTime(time2,time1);
-            double newTime = (TimeExtender.minusLocalTime(time2,time1) * actualPercent);
+            double previousTime = TimeExtender.minusLocalTime(time2, time1);
+            double newTime = (TimeExtender.minusLocalTime(time2, time1) * actualPercent);
 
-            if (previousTime<newTime){
-                for (int k =indexOfLastStopThatIsGood; k< line.getStops().size();k++){
+            if (previousTime < newTime) {
+                for (int k = indexOfLastStopThatIsGood; k < line.getStops().size(); k++) {
                     LocalTime tmp = trip.getActualTimetable().get(k);
-                    trip.getActualTimetable().set(k,TimeExtender.plusLocalTime(tmp, (long) ((long) newTime-previousTime)));
+                    trip.getActualTimetable().set(k, TimeExtender.plusLocalTime(tmp, (long) ((long) newTime - previousTime)));
+                }
+            } else {
+                for (int k = indexOfLastStopThatIsGood; k < line.getStops().size(); k++) {
+                    LocalTime tmp = trip.getActualTimetable().get(k);
+                    trip.getActualTimetable().set(k, TimeExtender.minusLocalTime(tmp, (long) ((long) previousTime - newTime)));
                 }
             }
-            else{
-                for (int k =indexOfLastStopThatIsGood; k< line.getStops().size();k++){
-                    LocalTime tmp = trip.getActualTimetable().get(k);
-                    trip.getActualTimetable().set(k,TimeExtender.minusLocalTime(tmp, (long) ((long) previousTime-newTime)));
+        }
+        if (closedStreet.getStops().size() > 0) {
+            for (int j = 0; j < closedStreet.getStops().size(); j++) {
+                if (line.getRealStops().contains(closedStreet.getStops().get(j))) {
+                    for (Trip trip : line.getTrips()) {
+                        trip.getPlannedTimetable().remove(line.getStops().indexOf(closedStreet.getStops().get(j)));
+                        trip.getActualTimetable().remove(line.getStops().indexOf(closedStreet.getStops().get(j)));
+                    }
+                    line.getStops().remove(closedStreet.getStops().get(j));
                 }
+
             }
         }
 
@@ -207,37 +204,31 @@ public class LineManagement {
     public void saveAndCloseClick(MouseEvent mouseEvent) {
         List<Street> newStreets = new ArrayList<>();
         ObservableList list = this.newRouteListView.getItems();
-        if(list.isEmpty())
-        {
+        if (list.isEmpty()) {
             close();
             return;
         }
-        for(Object streetId:list)
-        {
-            newStreets.add(this.streetMap.getStreet((String)streetId));
+        for (Object streetId : list) {
+            newStreets.add(this.streetMap.getStreet((String) streetId));
         }
         Street closedStreet = null;
-        for(Street street:this.line.getStreets())
-        {
-            if(street.isClosed())
-            {
-                closedStreet=street;
+        for (Street street : this.line.getStreets()) {
+            if (street.isClosed()) {
+                closedStreet = street;
                 break;
             }
         }
-        if(closedStreet==null)
-        {
+        if (closedStreet == null) {
             close();
             return;
         }
 
-        updateTimetable(this.line,newStreets,closedStreet);
+        updateTimetable(this.line, newStreets, closedStreet);
         close();
     }
 
-    private void close()
-    {
-        Stage stage = (Stage)this.newRouteListView.getScene().getWindow();
+    private void close() {
+        Stage stage = (Stage) this.newRouteListView.getScene().getWindow();
         stage.close();
     }
 }

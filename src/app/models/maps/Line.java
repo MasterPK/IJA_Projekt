@@ -26,6 +26,7 @@ public interface Line extends Cloneable {
     boolean plusX(Coordinate coord1, Coordinate coord2);
     List<Stop> getStops();
     Stop getStopByIndex(int index);
+    boolean isFollowing(Street street, Street street2);
 
     /**
      * Get real stops count.

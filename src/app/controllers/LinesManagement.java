@@ -3,6 +3,7 @@ package app.controllers;
 import app.components.LineTableItem;
 import app.models.TimeExtender;
 import app.models.maps.Line;
+import app.models.maps.Street;
 import app.models.maps.StreetMap;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -115,6 +116,23 @@ public class LinesManagement {
             }
         }
         return tmp;
+    }
+
+
+    /**
+     * Function that will check if streets in line are good
+     * @param line
+     * @return
+     */
+    private boolean lineCheck(Line line){
+        boolean result = true;
+
+        for (int i = 0; i < line.getStreets().size()-1;i++){
+            if (!line.isFollowing(line.getStreets().get(i),line.getStreets().get(i+1))){
+                result = false;
+            }
+        }
+        return result;
     }
 
 }

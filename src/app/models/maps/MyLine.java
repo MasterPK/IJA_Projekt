@@ -326,6 +326,21 @@ public class MyLine implements Line {
         return null;
     }
 
+    /**
+     * Function that will find if streets bind to each other
+     * @param street
+     * @param street2
+     * @return
+     */
+    public boolean isFollowing(Street street, Street street2){
+        if ((street.getCoordinates().get(0).equals(street2.getCoordinates().get(0))) || (street.getCoordinates().get(0).equals(street2.getCoordinates().get(1))) || (street.getCoordinates().get(1).equals(street2.getCoordinates().get(0))) || (street.getCoordinates().get(1).equals(street2.getCoordinates().get(1)))){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     public boolean plusX(Coordinate coord1, Coordinate coord2) {
         boolean plus;
         if (coord1.getX() - coord2.getX() < 0) {

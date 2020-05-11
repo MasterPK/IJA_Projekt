@@ -304,6 +304,7 @@ public class Controller extends BaseController {
      */
     @Override
     public void close() {
+        this.simulator.permanentTimer.cancel();
         this.simulator.stop();
     }
 

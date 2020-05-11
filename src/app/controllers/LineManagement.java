@@ -120,7 +120,7 @@ public class LineManagement {
     }
 
     public void updateTimetable(Line line, List<Street> newStreets, Street closedStreet) {
-        int indexOfFirstStopThatIsGood = 0;
+        int indexOfFirstStopThatIsGood = -1;
         int indexOfLastStopThatIsGood = 0;
         int indexOfClosed = line.getStreets().indexOf(closedStreet);
         double povodnaDlzka = 0;
@@ -131,22 +131,47 @@ public class LineManagement {
             povodnaDlzka = line.getStopsLength(line.getStopByIndex(indexOfFirstStopThatIsDeleted-1),line.getStopByIndex(indexOfLastStopThatIsDeleted+1));
         }
         else{*/
+        boolean found=false;
         ahoj:
         for (int t = line.getStreets().indexOf(closedStreet) - 1; t >= 0; t--) {
+            List<Stop> stops = new ArrayList<>();
             for (Stop stop : line.getStreets().get(t).getStops()) {
                 if (line.getRealStops().contains(stop)) {
-                    indexOfFirstStopThatIsGood = line.getStops().lastIndexOf(stop);
-                    break ahoj;
+                    stops.add(stop);
                 }
             }
+            for(Stop stop:stops)
+            {
+                if(line.getRealStops().indexOf(stop)>indexOfFirstStopThatIsGood)
+                {
+                    indexOfFirstStopThatIsGood=line.getRealStops().indexOf(stop);
+                    found=true;
+                }
+            }
+            if(found){
+                break ahoj;
+            }
         }
+        found=false;
         ahoj2:
         for (int t = line.getStreets().indexOf(closedStreet) + 1; t < line.getStreets().size(); t++) {
+            List<Stop> stops = new ArrayList<>();
             for (Stop stop : line.getStreets().get(t).getStops()) {
                 if (line.getRealStops().contains(stop)) {
-                    indexOfLastStopThatIsGood = line.getStops().indexOf(stop);
-                    break ahoj2;
+                    stops.add(stop);
+
                 }
+            }
+            for(Stop stop:stops)
+            {
+                if(line.getRealStops().indexOf(stop)>indexOfFirstStopThatIsGood)
+                {
+                    indexOfLastStopThatIsGood=line.getRealStops().indexOf(stop);
+                    found=true;
+                }
+            }
+            if(found){
+                break ahoj2;
             }
         }
         povodnaDlzka = line.getStopsLength(line.getStopByIndex(indexOfFirstStopThatIsGood), line.getStopByIndex(indexOfLastStopThatIsGood));
@@ -177,11 +202,13 @@ public class LineManagement {
             if (previousTime < newTime) {
                 for (int k = indexOfLastStopThatIsGood; k < line.getStops().size(); k++) {
                     LocalTime tmp = trip.getActualTimetable().get(k);
+                    trip.getPlannedTimetable().set(k, TimeExtender.plusLocalTime(tmp, (long) ((long) newTime - previousTime)));
                     trip.getActualTimetable().set(k, TimeExtender.plusLocalTime(tmp, (long) ((long) newTime - previousTime)));
                 }
             } else {
                 for (int k = indexOfLastStopThatIsGood; k < line.getStops().size(); k++) {
                     LocalTime tmp = trip.getActualTimetable().get(k);
+                    trip.getPlannedTimetable().set(k, TimeExtender.minusLocalTime(tmp, (long) ((long) previousTime - newTime)));
                     trip.getActualTimetable().set(k, TimeExtender.minusLocalTime(tmp, (long) ((long) previousTime - newTime)));
                 }
             }

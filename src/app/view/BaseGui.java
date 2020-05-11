@@ -72,7 +72,7 @@ public class BaseGui {
             for(int i=0;i<street.getCoordinates().size()-1;i++)
             {
                 javafx.scene.shape.Line line = new javafx.scene.shape.Line(street.getCoordinates().get(i).getX(),street.getCoordinates().get(i).getY(),street.getCoordinates().get(i+1).getX(),street.getCoordinates().get(i+1).getY());
-                line.setStyle("-fx-stroke: red; -fx-stroke-width: 3");
+                line.setStyle("-fx-stroke: chartreuse; -fx-stroke-width: 3");
                 addNodeToMapPane(line);
                 this.highlight.add(line);
             }

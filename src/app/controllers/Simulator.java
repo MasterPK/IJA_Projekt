@@ -19,6 +19,7 @@ public class Simulator {
 
     // Simulation
     private Timer timer;
+    public Timer permanentTimer;
     private boolean simulationState = false;
     private LocalTime simulationTime;
     private int simulationSpeed = 1000; //ms
@@ -43,6 +44,17 @@ public class Simulator {
         this.gui = gui;
         this.lines = LinesLoader.load(this.streetMap);
         this.computeTraffic();
+
+        this.permanentTimer = new Timer("1 sec-permanent");
+        this.permanentTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                highlightCounter++;
+                if (highlightCounter == 3) {
+                    gui.clearHighlight();
+                }
+            }
+        }, 0, 1000);
     }
 
     private int minusLocalTime(LocalTime diff1, LocalTime diff2) {
@@ -53,6 +65,8 @@ public class Simulator {
         return (diff.getHour() * 60 * 60) + (diff.getMinute() * 60) + (diff.getSecond());
     }
 
+
+    private int highlightCounter = 0;
 
     private void handleTrip(Trip trip, Line line) {
 
@@ -79,6 +93,7 @@ public class Simulator {
                     @Override
                     public void handle(MouseEvent event) {
                         gui.highlightLine(line.getStreets());
+                        highlightCounter = 0;
                         gui.clearTripTimetable();
                         gui.showTripTimetable(trip);
                         selectedTrip = trip;
@@ -87,7 +102,7 @@ public class Simulator {
                 circle.setOnMouseExited(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        gui.clearHighlight();
+
                     }
                 });
                 this.gui.addActiveVehicle(trip);
@@ -116,10 +131,8 @@ public class Simulator {
 
     public void computeTraffic() throws Exception {
 
-        if(!getSimulationState())
-        {
-            for(Line line:this.lines)
-            {
+        if (!getSimulationState()) {
+            for (Line line : this.lines) {
                 line.resetTimetable();
             }
             for (Street street : this.streetMap.getStreets()) {
@@ -127,9 +140,10 @@ public class Simulator {
                     trafficCore(street);
                 }
             }
-        }else {
+        } else {
             throw new Exception("Can't change street settings while simulation is running!");
         }
+
 
     }
 
@@ -148,10 +162,10 @@ public class Simulator {
             lineStops = line.getRealStops();
             for (int i = 0; i < lineStops.size() - 1; i++) {
                 List<Street> streetsBetween = line.getStreetsBetween(lineStops.get(i), lineStops.get(i + 1));
-                if (streetsBetween.size() == 1){ //ošetrenie ak sú zastávky na rovnakej ulici a ulica má zápchu
-                    if (streetsBetween.get(0).equals(street)){
+                if (streetsBetween.size() == 1) { //ošetrenie ak sú zastávky na rovnakej ulici a ulica má zápchu
+                    if (streetsBetween.get(0).equals(street)) {
                         double lenghtOfStreet = line.getLenghtOfStreet(street);
-                        double lenghtOfStops = line.getStopsLength(line.getStopByIndex(i),line.getStopByIndex(i+1));
+                        double lenghtOfStops = line.getStopsLength(line.getStopByIndex(i), line.getStopByIndex(i + 1));
                         for (int k = 0; k < line.getTrips().size(); k++) {
                             List<LocalTime> times = line.getTrips().get(k).getActualTimetable();
                             LocalTime first = times.get(i);
@@ -165,19 +179,18 @@ public class Simulator {
                             }
                         }
                     }
-                }
-                else if (streetsBetween.contains(street)) {
+                } else if (streetsBetween.contains(street)) {
                     for (int j = 0; j < streetsBetween.size(); j++) {
                         if (streetsBetween.get(j).equals(street)) {
                             if (lineStops.get(i).getStreet().equals(street)) {
                                 Coordinate follow = line.followPoint(streetsBetween.get(j), streetsBetween.get(j + 1));
                                 calculateNewTime(street, lineStops, line, i, follow);
                             } else if (lineStops.get(i + 1).getStreet().equals(street)) {
-                                Coordinate follow = line.followPoint(streetsBetween.get(j-1), streetsBetween.get(j));
+                                Coordinate follow = line.followPoint(streetsBetween.get(j - 1), streetsBetween.get(j));
                                 calculateNewTime(street, lineStops, line, i, follow);
                             } else { //malo by fungovať aj ako ošetrenie ak sú na rovnakej ulici
                                 double lenghtOfStreet = line.getLenghtOfStreet(street);
-                                double lenghtOfStops = line.getStopsLength(line.getStopByIndex(i),line.getStopByIndex(i+1));
+                                double lenghtOfStops = line.getStopsLength(line.getStopByIndex(i), line.getStopByIndex(i + 1));
                                 for (int k = 0; k < line.getTrips().size(); k++) {
                                     List<LocalTime> times = line.getTrips().get(k).getActualTimetable();
                                     LocalTime first = times.get(i);
@@ -217,20 +230,19 @@ public class Simulator {
         }
     }
 
-    public void setLinesBlock(){
-        for (Line line:this.getLines()){
-            for (Street street:line.getStreets()){
-                if (street.isOpen()){
+    public void setLinesBlock() {
+        for (Line line : this.getLines()) {
+            for (Street street : line.getStreets()) {
+                if (street.isOpen()) {
                     line.setConflict(false);
                 }
-                if (street.isClosed()){
+                if (street.isClosed()) {
                     line.setConflict(true);
                     break;
                 }
             }
         }
     }
-
 
 
     /**

@@ -48,12 +48,13 @@ public class StreetSettingsController {
         if(this.street.isClosed())
         {
             this.street.setClosed(false);
-        }else {
-            this.street.setClosed(true);
             for(Line line:this.street.getLines())
             {
+                line.restoreBackUp();
                 line.computeConflicts();
             }
+        }else {
+            this.street.setClosed(true);
         }
         guiRefresh();
     }

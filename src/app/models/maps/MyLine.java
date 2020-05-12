@@ -38,7 +38,6 @@ public class MyLine implements Line {
         this.name = name;
         this.stops = new ArrayList<>();
         this.streets = new ArrayList<>();
-        backUp();
     }
 
 

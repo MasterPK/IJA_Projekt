@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.core.ExceptionHandler;
 import app.models.LinesLoader;
 import app.models.TripSimulation;
 import app.models.maps.*;
@@ -230,6 +231,17 @@ public class Simulator {
         }
     }
 
+    public boolean isConflict()
+    {
+        for(Line line:this.lines){
+            if(line.isConflict())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void setLinesBlock() {
         for (Line line : this.getLines()) {
             line.computeConflicts();
@@ -240,7 +252,7 @@ public class Simulator {
     /**
      * Start simulation at realtime
      */
-    public void start() {
+    public void start() throws Exception {
         start(LocalTime.now());
     }
 
@@ -250,6 +262,8 @@ public class Simulator {
     public void start(LocalTime time) {
 
         if (!simulationState) {
+
+            // Main Timer Task - called every 1 sec after simulation started
             final TimerTask timerTask = new TimerTask() {
                 @Override
                 public void run() {
@@ -277,6 +291,8 @@ public class Simulator {
                     }
                 }
             };
+
+
             this.simulationTime = time;
             this.simulationState = true;
             this.timer = new Timer("Simulator");
@@ -295,7 +311,7 @@ public class Simulator {
      *
      * @param simulationSpeed
      */
-    public void setSimulationSpeed(double simulationSpeed) {
+    public void setSimulationSpeed(double simulationSpeed) throws Exception {
         if (this.simulationState) {
             stop();
             this.simulationSpeed = (int) Math.round(1000 * simulationSpeed);

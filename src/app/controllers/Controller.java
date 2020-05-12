@@ -58,11 +58,11 @@ public class Controller extends BaseController {
     @FXML
     public Slider refreshIntervalSlider;
     @FXML
-    public TableView activeVehiclesTableView;
+    public TableView<Object> activeVehiclesTableView;
     @FXML
     public Label selectedTripLabel;
     @FXML
-    public TableView selectedTripTableView;
+    public TableView<Object> selectedTripTableView;
 
     private Simulator simulator;
     private BaseGui baseGui;
@@ -253,7 +253,11 @@ public class Controller extends BaseController {
         this.simulationSpeedSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                simulator.setSimulationSpeed(newValue.doubleValue());
+                try {
+                    simulator.setSimulationSpeed(newValue.doubleValue());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -268,22 +272,22 @@ public class Controller extends BaseController {
             }
         });
 
-        TableColumn routeId = new TableColumn("Route");
+        TableColumn<Object, Object> routeId = new TableColumn<>("Route");
         routeId.setCellValueFactory(new PropertyValueFactory<>("routeId"));
 
-        TableColumn tripId = new TableColumn("Trip");
+        TableColumn<Object, Object> tripId = new TableColumn<>("Trip");
         tripId.setCellValueFactory(new PropertyValueFactory<>("tripId"));
 
         this.activeVehiclesTableView.getColumns().addAll(routeId, tripId);
 
 
-        TableColumn stopId = new TableColumn("Stop");
+        TableColumn<Object, Object> stopId = new TableColumn<>("Stop");
         stopId.setCellValueFactory(new PropertyValueFactory<>("stopId"));
 
-        TableColumn plannedTime = new TableColumn("Planned time");
+        TableColumn<Object, Object> plannedTime = new TableColumn<>("Planned time");
         plannedTime.setCellValueFactory(new PropertyValueFactory<>("plannedTime"));
 
-        TableColumn actualTime = new TableColumn("Actual time");
+        TableColumn<Object, Object> actualTime = new TableColumn<>("Actual time");
         actualTime.setCellValueFactory(new PropertyValueFactory<>("actualTime"));
 
         this.selectedTripTableView.getColumns().addAll(stopId, plannedTime, actualTime);
@@ -311,6 +315,14 @@ public class Controller extends BaseController {
 
     public void startSimulationBtnOnClicked() {
 
+        if(this.simulator.isConflict())
+        {
+            try {
+                ExceptionHandler.throwException("You cant start simulation when there is unresolved conflict on some line!");
+            } catch (Exception ignored) {
+            }
+            return;
+        }
         if (this.simulator.getSimulationState()) {
             this.simulator.stop();
             this.baseGui.toggleSimulationButton(false);

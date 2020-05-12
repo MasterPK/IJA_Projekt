@@ -49,6 +49,7 @@ public abstract class LinesLoader {
                 else {
                     line.addStreet(street);
                 }
+                street.addLine(line);
             }
 
             // Load trips
@@ -67,6 +68,7 @@ public abstract class LinesLoader {
                 }
                 line.addTrip(trip);
             }
+            line.backUp();
 
 
 

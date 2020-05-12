@@ -159,13 +159,15 @@ public class Controller extends BaseController {
             }
 
             // Draw street name
-            Coordinate streetNameCoord = street.getCoordinates().get(0);
-            double x = streetNameCoord.getX();
-            double y = streetNameCoord.getY();
-            Label streetName = new Label(street.getId());
-            streetName.setLayoutX(x);
-            streetName.setLayoutY(y + 5);
-            addNodeToMapPane(streetName);
+            Platform.runLater(() -> {
+                Label streetName = new Label(street.getId());
+                addNodeToMapPane(streetName);
+                mapPane.applyCss();
+                mapPane.layout();
+                Coordinate streetNameCoord = getLabelPos(street,streetName.getWidth());
+                streetName.setLayoutX(streetNameCoord.getX());
+                streetName.setLayoutY(streetNameCoord.getY());
+            });
 
             // Draw street
             for (int i = 0; i < street.getCoordinates().size() - 1; i++) {

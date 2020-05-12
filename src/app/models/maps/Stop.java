@@ -5,6 +5,7 @@
 package app.models.maps;
 
 
+import javafx.scene.control.Label;
 
 /**
  * Reprezentuje zastávku. Zastávka má svůj unikátní identifikátor a dále souřadnice umístění a zná ulici, na které je umístěna.
@@ -14,6 +15,7 @@ package app.models.maps;
  * @author koci
  */
 public interface Stop {
+
     /**
      * Vrátí identifikátor zastávky.
      * @return Identifikátor zastávky.
@@ -41,4 +43,16 @@ public interface Stop {
     static Stop defaultStop(String id, Coordinate c) {
         return new MyStop(id,c);
     }
+
+    /**
+     * Set label.
+     * @param label
+     */
+    void setLabel(Label label);
+
+    /**
+     * Get stop name label.
+     * @return
+     */
+    Label getLabel();
 }

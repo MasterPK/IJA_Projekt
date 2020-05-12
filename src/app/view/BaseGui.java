@@ -3,10 +3,7 @@ package app.view;
 import app.components.ActiveVehicleTableItem;
 import app.components.TimetableTableItem;
 import app.controllers.Controller;
-import app.models.maps.Coordinate;
-import app.models.maps.Line;
-import app.models.maps.Street;
-import app.models.maps.Trip;
+import app.models.maps.*;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -61,24 +58,34 @@ public class BaseGui {
     private void addNodeToMapPane(Node node)
     {
         Platform.runLater(() -> {
-            this.controller.mapPane.getChildren().add(node);
+            try{
+                this.controller.mapPane.getChildren().add(node);
+            }catch (Exception ignored)
+            {
+
+            }
+
         });
     }
 
     private List<Node> highlight = new ArrayList<>();
 
-    public void highlightLine(List<Street> streets) {
-        for (Street street : streets) {
+    public void highlightLine(Line lineO) {
+        for (Street street : lineO.getStreets()) {
             for(int i=0;i<street.getCoordinates().size()-1;i++)
             {
                 javafx.scene.shape.Line line = new javafx.scene.shape.Line(street.getCoordinates().get(i).getX(),street.getCoordinates().get(i).getY(),street.getCoordinates().get(i+1).getX(),street.getCoordinates().get(i+1).getY());
                 line.setStyle("-fx-stroke: chartreuse; -fx-stroke-width: 3");
                 addNodeToMapPane(line);
+                for(Stop stop:lineO.getStops()){
+                    addNodeToMapPane(stop.getLabel());
+                    this.highlight.add(stop.getLabel());
+                }
+
                 this.highlight.add(line);
             }
         }
     }
-
 
 
     public void showTripTimetable(Trip trip)

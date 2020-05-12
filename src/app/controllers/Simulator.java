@@ -93,7 +93,7 @@ public class Simulator {
                 circle.setOnMouseEntered(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        gui.highlightLine(line.getStreets());
+                        gui.highlightLine(line);
                         highlightCounter = 0;
                         gui.clearTripTimetable();
                         gui.showTripTimetable(trip);

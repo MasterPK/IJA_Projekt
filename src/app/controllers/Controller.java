@@ -98,7 +98,11 @@ public class Controller extends BaseController {
         for (Stop stop : street.getStops()) {
             Circle circle = new Circle(stop.getCoordinate().getX(), stop.getCoordinate().getY(), 7, Paint.valueOf("blue"));
             Label label = new Label(stop.getId());
+            stop.setLabel(label);
             addLabelOverStop(label, stop.getCoordinate().getX(), stop.getCoordinate().getY());
+            try{
+
+
             Platform.runLater(() -> {
                 mapPane.getChildren().remove(label);
             });
@@ -113,6 +117,10 @@ public class Controller extends BaseController {
             });
 
             addNodeToMapPane(circle);
+            }catch (Exception ignored)
+            {
+
+            }
         }
     }
 

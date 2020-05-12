@@ -1,12 +1,17 @@
 package app.models.maps;
 
 
+import app.view.BaseGui;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 
 public class MyStop implements Stop
 {
     private String id;
     private Coordinate coordinate;
     private Street street = null;
+    public Label label;
 
     public MyStop(String id)
     {
@@ -58,6 +63,27 @@ public class MyStop implements Stop
     {
         return this.street;
     }
+
+    /**
+     * Set label.
+     *
+     * @param label
+     */
+    @Override
+    public void setLabel(Label label) {
+        this.label=label;
+    }
+
+    /**
+     * Get stop name label.
+     *
+     * @return
+     */
+    @Override
+    public Label getLabel() {
+        return this.label;
+    }
+
 
     @Override
     public boolean equals(Object obj)

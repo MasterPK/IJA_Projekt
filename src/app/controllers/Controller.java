@@ -390,12 +390,13 @@ public class Controller extends BaseController {
     }
 
     /**
-     * Find middle coordinate of street
+     * Calculate Label position for street name
      * @param street
      * @return
      */
-    public Coordinate getStreetMid(Street street){
+    public Coordinate getLabelPos(Street street, double labelLenght){
         Coordinate result = new Coordinate(0,0);
+        double labelHalfLenght = labelLenght/2;
         if ((street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()) != 0){
             if ((street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()) < 0){
                 result.setX( ((Math.abs(street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()))/2) + (street.getCoordinates().get(0).getX()));
@@ -403,7 +404,8 @@ public class Controller extends BaseController {
             else{
                 result.setX( ((Math.abs(street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()))/2) + (street.getCoordinates().get(1).getX()));
             }
-            result.setX(street.getCoordinates().get(0).getX());
+            result.setY(street.getCoordinates().get(0).getY()+10);
+            result.setX(result.getX()-labelHalfLenght);
         }
         else {
             if ((street.getCoordinates().get(0).getY() - street.getCoordinates().get(1).getY()) < 0){
@@ -412,7 +414,7 @@ public class Controller extends BaseController {
             else{
                 result.setY( ((Math.abs(street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()))/2) + (street.getCoordinates().get(1).getY()));
             }
-            result.setY(street.getCoordinates().get(0).getX());
+            result.setX(street.getCoordinates().get(0).getX()+5);
         }
         return result;
     }

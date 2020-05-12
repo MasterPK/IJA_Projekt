@@ -85,6 +85,8 @@ public class Controller extends BaseController {
     private void addLabelOverStop(Label label, double x, double y) {
         Platform.runLater(() -> {
             addNodeToMapPane(label);
+            mapPane.applyCss();
+            mapPane.layout();
             double lengthLabel = label.getWidth() / 2;
             label.setLayoutX(x-lengthLabel);
             label.setLayoutY(y - 25);

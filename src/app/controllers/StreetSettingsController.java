@@ -2,13 +2,17 @@ package app.controllers;
 
 import app.core.AlertHandler;
 import app.models.maps.Line;
+import app.models.maps.Stop;
 import app.models.maps.Street;
+import app.models.maps.Trip;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
+import java.util.List;
 
 public class StreetSettingsController {
 
@@ -22,45 +26,44 @@ public class StreetSettingsController {
     private Stage currentWindow;
 
     public void startUp(Street street, Stage currentWindow) {
-        this.currentWindow=currentWindow;
-        this.street=street;
+        this.currentWindow = currentWindow;
+        this.street = street;
         Platform.runLater(() -> {
             this.streetCoefficientTextField.setText(Integer.toString(street.getTrafficCoefficient()));
         });
         guiRefresh();
     }
 
-    private void guiRefresh()
-    {
+    private void guiRefresh() {
         Platform.runLater(() -> {
-            if(this.street.isClosed())
-            {
+            if (this.street.isClosed()) {
                 this.closedButton.textProperty().setValue("Open street");
-            }else {
+            } else {
                 this.closedButton.textProperty().setValue("Close street");
             }
         });
 
     }
 
-    public void closeClick()
-    {
-        if(this.street.isClosed())
-        {
+    public void closeClick() {
+        if (this.street.isClosed()) {
             this.street.setClosed(false);
-            for(Line line:this.street.getLines())
-            {
+            for (Line line : this.street.getLines()) {
                 line.restoreBackUp();
                 line.computeConflicts();
             }
-        }else {
+        } else {
             this.street.setClosed(true);
+            for (Line line : this.street.getLines()) {
+                line.restoreBackUp();
+                line.computeConflicts();
+            }
+
         }
         guiRefresh();
     }
 
-    public void okClick()
-    {
+    public void okClick() {
         try {
             this.street.setTrafficCoefficient(Integer.parseInt(streetCoefficientTextField.textProperty().get()));
             cancelClick();

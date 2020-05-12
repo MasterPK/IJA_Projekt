@@ -15,7 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import sun.plugin2.jvm.CircularByteBuffer;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -32,8 +31,8 @@ public class LineManagement {
     public void startUp(Line line, StreetMap streetMap) throws Exception {
         this.line = line;
         this.streetMap = streetMap;
-        if(!findWay(line.getStopByIndex(getIndexOfFirstStopThatIsGood(line,line.getConflicts().get(0).get(0))),
-                line.getStopByIndex(getIndexOfLastStopThatIsGood(line,line.getConflicts().get(0).get(0))))){
+        if (!findWay(line.getStopByIndex(getIndexOfFirstStopThatIsGood(line, line.getConflicts().get(0).get(0))),
+                line.getStopByIndex(getIndexOfLastStopThatIsGood(line, line.getConflicts().get(0).get(0))))) {
             ExceptionHandler.throwException("No other route is available because of closed street(s)!");
         }
         refreshGui();
@@ -124,13 +123,11 @@ public class LineManagement {
 
     }
 
-    int getIndexOfFirstStopThatIsGood(Line line,Street closedStreet)
-    {
+    int getIndexOfFirstStopThatIsGood(Line line, Street closedStreet) {
         int indexOfFirstStopThatIsGood = -1;
-        boolean found=false;
+        boolean found = false;
         for (int t = line.getStreets().indexOf(closedStreet) - 1; t >= 0; t--) {
-            if(line.getStreets().get(t).isClosed())
-            {
+            if (line.getStreets().get(t).isClosed()) {
                 continue;
             }
             List<Stop> stops = new ArrayList<>();
@@ -139,28 +136,24 @@ public class LineManagement {
                     stops.add(stop);
                 }
             }
-            for(Stop stop:stops)
-            {
-                if(line.getRealStops().indexOf(stop)>indexOfFirstStopThatIsGood)
-                {
-                    indexOfFirstStopThatIsGood=line.getRealStops().indexOf(stop);
-                    found=true;
+            for (Stop stop : stops) {
+                if (line.getRealStops().indexOf(stop) > indexOfFirstStopThatIsGood) {
+                    indexOfFirstStopThatIsGood = line.getRealStops().indexOf(stop);
+                    found = true;
                 }
             }
-            if(found){
+            if (found) {
                 return indexOfFirstStopThatIsGood;
             }
         }
         return indexOfFirstStopThatIsGood;
     }
 
-    int getIndexOfLastStopThatIsGood(Line line,Street closedStreet)
-    {
+    int getIndexOfLastStopThatIsGood(Line line, Street closedStreet) {
         int indexOfLastStopThatIsGood = Integer.MAX_VALUE;
-        boolean found=false;
+        boolean found = false;
         for (int t = line.getStreets().indexOf(closedStreet) + 1; t < line.getStreets().size(); t++) {
-            if(line.getStreets().get(t).isClosed())
-            {
+            if (line.getStreets().get(t).isClosed()) {
                 continue;
             }
             List<Stop> stops = new ArrayList<>();
@@ -170,27 +163,33 @@ public class LineManagement {
 
                 }
             }
-            for(Stop stop:stops)
-            {
-                if(line.getRealStops().indexOf(stop)<indexOfLastStopThatIsGood)
-                {
-                    indexOfLastStopThatIsGood=line.getRealStops().indexOf(stop);
-                    found=true;
+            for (Stop stop : stops) {
+                if (line.getRealStops().indexOf(stop) < indexOfLastStopThatIsGood) {
+                    indexOfLastStopThatIsGood = line.getRealStops().indexOf(stop);
+                    found = true;
                 }
             }
-            if(found){
+            if (found) {
                 return indexOfLastStopThatIsGood;
             }
         }
         return indexOfLastStopThatIsGood;
     }
 
+    /**
+     * Deprecated
+     * Update timetable based on new route with one closed street.
+     *
+     * @param line
+     * @param newStreets
+     * @param closedStreet
+     */
     public void updateTimetable(Line line, List<Street> newStreets, Street closedStreet) {
 
         double povodnaDlzka = 0;
 
-        int indexOfLastStopThatIsGood = getIndexOfLastStopThatIsGood(line,closedStreet);
-        int indexOfFirstStopThatIsGood = getIndexOfFirstStopThatIsGood(line,closedStreet);
+        int indexOfLastStopThatIsGood = getIndexOfLastStopThatIsGood(line, closedStreet);
+        int indexOfFirstStopThatIsGood = getIndexOfFirstStopThatIsGood(line, closedStreet);
 
         povodnaDlzka = line.getStopsLength(line.getStopByIndex(indexOfFirstStopThatIsGood), line.getStopByIndex(indexOfLastStopThatIsGood));
 
@@ -245,6 +244,69 @@ public class LineManagement {
 
     }
 
+    public void updateTimetableNew(Line line, List<Street> newStreets, List<Street> closedStreets) {
+
+        double povodnaDlzka = 0;
+
+        int indexOfLastStopThatIsGood = getIndexOfLastStopThatIsGood(line, closedStreets.get(0));
+        int indexOfFirstStopThatIsGood = getIndexOfFirstStopThatIsGood(line, closedStreets.get(closedStreets.size() - 1));
+
+        povodnaDlzka = line.getStopsLength(line.getStopByIndex(indexOfFirstStopThatIsGood), line.getStopByIndex(indexOfLastStopThatIsGood));
+
+        int indexOfLastGoodStreet = line.getStreets().indexOf(line.getRealStops().get(indexOfFirstStopThatIsGood).getStreet());
+        int indexOfFirstGoodStreet = line.getStreets().indexOf(line.getRealStops().get(indexOfLastStopThatIsGood).getStreet());
+
+        int index = indexOfLastGoodStreet + 1;
+        for (int i = indexOfLastGoodStreet + 1; i < indexOfFirstGoodStreet; i++) {
+            line.getStreets().remove(index);
+        }
+
+        line.getStreets().addAll(index, newStreets);
+
+
+        double objizdka = line.getStopsLength(line.getStopByIndex(indexOfFirstStopThatIsGood), line.getStopByIndex(indexOfLastStopThatIsGood));
+
+        double actualPercent = 0;
+
+        actualPercent = (objizdka / povodnaDlzka);
+        for (Trip trip : line.getTrips()) {
+            LocalTime time1 = trip.getActualTimetable().get(indexOfFirstStopThatIsGood);
+            LocalTime time2 = trip.getActualTimetable().get(indexOfLastStopThatIsGood);
+            double previousTime = TimeExtender.minusLocalTime(time2, time1);
+            double newTime = (TimeExtender.minusLocalTime(time2, time1) * actualPercent);
+
+            if (previousTime < newTime) {
+                for (int k = indexOfLastStopThatIsGood; k < line.getStops().size(); k++) {
+                    LocalTime tmp = trip.getActualTimetable().get(k);
+                    trip.getPlannedTimetable().set(k, TimeExtender.plusLocalTime(tmp, (long) ((long) newTime - previousTime)));
+                    trip.getActualTimetable().set(k, TimeExtender.plusLocalTime(tmp, (long) ((long) newTime - previousTime)));
+                }
+            } else {
+                for (int k = indexOfLastStopThatIsGood; k < line.getStops().size(); k++) {
+                    LocalTime tmp = trip.getActualTimetable().get(k);
+                    trip.getPlannedTimetable().set(k, TimeExtender.minusLocalTime(tmp, (long) ((long) previousTime - newTime)));
+                    trip.getActualTimetable().set(k, TimeExtender.minusLocalTime(tmp, (long) ((long) previousTime - newTime)));
+                }
+            }
+        }
+        for (Street street : closedStreets) {
+            if (street.getStops().size() > 0) {
+                for (int j = 0; j < street.getStops().size(); j++) {
+                    if (line.getRealStops().contains(street.getStops().get(j))) {
+                        for (Trip trip : line.getTrips()) {
+                            trip.getPlannedTimetable().remove(line.getStops().indexOf(street.getStops().get(j)));
+                            trip.getActualTimetable().remove(line.getStops().indexOf(street.getStops().get(j)));
+                        }
+                        line.getStops().remove(street.getStops().get(j));
+                    }
+
+                }
+            }
+        }
+
+
+    }
+
     public void saveAndCloseClick(MouseEvent mouseEvent) throws Exception {
         List<Street> newStreets = new ArrayList<>();
         ObservableList list = this.newRouteListView.getItems();
@@ -255,6 +317,7 @@ public class LineManagement {
         for (Object streetId : list) {
             newStreets.add(this.streetMap.getStreet((String) streetId));
         }
+        /*
         Street closedStreet = null;
         for (Street street : this.line.getStreets()) {
             if (street.isClosed()) {
@@ -265,24 +328,25 @@ public class LineManagement {
         if (closedStreet == null) {
             close();
             return;
-        }
+        }*/
+        List<Street> closedStreets = this.line.getConflicts().get(0);
 
-        if(!findWay(line.getStopByIndex(getIndexOfFirstStopThatIsGood(line,closedStreet)),
-                line.getStopByIndex(getIndexOfLastStopThatIsGood(line,closedStreet)))){
+
+        if (!findWay(line.getStopByIndex(getIndexOfFirstStopThatIsGood(line, closedStreets.get(0))),
+                line.getStopByIndex(getIndexOfLastStopThatIsGood(line, closedStreets.get(closedStreets.size() - 1))))) {
             line.restoreBackUp();
             ExceptionHandler.throwException("No route is available between specified stops because of closed street(s)!");
         }
 
-        try{
-            updateTimetable(this.line, newStreets, closedStreet);
-        }catch (Exception e){
+        try {
+            updateTimetableNew(this.line, newStreets, closedStreets);
+        } catch (Exception e) {
             line.restoreBackUp();
             ExceptionHandler.throwException("Fatal error: Specified route is not valid!");
         }
 
 
-        if(!lineCheck(line))
-        {
+        if (!lineCheck(line)) {
             line.restoreBackUp();
             ExceptionHandler.throwException("Line error: line is not valid!");
         }
@@ -297,7 +361,7 @@ public class LineManagement {
         stage.close();
     }
 
-    public boolean findWay(Stop startingStop, Stop endingStop){
+    public boolean findWay(Stop startingStop, Stop endingStop) {
         List<Street> streetsToCheck = new ArrayList<>();
         List<Street> checkedStreets = new ArrayList<>();
 
@@ -310,36 +374,36 @@ public class LineManagement {
 
         streetsToCheck.add(startingStreet);
 
-        while(streetsToCheck.size()>0){
+        while (streetsToCheck.size() > 0) {
             checkingStreet = streetsToCheck.get(0);
 
-            if (checkingStreet.equals(endingStreet)){
+            if (checkingStreet.equals(endingStreet)) {
                 result = true;
                 break;
             }
 
             checkedStreets.add(checkingStreet);
-            
-            streetsToCheck.addAll(followStreets(checkingStreet,checkedStreets));
+
+            streetsToCheck.addAll(followStreets(checkingStreet, checkedStreets));
             streetsToCheck.remove(0);
         }
         return result;
     }
 
-    private List<Street> followStreets(Street street, List<Street> checked){
+    private List<Street> followStreets(Street street, List<Street> checked) {
         List<Street> followStreets = new ArrayList<>();
 
-        for (Street str:this.streetMap.getStreets()){
-            if((str.getCoordinates().get(0).equals(street.getCoordinates().get(0))) || ((str.getCoordinates().get(0).equals(street.getCoordinates().get(1))))){
-                if (!checked.contains(str)){ //môže pridať ulicu ktorú kontrolujem..... ošetriť ASI
-                    if (str.isOpen()){
+        for (Street str : this.streetMap.getStreets()) {
+            if ((str.getCoordinates().get(0).equals(street.getCoordinates().get(0))) || ((str.getCoordinates().get(0).equals(street.getCoordinates().get(1))))) {
+                if (!checked.contains(str)) { //môže pridať ulicu ktorú kontrolujem..... ošetriť ASI
+                    if (str.isOpen()) {
                         followStreets.add(str);
                     }
                 }
             }
-            if((str.getCoordinates().get(1).equals(street.getCoordinates().get(0))) || ((str.getCoordinates().get(1).equals(street.getCoordinates().get(1))))){
-                if (!checked.contains(str)){
-                    if (str.isOpen()){
+            if ((str.getCoordinates().get(1).equals(street.getCoordinates().get(0))) || ((str.getCoordinates().get(1).equals(street.getCoordinates().get(1))))) {
+                if (!checked.contains(str)) {
+                    if (str.isOpen()) {
                         followStreets.add(str);
                     }
                 }
@@ -350,14 +414,15 @@ public class LineManagement {
 
     /**
      * Function that will check if streets in line are good
+     *
      * @param line
      * @return
      */
-    private boolean lineCheck(Line line){
+    private boolean lineCheck(Line line) {
         boolean result = true;
 
-        for (int i = 0; i < line.getStreets().size()-1;i++){
-            if (!line.isFollowing(line.getStreets().get(i),line.getStreets().get(i+1))){
+        for (int i = 0; i < line.getStreets().size() - 1; i++) {
+            if (!line.isFollowing(line.getStreets().get(i), line.getStreets().get(i + 1))) {
                 result = false;
             }
         }

@@ -451,11 +451,10 @@ public class MyLine implements Line {
     }
 
     /**
-     * Compute conflicts.
-     * Implicitly restore backup and compress results.
+     * Full compute conflicts.
      */
-    @Override
-    public void computeConflicts() {
+    private void refreshConflicts()
+    {
         clearConflicts();
         for (Street street : getStreets()) {
             if (street.isClosed()) {
@@ -463,6 +462,58 @@ public class MyLine implements Line {
             }
         }
         compressConflicts();
+    }
+
+    /**
+     * Compute conflicts.
+     * Implicitly restore backup and compress results.
+     */
+    @Override
+    public void computeConflicts() {
+
+        refreshConflicts();
+
+
+        if (getConflictsCount() >0) {
+            List<Street> closedStreets = getConflicts().get(0);
+            if (getStreets().get(0).equals(closedStreets.get(0))) {
+                for (Street street : closedStreets) {
+                    for (Stop stop : street.getStops()) {
+                        if (getStops().contains(stop)) {
+                            getStops().remove(stop);
+                            for (Trip trip : getTrips()) {
+                                trip.getActualTimetable().remove(0);
+                                trip.getPlannedTimetable().remove(0);
+                            }
+                        }
+                    }
+                    getStreets().remove(0);
+                }
+            }
+        }
+
+        refreshConflicts();
+
+        if (getConflictsCount() > 0) {
+            List<Street> closedStreets = getConflicts().get(getConflicts().size() - 1);
+            if (getStreets().get(getStreets().size() - 1).equals(closedStreets.get(closedStreets.size() - 1))) {
+                for (Street street : closedStreets) {
+                    for (Stop stop : street.getStops()) {
+                        if (getStops().contains(stop)) {
+                            getStops().remove(stop);
+                            for (Trip trip : getTrips()) {
+                                trip.getActualTimetable().remove(trip.getActualTimetable().size() - 1);
+                                trip.getPlannedTimetable().remove(trip.getPlannedTimetable().size() - 1);
+                            }
+                        }
+                    }
+                    getStreets().remove(getStreets().size() - 1);
+                }
+            }
+            refreshConflicts();
+        }
+
+
     }
 
 

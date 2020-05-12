@@ -88,7 +88,7 @@ public class BaseGui {
             for(int i =0;i<trip.getLine().getRealStops().size();i++)
             {
                 TimetableTableItem item;
-                item = new TimetableTableItem(trip.getLine().getRealStops().get(i).getId(),trip.getPlannedTimetable().get(i).toString(),trip.getActualTimetable().get(i).toString());
+                item = new TimetableTableItem(trip.getLine().getRealStops().get(i).getId(),trip.getBackUpTimetable().get(i).toString(),trip.getActualTimetable().get(i).toString());
                 this.controller.selectedTripTableView.getItems().add(item);
                 this.controller.selectedTripLabel.textProperty().setValue(trip.getId());
             }

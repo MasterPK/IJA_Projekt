@@ -353,6 +353,7 @@ public class MyLine implements Line {
         return plus;
     }
 
+
     public boolean changeX(Street street) {
         boolean zmenaX;
         Coordinate first = street.getCoordinates().get(0);

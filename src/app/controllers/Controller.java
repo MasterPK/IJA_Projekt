@@ -369,6 +369,11 @@ public class Controller extends BaseController {
         }
     }
 
+    /**
+     * Find middle coordinate of street
+     * @param street
+     * @return
+     */
     public Coordinate getStreetMid(Street street){
         Coordinate result = new Coordinate(0,0);
         if ((street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()) != 0){

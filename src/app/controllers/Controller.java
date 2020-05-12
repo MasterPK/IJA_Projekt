@@ -6,6 +6,7 @@ import app.core.ExceptionHandler;
 import app.models.JSONLoader;
 import app.models.maps.*;
 import app.view.BaseGui;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -81,17 +82,34 @@ public class Controller extends BaseController {
     }
 
 
-    private void addLabelOverStop(String text, double x, double y) {
-        Label label = new Label(text);
-        label.setLayoutX(x);
-        label.setLayoutY(y - 25);
-        addNodeToMapPane(label);
+    private void addLabelOverStop(Label label, double x, double y) {
+        Platform.runLater(() -> {
+            addNodeToMapPane(label);
+            double lengthLabel = label.getWidth() / 2;
+            label.setLayoutX(x-lengthLabel);
+            label.setLayoutY(y - 25);
+        });
+
     }
 
     private void drawStops(Street street) {
         for (Stop stop : street.getStops()) {
             Circle circle = new Circle(stop.getCoordinate().getX(), stop.getCoordinate().getY(), 7, Paint.valueOf("blue"));
-            addLabelOverStop(stop.getId(), stop.getCoordinate().getX(), stop.getCoordinate().getY());
+            Label label = new Label(stop.getId());
+            addLabelOverStop(label, stop.getCoordinate().getX(), stop.getCoordinate().getY());
+            Platform.runLater(() -> {
+                mapPane.getChildren().remove(label);
+            });
+
+            circle.setOnMouseEntered(event -> {
+                addLabelOverStop(label, stop.getCoordinate().getX(), stop.getCoordinate().getY());
+            });
+            circle.setOnMouseExited(event -> {
+                Platform.runLater(() -> {
+                    mapPane.getChildren().remove(label);
+                });
+            });
+
             addNodeToMapPane(circle);
         }
     }

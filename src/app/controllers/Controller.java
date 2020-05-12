@@ -388,4 +388,22 @@ public class Controller extends BaseController {
             simulator.setLinesBlock();
         }
     }
+
+    /**
+     * Find middle coordinate of street
+     * @param street
+     * @return
+     */
+    public Coordinate getStreetMid(Street street){
+        Coordinate result = new Coordinate(0,0);
+        if ((street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()) != 0){
+            result.setX( Math.abs(street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()));
+            result.setY(street.getCoordinates().get(0).getY());
+        }
+        else {
+            result.setY(Math.abs(street.getCoordinates().get(0).getY() - street.getCoordinates().get(1).getY()));
+            result.setX(street.getCoordinates().get(0).getX());
+        }
+        return result;
+    }
 }

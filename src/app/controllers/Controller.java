@@ -164,7 +164,7 @@ public class Controller extends BaseController {
                 addNodeToMapPane(streetName);
                 mapPane.applyCss();
                 mapPane.layout();
-                Coordinate streetNameCoord = getLabelPos(street,streetName.getWidth());
+                Coordinate streetNameCoord = getLabelPos(street,streetName.getWidth(),streetName.getHeight());
                 streetName.setLayoutX(streetNameCoord.getX());
                 streetName.setLayoutY(streetNameCoord.getY());
             });
@@ -269,12 +269,12 @@ public class Controller extends BaseController {
 
         zoomingPane.zoomFactorProperty().bind(zoomSlider.valueProperty());
 
-        mapPane.setPrefSize(this.maxX + 50, this.maxY + 50);
+        mapPane.setPrefSize(this.maxX + 500, this.maxY + 500);
 
         zoomSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue observable, Number oldValue, Number newValue) {
-                mapPane.setPrefSize((maxX * newValue.doubleValue() + 50), (maxY * newValue.doubleValue() + 50));
+                mapPane.setPrefSize((maxX * newValue.doubleValue() + 500), (maxY * newValue.doubleValue() + 500));
             }
         });
 
@@ -404,9 +404,10 @@ public class Controller extends BaseController {
      * @param street
      * @return
      */
-    public Coordinate getLabelPos(Street street, double labelLenght){
+    public Coordinate getLabelPos(Street street, double labelLenght, double labelHeight){
         Coordinate result = new Coordinate(0,0);
         double labelHalfLenght = labelLenght/2;
+        double labelHeightHalf = labelHeight/2;
         if ((street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()) != 0){
             if ((street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()) < 0){
                 result.setX( ((Math.abs(street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()))/2) + (street.getCoordinates().get(0).getX()));
@@ -414,7 +415,7 @@ public class Controller extends BaseController {
             else{
                 result.setX( ((Math.abs(street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()))/2) + (street.getCoordinates().get(1).getX()));
             }
-            result.setY(street.getCoordinates().get(0).getY()+10);
+            result.setY(street.getCoordinates().get(0).getY()+5);
             result.setX(result.getX()-labelHalfLenght);
         }
         else {
@@ -422,9 +423,10 @@ public class Controller extends BaseController {
                 result.setY( ((Math.abs(street.getCoordinates().get(0).getY() - street.getCoordinates().get(1).getY()))/2) + (street.getCoordinates().get(0).getY()));
             }
             else{
-                result.setY( ((Math.abs(street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()))/2) + (street.getCoordinates().get(1).getY()));
+                result.setY( ((Math.abs(street.getCoordinates().get(0).getY() - street.getCoordinates().get(1).getY()))/2) + (street.getCoordinates().get(1).getY()));
             }
-            result.setX(street.getCoordinates().get(0).getX()+5);
+            result.setY(result.getY() - labelHeightHalf);
+            result.setX(street.getCoordinates().get(0).getX()+10);
         }
         return result;
     }

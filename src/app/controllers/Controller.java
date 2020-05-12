@@ -395,12 +395,22 @@ public class Controller extends BaseController {
     public Coordinate getStreetMid(Street street){
         Coordinate result = new Coordinate(0,0);
         if ((street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()) != 0){
-            result.setX( Math.abs(street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()));
-            result.setY(street.getCoordinates().get(0).getY());
+            if ((street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()) < 0){
+                result.setX( ((Math.abs(street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()))/2) + (street.getCoordinates().get(0).getX()));
+            }
+            else{
+                result.setX( ((Math.abs(street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()))/2) + (street.getCoordinates().get(1).getX()));
+            }
+            result.setX(street.getCoordinates().get(0).getX());
         }
         else {
-            result.setY(Math.abs(street.getCoordinates().get(0).getY() - street.getCoordinates().get(1).getY()));
-            result.setX(street.getCoordinates().get(0).getX());
+            if ((street.getCoordinates().get(0).getY() - street.getCoordinates().get(1).getY()) < 0){
+                result.setY( ((Math.abs(street.getCoordinates().get(0).getY() - street.getCoordinates().get(1).getY()))/2) + (street.getCoordinates().get(0).getY()));
+            }
+            else{
+                result.setY( ((Math.abs(street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()))/2) + (street.getCoordinates().get(1).getY()));
+            }
+            result.setY(street.getCoordinates().get(0).getX());
         }
         return result;
     }

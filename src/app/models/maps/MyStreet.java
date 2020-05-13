@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class for basic work with Streets
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
+ */
 public class MyStreet implements Street {
     private String id;
     private List<Coordinate> coordinates;
@@ -29,22 +34,42 @@ public class MyStreet implements Street {
         this.stops = new ArrayList<>();
     }
 
+    /**
+     * Add line to street
+     * @param line line that we want to add
+     */
     public void addLine(Line line) {
         lines.add(line);
     }
 
+    /**
+     * Get lines of street
+     * @return lines of street
+     */
     public List<Line> getLines() {
         return lines;
     }
 
+    /**
+     * check if Street is closed
+     * @return true if street is closed
+     */
     public boolean isClosed() {
         return closed;
     }
 
+    /**
+     * Check if street is open
+     * @return true if street is open
+     */
     public boolean isOpen() {
         return !closed;
     }
 
+    /**
+     * Close or open the street
+     * @param closed boolean if we want to close or open street
+     */
     public void setClosed(boolean closed) {
         this.closed = closed;
         Platform.runLater(() -> {
@@ -56,6 +81,11 @@ public class MyStreet implements Street {
         });
     }
 
+    /**
+     * Set cooeficient of trafic on actual street
+     * @param trafficCoefficient Coeficient that we want so set
+     * @throws Exception
+     */
     public void setTrafficCoefficient(int trafficCoefficient) throws Exception {
         if (trafficCoefficient < 1 || trafficCoefficient > 10) {
             throw new Exception("Traffic coefficient have to be in range 1..10! Value will remain unchanged.");
@@ -63,6 +93,10 @@ public class MyStreet implements Street {
         this.trafficCoefficient = trafficCoefficient;
     }
 
+    /**
+     * Get the trafic coeficient of actual street
+     * @return Trafic coeficient of street
+     */
     public int getTrafficCoefficient() {
         return trafficCoefficient;
     }
@@ -99,7 +133,7 @@ public class MyStreet implements Street {
      * Přidá do seznamu zastávek novou zastávku.
      *
      * @param stop Nově přidávaná zastávka.
-     * @return
+     * @return True if it was successful
      */
     public boolean addStop(Stop stop) {
         if (stop == null)
@@ -193,6 +227,11 @@ public class MyStreet implements Street {
         return false;
     }
 
+    /**
+     * Function that compares streets
+     * @param obj street that we eant compare to actual street
+     * @return True if they are the same
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -217,16 +256,29 @@ public class MyStreet implements Street {
         return false;
     }
 
+    /**
+     * Starting Coordinate of street
+     * @return first coordinate of street
+     */
     @Override
     public Coordinate begin() {
         return this.coordinates.get(0);
     }
 
+    /**
+     * Get last coord of street
+     * @return last coordinate of street
+     */
     @Override
     public Coordinate end() {
         return this.coordinates.get(this.coordinates.size() - 1);
     }
 
+    /**
+     * Check if street follows actual street
+     * @param s street that should follow actual street
+     * @return true if streets are followed
+     */
     @Override
     public boolean follows(Street s) {
         if (this.begin().equals(s.begin()) || this.begin().equals(s.end()) || this.end().equals(s.begin()) || this.end().equals(s.end())) {
@@ -245,6 +297,11 @@ public class MyStreet implements Street {
         return false;*/
     }
 
+    /**
+     * Get stop on actual street
+     * @param id id of stop
+     * @return Stop that we are looking for
+     */
     @Override
     public Stop getStop(String id) {
         for (Stop stop : this.stops) {
@@ -254,10 +311,18 @@ public class MyStreet implements Street {
         return null;
     }
 
+    /**
+     * Draw street
+     * @param gui GIU that we want to set
+     */
     public void setGui(javafx.scene.shape.Line gui) {
         this.lineGui = gui;
     }
 
+    /**
+     * Return GIU
+     * @return GUI
+     */
     public javafx.scene.shape.Line getGui() {
         return lineGui;
     }

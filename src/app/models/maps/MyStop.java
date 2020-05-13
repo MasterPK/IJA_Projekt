@@ -6,6 +6,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
+/**
+ * Class for basic work with Stops
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
+ */
 public class MyStop implements Stop
 {
     private String id;
@@ -67,7 +72,7 @@ public class MyStop implements Stop
     /**
      * Set label.
      *
-     * @param label
+     * @param label label that we want draw
      */
     @Override
     public void setLabel(Label label) {
@@ -77,7 +82,7 @@ public class MyStop implements Stop
     /**
      * Get stop name label.
      *
-     * @return
+     * @return Name of stop label
      */
     @Override
     public Label getLabel() {
@@ -85,6 +90,11 @@ public class MyStop implements Stop
     }
 
 
+    /**
+     * Compute if stops are the same
+     * @param obj stop that we want to compare to actual stop
+     * @return true if they are the same
+     */
     @Override
     public boolean equals(Object obj)
     {
@@ -105,6 +115,10 @@ public class MyStop implements Stop
     }
 
 
+    /**
+     * Override string function
+     * @return String of stop
+     */
     @Override
     public String toString() {
         return "stop(" + this.getId() + ")";

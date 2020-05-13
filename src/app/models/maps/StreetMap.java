@@ -7,8 +7,9 @@ package app.models.maps;
 import java.util.List;
 
 /**
- * Reprezentuje jednu mapu, která obsahuje ulice.
- * @author koci
+ * Interface for StreetMap
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
  */
 public interface StreetMap {
     /**

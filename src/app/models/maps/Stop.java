@@ -8,11 +8,9 @@ package app.models.maps;
 import javafx.scene.control.Label;
 
 /**
- * Reprezentuje zastávku. Zastávka má svůj unikátní identifikátor a dále souřadnice umístění a zná ulici, na které je umístěna.
- * Zastávka je jedinečná svým identifikátorem. Reprezentace zastávky může existovat, ale nemusí mít
- * přiřazeno umístění (tj. je bez souřadnic a bez znalosti ulice). Pro shodu objektů platí, že dvě zastávky jsou shodné, pokud
- * mají stejný identifikátor.
- * @author koci
+ * Interface for Stops
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
  */
 public interface Stop {
 

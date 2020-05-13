@@ -9,15 +9,20 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Calculate actual position of a bus on map
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
+ */
 public abstract class TripSimulation {
     /**
-     * Compute current position of vehicle.
-     * @param currentTime
-     * @param startTimePos
-     * @param endTimePos
-     * @param startStop
-     * @param endStop
-     * @param line
+     * Compute current position of vehicle fram actual time and expected time when the bus should be on last stop.
+     * @param currentTime actual time
+     * @param startTimePos time of starting position of buss
+     * @param endTimePos time when the bus must end his ride
+     * @param startStop starting bus stop
+     * @param endStop ending bus stop
+     * @param line line of actual trip
      * @return Coord of a point where the actual bus is
      */
     public static Coordinate dotPosition(LocalTime currentTime, LocalTime startTimePos, LocalTime endTimePos, Stop startStop, Stop endStop, Line line) {

@@ -6,6 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
+/**
+ * Class that work with lines and compute different things on lines.
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
+ */
 public class MyLine implements Line {
     private List<Stop> stops;
     private List<Street> streets;
@@ -41,6 +47,12 @@ public class MyLine implements Line {
     }
 
 
+    /**
+     * backup function
+     * @param stop1 starting stop
+     * @param stop2 ending stop
+     * @return Lenght between imaginary stops
+     */
     public double getStopAndCoordinateLength(Stop stop1, Stop stop2) {
         double lenght = 0;
         List<Street> lineStreets = new ArrayList<>();
@@ -92,6 +104,11 @@ public class MyLine implements Line {
         return lenght;
     }
 
+    /**
+     * Compute lenght of street.
+     * @param street street that I want to compute.
+     * @return lenght of street as double value.
+     */
     public double getLenghtOfStreet(Street street) {
         if (Math.abs(street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()) > 0) {
             return (Math.abs(street.getCoordinates().get(0).getX() - street.getCoordinates().get(1).getX()));
@@ -174,6 +191,13 @@ public class MyLine implements Line {
         return this.conflictStreets;
     }
 
+
+    /**
+     * Compute lenght between 2 bus stops.
+     * @param stop1 starting stop
+     * @param stop2 ending stop
+     * @return actual lenght between bus stops as double value.
+     */
     public double getStopsLength(Stop stop1, Stop stop2) {
         double lenght = 0;
         List<Street> lineStreets = new ArrayList<>();
@@ -232,8 +256,8 @@ public class MyLine implements Line {
     /**
      * Get stop by real index, ignore streets with no stop
      *
-     * @param index
-     * @return
+     * @param index what index I want
+     * @return Stop on index.
      */
     public Stop getStopByIndex(int index) {
         int counter = 0;
@@ -251,7 +275,7 @@ public class MyLine implements Line {
     /**
      * Get real stops count.
      *
-     * @return
+     * @return count of stops on line
      */
     @Override
     public int getRealStopsCount() {
@@ -264,6 +288,10 @@ public class MyLine implements Line {
         return counter;
     }
 
+    /**
+     * Get real stops
+     * @return Gest list of stops with no null values
+     */
     @Override
     public List<Stop> getRealStops() {
         List<Stop> stops = new ArrayList<>();
@@ -275,10 +303,20 @@ public class MyLine implements Line {
         return stops;
     }
 
+    /**
+     * Return streets on line.
+     * @return Streets on line
+     */
     public List<Street> getStreets() {
         return streets;
     }
 
+    /**
+     * Get streets between 2 bus stops.
+     * @param stop1 starting stop
+     * @param stop2 ending stop
+     * @return List of streets between stops.
+     */
     public List<Street> getStreetsBetween(Stop stop1, Stop stop2) {
         List<Street> lineStreets = new ArrayList<>();
         int first = 0;
@@ -296,6 +334,12 @@ public class MyLine implements Line {
         return lineStreets;
     }
 
+    /**
+     * Return a Coordinate that joins 2 streets.
+     * @param street1 first street
+     * @param street2 second street
+     * @return Coordinate that is identical for both streets.
+     */
     public Coordinate followPoint(Street street1, Street street2) {
         Coordinate start = street1.getCoordinates().get(0);
         Coordinate end = street1.getCoordinates().get(1);
@@ -321,9 +365,9 @@ public class MyLine implements Line {
     /**
      * Function that will find if streets bind to each other
      *
-     * @param street
-     * @param street2
-     * @return
+     * @param street first street
+     * @param street2 second street
+     * @return boolean value if second street follow first street
      */
     public boolean isFollowing(Street street, Street street2) {
         if ((street.getCoordinates().get(0).equals(street2.getCoordinates().get(0))) || (street.getCoordinates().get(0).equals(street2.getCoordinates().get(1))) || (street.getCoordinates().get(1).equals(street2.getCoordinates().get(0))) || (street.getCoordinates().get(1).equals(street2.getCoordinates().get(1)))) {
@@ -333,6 +377,12 @@ public class MyLine implements Line {
         }
     }
 
+    /**
+     * Finding what coord point is more left on the map.
+     * @param coord1 first coordinate
+     * @param coord2 second coordinate
+     * @return Boolean value if first coord is more left or no.
+     */
     public boolean plusX(Coordinate coord1, Coordinate coord2) {
         boolean plus;
         if (coord1.getX() - coord2.getX() < 0) {
@@ -343,6 +393,12 @@ public class MyLine implements Line {
         return plus;
     }
 
+    /**
+     * Finding what coord point is more higher on the map.
+     * @param coord1 first coord
+     * @param coord2 second coord
+     * @return Boolean value if first coord is more higher or no.
+     */
     public boolean plusY(Coordinate coord1, Coordinate coord2) {
         boolean plus;
         if (coord1.getY() - coord2.getY() < 0) {
@@ -354,6 +410,11 @@ public class MyLine implements Line {
     }
 
 
+    /**
+     * Compute if street is horizontal or vertical.
+     * @param street computed street
+     * @return return true if street if horizontal and false if vertical.
+     */
     public boolean changeX(Street street) {
         boolean zmenaX;
         Coordinate first = street.getCoordinates().get(0);
@@ -367,6 +428,11 @@ public class MyLine implements Line {
         return zmenaX;
     }
 
+    /**
+     * Add stop to list of stops on line and add street of stop that we are adding
+     * @param stop stop that we want to add to line
+     * @return true if it was successful
+     */
     @Override
     public boolean addStop(Stop stop) {
         if (this.stops.isEmpty()) {
@@ -392,6 +458,11 @@ public class MyLine implements Line {
 
     }
 
+    /**
+     * Add street to line
+     * @param street
+     * @return true if it was successful
+     */
     @Override
     public boolean addStreet(Street street) {
         if (this.stops.isEmpty()) {
@@ -405,6 +476,10 @@ public class MyLine implements Line {
         return false;
     }
 
+    /**
+     * Get list of Streets and Stops on line
+     * @return list of Stops on line and List of Streets on line
+     */
     @Override
     public List<AbstractMap.SimpleImmutableEntry<Street, Stop>> getRoute() {
         List<AbstractMap.SimpleImmutableEntry<Street, Stop>> result = new ArrayList<>();
@@ -414,20 +489,36 @@ public class MyLine implements Line {
         return result;
     }
 
+    /**
+     * Add trip on line
+     * @param trip trip that we want to add
+     */
     @Override
     public void addTrip(Trip trip) {
         trips.add(trip);
     }
 
+    /**
+     * Get trips of line
+     * @return list of Trips in line
+     */
     public List<Trip> getTrips() {
         return trips;
     }
 
+    /**
+     * Get clone of object
+     * @return Clone of actual object
+     * @throws CloneNotSupportedException
+     */
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 
+    /**
+     * Backup all timetables of trips, stops and streets.
+     */
     public void backUp() {
         this.streetsBackUp.addAll(this.streets);
         this.tripsBackUp.addAll(this.trips);

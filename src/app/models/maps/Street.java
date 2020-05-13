@@ -47,6 +47,12 @@ public interface Street {
      */
     boolean addStop(Stop stop);
 
+    /**
+     * Set defaul street
+     * @param id id of street
+     * @param coordinates coordinates of street
+     * @return new created street
+     */
     static Street defaultStreet(String id, Coordinate... coordinates) {
         if (coordinates.length <= 1)
             return null;
@@ -66,6 +72,12 @@ public interface Street {
         return new MyStreet(id, coordinates);
     }
 
+    /**
+     * Create new street
+     * @param id id of street
+     * @param coordinates Coordinatesof street
+     * @return created street
+     */
     static Street create(String id, List<Coordinate> coordinates) {
         if (coordinates.size() <= 1)
             return null;
@@ -85,17 +97,72 @@ public interface Street {
         return new MyStreet(id, coordinates);
     }
 
+    /**
+     * Starting Coordinate of street
+     * @return first coordinate of street
+     */
     Coordinate begin();
+    /**
+     * Get last coord of street
+     * @return last coordinate of street
+     */
     Coordinate end();
+    /**
+     * Check if street follows actual street
+     * @param s street that should follow actual street
+     * @return true if streets are followed
+     */
     boolean follows(Street s);
-    public Stop getStop(String id);
+    /**
+     * Get stop on actual street
+     * @param id id of stop
+     * @return Stop that we are looking for
+     */
+    Stop getStop(String id);
+    /**
+     * Set cooeficient of trafic on actual street
+     * @param trafficCoefficient Coeficient that we want so set
+     * @throws Exception
+     */
     void setTrafficCoefficient(int trafficCoefficient) throws Exception;
+    /**
+     * Get the trafic coeficient of actual street
+     * @return Trafic coeficient of street
+     */
     int getTrafficCoefficient();
+    /**
+     * Draw street
+     * @param gui GIU that we want to set
+     */
     void setGui(javafx.scene.shape.Line gui);
+    /**
+     * Return GIU
+     * @return GUI
+     */
     javafx.scene.shape.Line getGui();
+    /**
+     * check if Street is closed
+     * @return true if street is closed
+     */
     boolean isClosed();
+    /**
+     * Check if street is open
+     * @return true if street is open
+     */
     boolean isOpen();
+    /**
+     * Close or open the street
+     * @param closed boolean if we want to close or open street
+     */
     void setClosed(boolean closed);
+    /**
+     * Get lines of street
+     * @return lines of street
+     */
     List<Line> getLines();
+    /**
+     * Add line to street
+     * @param line line that we want to add
+     */
     void addLine(Line line);
 }

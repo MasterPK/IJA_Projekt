@@ -6,10 +6,14 @@ import org.json.simple.JSONObject;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
+
+/**
+ * Lines loader from JSON file.
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
+ */
 public abstract class LinesLoader {
 
 

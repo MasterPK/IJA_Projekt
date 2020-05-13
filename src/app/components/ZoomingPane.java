@@ -9,10 +9,25 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Scale;
 
+/**
+ * Zooming variant of Pane component.
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
+ */
 public class ZoomingPane extends Pane {
+    /**
+     * Children node component.
+     */
     Node content;
+    /**
+     * Zoom factor.
+     */
     private DoubleProperty zoomFactor = new SimpleDoubleProperty(1);
 
+    /**
+     * Initialize object.
+     * @param content Node that will be children of this object and will be zoomable.
+     */
     public ZoomingPane(Node content) {
         this.content = content;
         getChildren().add(content);
@@ -28,6 +43,9 @@ public class ZoomingPane extends Pane {
         });
     }
 
+    /**
+     * Change children layout.
+     */
     protected void layoutChildren() {
         Pos pos = Pos.TOP_LEFT;
         double width = getWidth();
@@ -45,12 +63,26 @@ public class ZoomingPane extends Pane {
                 pos.getVpos());
     }
 
+    /**
+     *
+     * @return Value of {@link ZoomingPane#zoomFactor}.
+     */
     public final Double getZoomFactor() {
         return zoomFactor.get();
     }
+
+    /**
+     * Set new zoom factor.
+     * @param zoomFactor {@link ZoomingPane#zoomFactor}
+     */
     public final void setZoomFactor(Double zoomFactor) {
         this.zoomFactor.set(zoomFactor);
     }
+
+    /**
+     *
+     * @return {@link ZoomingPane#zoomFactor}
+     */
     public final DoubleProperty zoomFactorProperty() {
         return zoomFactor;
     }

@@ -20,12 +20,22 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Show conflict lines in table.
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
+ */
 public class LinesManagement {
     public TableView linesTableView;
 
     private List<Line> lines;
     private StreetMap streetMap;
 
+    /**
+     * Initialize object and GUI.
+     * @param lines List of all lines.
+     * @param streetMap Full street map.
+     */
     public void startUp(List<Line> lines, StreetMap streetMap)
     {
         this.lines=lines;
@@ -42,6 +52,9 @@ public class LinesManagement {
         refreshGui();
     }
 
+    /**
+     * Print all lines with at least one conflict (closed street).
+     */
     private void refreshGui()
     {
         Platform.runLater(() -> {
@@ -57,7 +70,11 @@ public class LinesManagement {
 
     private int clickCounter=0;
     private LocalTime previous=LocalTime.now();
-    public void openLine(Event event)
+
+    /**
+     * Open specific line window.
+     */
+    public void openLine()
     {
         if(this.linesTableView.getSelectionModel().isEmpty())
         {
@@ -107,8 +124,10 @@ public class LinesManagement {
 
     }
 
-
-
+    /**
+     * Find lines with conflicts.
+     * @return List of lines that has conflicts.
+     */
     private List<Line> badLines(){
         List<Line> tmp = new ArrayList<>();
         for (Line line:lines){

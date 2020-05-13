@@ -2,18 +2,18 @@ package app.controllers;
 
 import app.core.AlertHandler;
 import app.models.maps.Line;
-import app.models.maps.Stop;
 import app.models.maps.Street;
-import app.models.maps.Trip;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.util.List;
-
+/**
+ * Controller to street settings window.
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
+ */
 public class StreetSettingsController {
 
     @FXML
@@ -25,6 +25,11 @@ public class StreetSettingsController {
     private Street street;
     private Stage currentWindow;
 
+    /**
+     * Initialize object. Load street coefficient and show it.
+     * @param street Street.
+     * @param currentWindow Parent window.
+     */
     public void startUp(Street street, Stage currentWindow) {
         this.currentWindow = currentWindow;
         this.street = street;
@@ -34,6 +39,9 @@ public class StreetSettingsController {
         guiRefresh();
     }
 
+    /**
+     * Set correctly open/close street button.
+     */
     private void guiRefresh() {
         Platform.runLater(() -> {
             if (this.street.isClosed()) {
@@ -45,6 +53,10 @@ public class StreetSettingsController {
 
     }
 
+    /**
+     * On start/stop button click.
+     * Compute new conflicts.
+     */
     public void closeClick() {
         if (this.street.isClosed()) {
             this.street.setClosed(false);
@@ -63,6 +75,11 @@ public class StreetSettingsController {
         guiRefresh();
     }
 
+    /**
+     * On window close button click.
+     * Set street color based on if it is open/closed.
+     * Close window.
+     */
     public void okClick() {
         try {
             this.street.setTrafficCoefficient(Integer.parseInt(streetCoefficientTextField.textProperty().get()));
@@ -86,6 +103,9 @@ public class StreetSettingsController {
         }
     }
 
+    /**
+     * Close window.
+     */
     public void cancelClick() {
         Stage stage = (Stage) this.closedButton.getScene().getWindow();
         stage.close();

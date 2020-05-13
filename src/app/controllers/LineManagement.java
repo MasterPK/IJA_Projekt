@@ -302,7 +302,7 @@ public class LineManagement {
      * Update timetable based on new route with one closed street.
      * @deprecated
      * @param line Line object.
-     * @param newStreets Streets list of detour.
+     * @param newStreets List of streets that is new route.
      * @param closedStreet Closed street.
      */
     public void updateTimetable(Line line, List<Street> newStreets, Street closedStreet) {
@@ -365,6 +365,12 @@ public class LineManagement {
 
     }
 
+    /**
+     * Update timetable based on new route with list of closed street.
+     * @param line Line object.
+     * @param newStreets List of streets that is new route.
+     * @param closedStreets List of closed streets that is in order. (Streets must follows each other)
+     */
     public void updateTimetableNew(Line line, List<Street> newStreets, List<Street> closedStreets) {
 
         double povodnaDlzka = 0;
@@ -428,6 +434,14 @@ public class LineManagement {
 
     }
 
+    /**
+     * Compute new timetable.
+     * Check if all data is correct.
+     * Compute conflicts for next use.
+     * Close window.
+     * @param mouseEvent
+     * @throws Exception When no route is available or route is not valid.
+     */
     public void saveAndCloseClick(MouseEvent mouseEvent) throws Exception {
         List<Street> newStreets = new ArrayList<>();
         ObservableList list = this.newRouteListView.getItems();
@@ -438,18 +452,6 @@ public class LineManagement {
         for (Object streetId : list) {
             newStreets.add(this.streetMap.getStreet((String) streetId));
         }
-        /*
-        Street closedStreet = null;
-        for (Street street : this.line.getStreets()) {
-            if (street.isClosed()) {
-                closedStreet = street;
-                break;
-            }
-        }
-        if (closedStreet == null) {
-            close();
-            return;
-        }*/
         List<Street> closedStreets = this.line.getConflicts().get(0);
 
 
@@ -477,11 +479,20 @@ public class LineManagement {
         close();
     }
 
+    /**
+     * Close window.
+     */
     private void close() {
         Stage stage = (Stage) this.newRouteListView.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Check if between two stops exists at least one available route.
+     * @param startingStop First stop.
+     * @param endingStop Second stop.
+     * @return Return true if there is at least one not closed route. Otherwise false.
+     */
     public boolean findWay(Stop startingStop, Stop endingStop) {
         List<Street> streetsToCheck = new ArrayList<>();
         List<Street> checkedStreets = new ArrayList<>();
@@ -511,6 +522,12 @@ public class LineManagement {
         return result;
     }
 
+    /**
+     * Find streets that follows street.
+     * @param street Street to be followed.
+     * @param checked List of streets that have been already checked.
+     * @return List of following streets.
+     */
     private List<Street> followStreets(Street street, List<Street> checked) {
         List<Street> followStreets = new ArrayList<>();
 
@@ -536,8 +553,8 @@ public class LineManagement {
     /**
      * Function that will check if streets in line are good
      *
-     * @param line
-     * @return
+     * @param line Line to check.
+     * @return Return true if good, otherwise false.
      */
     private boolean lineCheck(Line line) {
         boolean result = true;

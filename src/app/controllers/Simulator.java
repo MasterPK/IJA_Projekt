@@ -1,21 +1,26 @@
 package app.controllers;
 
-import app.core.ExceptionHandler;
 import app.models.LinesLoader;
 import app.models.TripSimulation;
 import app.models.maps.*;
 import app.view.BaseGui;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static java.time.temporal.ChronoUnit.MILLIS;
 
+/**
+ * Simulator class that handle all operations about simulation.
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
+ */
 public class Simulator {
 
     // Simulation
@@ -36,10 +41,21 @@ public class Simulator {
     // View
     private BaseGui gui;
 
+    /**
+     * Get list of all lines.
+     * @return List of all lines.
+     */
     public List<Line> getLines() {
         return lines;
     }
 
+    /**
+     * Initialize simulator.
+     * Start permanent timer (1 sec).
+     * @param streetMap Full street map.
+     * @param gui GUI controller.
+     * @throws Exception When error.
+     */
     public Simulator(StreetMap streetMap, BaseGui gui) throws Exception {
         this.streetMap = streetMap;
         this.gui = gui;
@@ -58,6 +74,12 @@ public class Simulator {
         }, 0, 1000);
     }
 
+    /**
+     * Compute difference between two times.
+     * @param diff1 Time 1.
+     * @param diff2 Time 2.
+     * @return Difference between two time in seconds.
+     */
     private int minusLocalTime(LocalTime diff1, LocalTime diff2) {
         LocalTime diff = diff1.minusHours(diff2.getHour())
                 .minusMinutes(diff2.getMinute())
@@ -69,6 +91,13 @@ public class Simulator {
 
     private int highlightCounter = 0;
 
+    /**
+     * Core simulator function.
+     * Determine if specific trip on line is active at current simulation time.
+     * Draw vehicle position in map.
+     * @param trip Trip.
+     * @param line Line.
+     */
     private void handleTrip(Trip trip, Line line) {
 
         if (trip.getTimetable().isEmpty()) {
@@ -91,6 +120,12 @@ public class Simulator {
                 Circle circle = this.gui.createDot(currentTripPosition);
                 trip.setCircle(circle);
                 circle.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                    /**
+                     * Event when mouse hover on vehicle position.
+                     * Highlight line and stops names.
+                     * Show vehicle timetable.
+                     * @param event
+                     */
                     @Override
                     public void handle(MouseEvent event) {
                         gui.highlightLine(line);
@@ -100,24 +135,27 @@ public class Simulator {
                         selectedTrip = trip;
                     }
                 });
-                circle.setOnMouseExited(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-
-                    }
-                });
                 this.gui.addActiveVehicle(trip);
                 break;
             }
         }
     }
 
+    /**
+     * Core simulator function.
+     * Handle all existing lines.
+     * @param line
+     */
     private void handleLine(Line line) {
         for (Trip trip : line.getLineConnections()) {
             handleTrip(trip, line);
         }
     }
 
+    /**
+     * Core simulator function.
+     * Called every X seconds to refresh position of vehicles.
+     */
     private void simulationRefresh() {
         gui.clearSimulationGui();
         gui.clearActiveVehicles();
@@ -126,10 +164,18 @@ public class Simulator {
         }
     }
 
+    /**
+     * Core simulator function.
+     * Called every second to update simulation time.
+     */
     private void simulationHandle() {
         simulationTime = simulationTime.plus(this.simulationSpeed, MILLIS);
     }
 
+    /**
+     * Compute new timetable with traffic on streets. Wont work when simulation is running.
+     * @throws Exception When simulation running.
+     */
     public void computeTraffic() throws Exception {
 
         if (!getSimulationState()) {
@@ -148,6 +194,10 @@ public class Simulator {
 
     }
 
+    /**
+     * Update timetable when traffic is higher for specific street and lines on that street.
+     * @param street Street to compute.
+     */
     private void trafficCore(Street street) {
         List<Line> returnLines = new ArrayList<>();
         List<Stop> lineStops = new ArrayList<>();
@@ -157,13 +207,11 @@ public class Simulator {
             }
         }
 
-        // Ošetřit pokud jsou na stejné ulici! --DONE! ------> netestované!
-        // Dodělat prostřední ulici - DONE!---->netestované
         for (Line line : returnLines) {
             lineStops = line.getRealStops();
             for (int i = 0; i < lineStops.size() - 1; i++) {
                 List<Street> streetsBetween = line.getStreetsBetween(lineStops.get(i), lineStops.get(i + 1));
-                if (streetsBetween.size() == 1) { //ošetrenie ak sú zastávky na rovnakej ulici a ulica má zápchu
+                if (streetsBetween.size() == 1) {
                     if (streetsBetween.get(0).equals(street)) {
                         double lenghtOfStreet = line.getLenghtOfStreet(street);
                         double lenghtOfStops = line.getStopsLength(line.getStopByIndex(i), line.getStopByIndex(i + 1));
@@ -212,6 +260,14 @@ public class Simulator {
         }
     }
 
+    /**
+     * Calculate new time of stops in trips.
+     * @param street Street.
+     * @param lineStops List of line stops.
+     * @param line Line object.
+     * @param i Current position.
+     * @param follow Following coordinate.
+     */
     private void calculateNewTime(Street street, List<Stop> lineStops, Line line, int i, Coordinate follow) {
         Stop stoptmp = new MyStop("tmp", follow);
         stoptmp.setStreet(street);
@@ -231,6 +287,9 @@ public class Simulator {
         }
     }
 
+    /**
+     * @return True if some line has conflict.
+     */
     public boolean isConflict()
     {
         for(Line line:this.lines){
@@ -242,6 +301,9 @@ public class Simulator {
         return false;
     }
 
+    /**
+     * Compute conflicts for all lines.
+     */
     public void setLinesBlock() {
         for (Line line : this.getLines()) {
             line.computeConflicts();
@@ -250,7 +312,7 @@ public class Simulator {
 
 
     /**
-     * Start simulation at realtime
+     * Start simulation at current real time.
      */
     public void start() throws Exception {
         start(LocalTime.now());
@@ -263,8 +325,14 @@ public class Simulator {
 
         if (!simulationState) {
 
-            // Main Timer Task - called every 1 sec after simulation started
+            // Main Timer Task - called every 1 sec
             final TimerTask timerTask = new TimerTask() {
+                /**
+                 * Core simulator function.
+                 * Called every one second when simulation is running.
+                 * Handle correct time management.
+                 * Controls behaviour of simulation.
+                 */
                 @Override
                 public void run() {
                     if (!simulationTask) {

@@ -33,9 +33,16 @@ import java.io.*;
 import java.time.LocalTime;
 import java.util.*;
 
-
+/**
+ * Main controller that handle main.fxml events.
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
+ */
 public class Controller extends BaseController {
 
+    /**
+     * GUI components linked to FXML.
+     */
     @FXML
     public Pane mapPane;
     @FXML
@@ -65,16 +72,31 @@ public class Controller extends BaseController {
     @FXML
     public TableView<Object> selectedTripTableView;
 
+    /**
+     * Simulator controller object.
+     */
     private Simulator simulator;
+    /**
+     * BaseGui that handles most of gui changes.
+     */
     private BaseGui baseGui;
 
+    /**
+     * Street map that holds all street and stop objects.
+     */
     private StreetMap streetMap;
 
+    /**
+     * Initialize street map implicitly.
+     */
     public Controller() {
         streetMap = new MyStreetMap();
     }
 
-
+    /**
+     * Add node to {@link Controller#mapPane}. Node is implicitly drawn to gui.
+     * @param node Node that will be added.
+     */
     private void addNodeToMapPane(Node node) {
         node.setLayoutX(node.getLayoutX());
         node.setLayoutY(node.getLayoutY());
@@ -87,7 +109,12 @@ public class Controller extends BaseController {
 
     }
 
-
+    /**
+     * Draw name of stop at specified coordinates.
+     * @param label Label object with street name.
+     * @param x X coordinate.
+     * @param y Y coordinate.
+     */
     private void addLabelOverStop(Label label, double x, double y) {
         Platform.runLater(() -> {
             addNodeToMapPane(label);
@@ -100,6 +127,10 @@ public class Controller extends BaseController {
 
     }
 
+    /**
+     * Draw all stops on specified street.
+     * @param street Street which stops will be drawn.
+     */
     private void drawStops(Street street) {
         for (Stop stop : street.getStops()) {
             Circle circle = new Circle(stop.getCoordinate().getX(), stop.getCoordinate().getY(), 7, Paint.valueOf("blue"));
@@ -130,9 +161,21 @@ public class Controller extends BaseController {
         }
     }
 
+    /**
+     * Max founded X coordinate in map.
+     */
     private double maxX = 0;
+    /**
+     * Max founded Y coordinate in map.
+     */
     private double maxY = 0;
 
+    /**
+     * Draw full map.
+     * @param map JSON map data source.
+     * @throws IOException When JSON data file doesn't exist.
+     * @throws ParseException When JSON data file is in bad format.
+     */
     public void drawMap(JSONObject map) throws IOException, ParseException {
 
 
@@ -212,25 +255,6 @@ public class Controller extends BaseController {
                             stage.showAndWait();
                             simulator.computeTraffic();
                             simulator.setLinesBlock();
-
-                            /*TextInputDialog dialog = new TextInputDialog(Integer.toString(street.getTrafficCoefficient()));
-                            dialog.setTitle("Street settings");
-                            dialog.setHeaderText("Enter street traffic coefficient");
-                            dialog.setContentText("You can set coefficient 1-10, where 1 is normal traffic and 10 is maximum traffic.");
-
-                            Optional<String> result = dialog.showAndWait();*/
-                            /*result.ifPresent(s -> {
-                                try {
-                                    street.setTrafficCoefficient(Integer.parseInt(s));
-                                    simulator.computeTraffic();
-                                }catch (NumberFormatException e)
-                                {
-                                    AlertHandler.showWarning(new Exception("Input is not integer!"));
-                                }
-                                catch (Exception e) {
-                                    AlertHandler.showWarning(e);
-                                }
-                            });*/
                         } catch (Exception e) {
                             ExceptionHandler.show(e);
                         }
@@ -247,6 +271,7 @@ public class Controller extends BaseController {
 
     /**
      * Function that is called on Scene start up.
+     * Sets GUI appearance and link GUI events.
      */
     @Override
     public void startUp() {
@@ -341,6 +366,7 @@ public class Controller extends BaseController {
 
     /**
      * Function that is called on Scene close.
+     * Stop simulator and permanent timer.
      */
     @Override
     public void close() {
@@ -349,6 +375,9 @@ public class Controller extends BaseController {
     }
 
 
+    /**
+     * Handle click on start/stop simulation button.
+     */
     public void startSimulationBtnOnClicked() {
 
         if(this.simulator.isConflict())
@@ -377,7 +406,10 @@ public class Controller extends BaseController {
     }
 
 
-    public void openLinesManagementClick(MouseEvent mouseEvent) {
+    /**
+     * Open new window wih lines conflicts management.
+     */
+    public void openLinesManagementClick() {
         if(this.simulator.getSimulationState())
         {
             AlertHandler.showWarning(new Exception("You can not edit lines while simulation running!"));

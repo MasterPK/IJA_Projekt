@@ -20,14 +20,43 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * LineManagement controller. Sets detour of specific conflict in line when some street is closed.
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
+ */
 public class LineManagement {
+    /**
+     * Streets list of new detour.
+     */
     public ListView newRouteListView;
+    /**
+     * Streets list that follows last good street in line.
+     */
     public ListView selectStreetListView;
+    /**
+     * Actual line route.
+     */
     public ListView currentRouteListView;
+    /**
+     * Label with name of last good street.
+     */
     public Label lastGoooooodStreet;
+    /**
+     * Line object.
+     */
     private Line line;
+    /**
+     * Full streets map.
+     */
     private StreetMap streetMap;
 
+    /**
+     * Initialize object, test if current conflict can be resolved (At least one detour is available) and initialize GUI.
+     * @param line {@link LineManagement#line}
+     * @param streetMap {@link LineManagement#streetMap}
+     * @throws Exception When there is no route available.
+     */
     public void startUp(Line line, StreetMap streetMap) throws Exception {
         this.line = line;
         this.streetMap = streetMap;
@@ -38,6 +67,11 @@ public class LineManagement {
         refreshGui();
     }
 
+    /**
+     * Refresh window GUI.
+     * Find last good street.
+     * Show available streets to pick.
+     */
     private void refreshGui() {
         Platform.runLater(() -> {
             Street lastGoodStreet = null;
@@ -66,6 +100,11 @@ public class LineManagement {
         });
     }
 
+    /**
+     * Find all streets that follows specified street.
+     * @param street Street.
+     * @return Return list of streets.
+     */
     public List<Street> getNextStreets(Street street) {
         List<Street> ulice = new ArrayList<>();
 
@@ -87,9 +126,22 @@ public class LineManagement {
         return ulice;
     }
 
+    /**
+     * Click counter. Used to count double click on some cmponent.
+     */
     private int clickCounter = 0;
+    /**
+     * Time of last click.
+     */
     private LocalTime previous = LocalTime.now();
 
+    /**
+     * Add street to detour list.
+     * Test if double click.
+     * Add street to {@link LineManagement#newRouteListView}.
+     * Compute new follow streets in {@link LineManagement#selectStreetListView}.
+     * @param mouseEvent
+     */
     public void addStreetClick(MouseEvent mouseEvent) {
         if (this.selectStreetListView.getSelectionModel().isEmpty()) {
             return;
@@ -123,9 +175,22 @@ public class LineManagement {
 
     }
 
+    /**
+     * Click counter. Used to count double click on some cmponent.
+     */
     private int removeClickCounter = 0;
+    /**
+     * Time of last click.
+     */
     private LocalTime previousRemove = LocalTime.now();
 
+    /**
+     * Remove street from detour list.
+     * Test if double click.
+     * Remove selected item from {@link LineManagement#newRouteListView}.
+     * Compute new follow streets in {@link LineManagement#selectStreetListView}.
+     * @param mouseEvent
+     */
     public void removeStreetClick(MouseEvent mouseEvent) {
         if (this.newRouteListView.getSelectionModel().isEmpty()) {
             return;
@@ -168,6 +233,12 @@ public class LineManagement {
 
     }
 
+    /**
+     * Find last stop before closed street.
+     * @param line Line to search.
+     * @param closedStreet Closed street.
+     * @return Index of last open stop before closed street in line.
+     */
     int getIndexOfFirstStopThatIsGood(Line line, Street closedStreet) {
         int indexOfFirstStopThatIsGood = -1;
         boolean found = false;
@@ -194,6 +265,12 @@ public class LineManagement {
         return indexOfFirstStopThatIsGood;
     }
 
+    /**
+     * Find first stop after closed street.
+     * @param line Line to search.
+     * @param closedStreet Closed street.
+     * @return Index of first open stop after closed street.
+     */
     int getIndexOfLastStopThatIsGood(Line line, Street closedStreet) {
         int indexOfLastStopThatIsGood = Integer.MAX_VALUE;
         boolean found = false;
@@ -222,12 +299,11 @@ public class LineManagement {
     }
 
     /**
-     * Deprecated
      * Update timetable based on new route with one closed street.
-     *
-     * @param line
-     * @param newStreets
-     * @param closedStreet
+     * @deprecated
+     * @param line Line object.
+     * @param newStreets Streets list of detour.
+     * @param closedStreet Closed street.
      */
     public void updateTimetable(Line line, List<Street> newStreets, Street closedStreet) {
 

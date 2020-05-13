@@ -1,7 +1,9 @@
 package app.controllers;
 
 /**
- * GUI controllers must extends this class, because main class sets GUI appearance through this functions.
+ * GUI controllers must extends this class, because parent class can set GUI appearance through this functions.
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
  */
 public abstract class BaseController {
 

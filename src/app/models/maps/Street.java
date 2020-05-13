@@ -9,11 +9,9 @@ package app.models.maps;
 import java.util.List;
 
 /**
- * Reprezentuje jednu ulici v mapě. Ulice má svůj identifikátor (název) a je definována souřadnicemi. Pro 1. úkol
- * předpokládejte pouze souřadnice začátku a konce ulice.
- * Na ulici se mohou nacházet zastávky.
- *
- * @author koci
+ * Interface for Streets
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
  */
 public interface Street {
 

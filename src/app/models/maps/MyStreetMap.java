@@ -4,6 +4,11 @@ package app.models.maps;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for basic work with Map
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
+ */
 public class MyStreetMap implements StreetMap {
 
     private List<Street> streets;
@@ -38,6 +43,11 @@ public class MyStreetMap implements StreetMap {
         return null;
     }
 
+    /**
+     * Check if street maps are same
+     * @param o street map that we want to compare to actual map
+     * @return true if they are same
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -46,6 +56,10 @@ public class MyStreetMap implements StreetMap {
         return streets.equals(that.streets);
     }
 
+    /**
+     * Get streets on actual map.
+     * @return List of streets of map.
+     */
     public List<Street> getStreets() {
         return streets;
     }

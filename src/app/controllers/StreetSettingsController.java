@@ -67,13 +67,17 @@ public class StreetSettingsController {
         try {
             this.street.setTrafficCoefficient(Integer.parseInt(streetCoefficientTextField.textProperty().get()));
             Platform.runLater(() -> {
-                if(street.getTrafficCoefficient()>1)
+                if(!street.isClosed())
                 {
-                    street.getGui().setStyle("-fx-stroke: orange; -fx-stroke-width: 2;");
+                    if(street.getTrafficCoefficient()>1)
+                    {
+                        street.getGui().setStyle("-fx-stroke: orange; -fx-stroke-width: 2;");
+                    }
+                    else {
+                        street.getGui().setStyle("-fx-stroke: black; -fx-stroke-width: 2;");
+                    }
                 }
-                else {
-                    street.getGui().setStyle("-fx-stroke: black; -fx-stroke-width: 2;");
-                }
+
             });
 
             cancelClick();

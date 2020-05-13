@@ -123,6 +123,51 @@ public class LineManagement {
 
     }
 
+    private int removeClickCounter = 0;
+    private LocalTime previousRemove = LocalTime.now();
+
+    public void removeStreetClick(MouseEvent mouseEvent) {
+        if (this.newRouteListView.getSelectionModel().isEmpty()) {
+            return;
+        }
+        removeClickCounter++;
+        if (removeClickCounter == 1) {
+            previous = LocalTime.now();
+            return;
+        }
+
+        if (TimeExtender.minusLocalTime(LocalTime.now(), previous) > 1) {
+            removeClickCounter = 0;
+            return;
+        }
+
+        if (removeClickCounter == 2) {
+            Platform.runLater(() -> {
+                this.newRouteListView.getItems().remove(this.newRouteListView.getItems().get(this.newRouteListView.getItems().size() - 1));
+
+
+                if (this.newRouteListView.getItems().isEmpty()) {
+                    this.selectStreetListView.getItems().clear();
+                    refreshGui();
+                    removeClickCounter = 0;
+                    return;
+                }
+
+                String streetId = (String) this.newRouteListView.getItems().get(this.newRouteListView.getItems().size() - 1);
+                this.selectStreetListView.getItems().clear();
+                List<Street> streets = getNextStreets(this.streetMap.getStreet(streetId));
+                for (Street street : streets) {
+                    if (street.isOpen()) {
+                        this.selectStreetListView.getItems().add(street.getId());
+                    }
+
+                }
+            });
+            removeClickCounter = 0;
+        }
+
+    }
+
     int getIndexOfFirstStopThatIsGood(Line line, Street closedStreet) {
         int indexOfFirstStopThatIsGood = -1;
         boolean found = false;

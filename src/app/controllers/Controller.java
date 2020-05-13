@@ -78,7 +78,13 @@ public class Controller extends BaseController {
     private void addNodeToMapPane(Node node) {
         node.setLayoutX(node.getLayoutX());
         node.setLayoutY(node.getLayoutY());
-        mapPane.getChildren().add(node);
+        try{
+            mapPane.getChildren().add(node);
+        }catch (Exception ignored)
+        {
+
+        }
+
     }
 
 

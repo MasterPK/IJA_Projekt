@@ -3,63 +3,55 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
-<GridPane fx:id="gridPane" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal"
-          xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.Controller">
+<GridPane fx:id="gridPane" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.Controller">
     <children>
         <GridPane GridPane.columnIndex="1">
             <columnConstraints>
-                <ColumnConstraints halignment="CENTER" percentWidth="100"/>
+                <ColumnConstraints halignment="CENTER" percentWidth="100" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="40" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="30" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES"/>
-                <RowConstraints valignment="TOP" vgrow="ALWAYS"/>
+                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30" minHeight="30" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="30" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+                <RowConstraints valignment="TOP" vgrow="ALWAYS" />
             </rowConstraints>
             <children>
                 <GridPane>
                     <columnConstraints>
-                        <ColumnConstraints percentWidth="33" halignment="CENTER"/>
-                        <ColumnConstraints percentWidth="33" halignment="CENTER"/>
-                        <ColumnConstraints percentWidth="33" halignment="RIGHT"/>
+                        <ColumnConstraints halignment="CENTER" percentWidth="33" />
+                        <ColumnConstraints halignment="CENTER" percentWidth="33" />
+                        <ColumnConstraints halignment="RIGHT" percentWidth="33" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints/>
+                        <RowConstraints />
                     </rowConstraints>
-                    <Label fx:id="zoomLabel" GridPane.columnIndex="1" text="Zoom"/>
-                    <Button onMouseClicked="#openLinesManagementClick" GridPane.columnIndex="2" text="Open lines manager"/>
+                    <Label fx:id="zoomLabel" text="Zoom" GridPane.columnIndex="1" />
+                    <Button onMouseClicked="#openLinesManagementClick" text="Detours manager" GridPane.columnIndex="2" />
                 </GridPane>
-                <Slider fx:id="zoomSlider" majorTickUnit="10.0" max="5.0" min="0.1" minorTickCount="50" value="1.0"
-                        GridPane.rowIndex="1"/>
-                <Label fx:id="currentTimeLabel" style="-fx-font-weight: bold; -fx-font-size: 15;" text="00:00:00" visible="false" GridPane.rowIndex="3"/>
+                <Slider fx:id="zoomSlider" majorTickUnit="10.0" max="5.0" min="0.1" minorTickCount="50" value="1.0" GridPane.rowIndex="1" />
+                <Label fx:id="currentTimeLabel" style="-fx-font-weight: bold; -fx-font-size: 15;" text="00:00:00" visible="false" GridPane.rowIndex="3" />
 
-                <Button fx:id="startSimulationButton" mnemonicParsing="false"
-                        onMouseClicked="#startSimulationBtnOnClicked" text="Start simulation" GridPane.rowIndex="8"/>
-                <TextField fx:id="simulationTimeTextField" alignment="CENTER" text="12:00" GridPane.halignment="CENTER"
-                           GridPane.rowIndex="3"/>
-                <Label text="Simulation time" GridPane.rowIndex="2"/>
-                <Label text="Simulation speed" GridPane.rowIndex="4"/>
-                <Label text="Refresh interval" GridPane.rowIndex="6"/>
-                <Slider fx:id="simulationSpeedSlider" majorTickUnit="1.0" max="5.0" minorTickCount="0"
-                        showTickLabels="true" showTickMarks="true" value="1.0" GridPane.rowIndex="5"/>
-                <Slider fx:id="refreshIntervalSlider" majorTickUnit="10.0" max="60.0" min="1.0" minorTickCount="2"
-                        showTickLabels="true" showTickMarks="true" value="1.0" GridPane.rowIndex="7"/>
+                <Button fx:id="startSimulationButton" mnemonicParsing="false" onMouseClicked="#startSimulationBtnOnClicked" text="Start simulation" GridPane.rowIndex="8" />
+                <TextField fx:id="simulationTimeTextField" alignment="CENTER" text="12:00" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                <Label text="Simulation time" GridPane.rowIndex="2" />
+                <Label text="Simulation speed" GridPane.rowIndex="4" />
+                <Label text="Refresh interval" GridPane.rowIndex="6" />
+                <Slider fx:id="simulationSpeedSlider" majorTickUnit="1.0" max="5.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" value="1.0" GridPane.rowIndex="5" />
+                <Slider fx:id="refreshIntervalSlider" majorTickUnit="10.0" max="60.0" min="1.0" minorTickCount="2" showTickLabels="true" showTickMarks="true" value="1.0" GridPane.rowIndex="7" />
                 <VBox alignment="TOP_CENTER" GridPane.rowIndex="9">
                     <children>
-                        <Label text="Active vehicles" style="-fx-font-weight: bold; -fx-font-size: 15;"/>
-                        <TableView fx:id="activeVehiclesTableView" >
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 15;" text="Active vehicles" />
+                        <TableView fx:id="activeVehiclesTableView">
                         </TableView>
-                        <Label text="Selected vehicle" style="-fx-font-weight: bold; -fx-font-size: 15;"/>
-                        <Label fx:id="selectedTripLabel" style="-fx-font-weight: bold; -fx-font-size: 15;"/>
-                        <TableView fx:id="selectedTripTableView" >
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 15;" text="Selected vehicle" />
+                        <Label fx:id="selectedTripLabel" style="-fx-font-weight: bold; -fx-font-size: 15;" />
+                        <TableView fx:id="selectedTripTableView">
                         </TableView>
                     </children>
                 </VBox>
@@ -67,15 +59,15 @@
         </GridPane>
         <ScrollPane fx:id="scrollPane" pannable="true" prefHeight="200.0" prefWidth="200.0">
             <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0"/>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
             </content>
         </ScrollPane>
     </children>
     <columnConstraints>
-        <ColumnConstraints percentWidth="75"/>
-        <ColumnConstraints percentWidth="25"/>
+        <ColumnConstraints percentWidth="75" />
+        <ColumnConstraints percentWidth="25" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints percentHeight="100" valignment="TOP"/>
+        <RowConstraints percentHeight="100" valignment="TOP" />
     </rowConstraints>
 </GridPane>

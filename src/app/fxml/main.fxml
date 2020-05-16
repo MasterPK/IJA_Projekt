@@ -42,7 +42,7 @@
                 <Label text="Simulation time" GridPane.rowIndex="2" />
                 <Label text="Simulation speed" GridPane.rowIndex="4" />
                 <Label text="Refresh interval" GridPane.rowIndex="6" />
-                <Slider fx:id="simulationSpeedSlider" majorTickUnit="1.0" max="5.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" value="1.0" GridPane.rowIndex="5" />
+                <Slider fx:id="simulationSpeedSlider" majorTickUnit="1.0" max="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" value="1.0" GridPane.rowIndex="5" />
                 <Slider fx:id="refreshIntervalSlider" majorTickUnit="10.0" max="60.0" min="1.0" minorTickCount="2" showTickLabels="true" showTickMarks="true" value="1.0" GridPane.rowIndex="7" />
                 <VBox alignment="TOP_CENTER" GridPane.rowIndex="9">
                     <children>

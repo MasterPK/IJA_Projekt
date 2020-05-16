@@ -6,27 +6,27 @@
       "route": [
         {
           "stop": "Hudcova",
-          "street": "Palackeho trida"
+          "street": "Palackeho trida 1"
         },
         {
           "stop": "Tylova",
-          "street": "Palackeho trida"
+          "street": "Palackeho trida 1"
         },
         {
           "stop": "Semilasso",
-          "street": "Palackeho trida"
+          "street": "Palackeho trida 2"
         },
         {
           "stop": "Husitska",
-          "street": "Palackeho trida"
+          "street": "Palackeho trida 2"
         },
         {
           "stop": "Jungmannova",
-          "street": "Palackeho trida"
+          "street": "Palackeho trida 2"
         },
         {
           "stop": "Kartouzska",
-          "street": "Palackeho trida"
+          "street": "Palackeho trida 2"
         },
         {
           "stop": "Sumavska",
@@ -50,11 +50,11 @@
         },
         {
           "stop": null,
-          "street": "Roosveltova"
+          "street": "Roosveltova 1"
         },
         {
           "stop": "Malinovskeho namesti",
-          "street": "Roosveltova"
+          "street": "Roosveltova 2"
         },
         {
           "stop": null,
@@ -82,29 +82,6 @@
             "17:36:00",
             "17:39:00",
             "17:42:00"
-          ]
-        }
-      ]
-    },
-    {
-      "lineId": "2",
-      "lineName": "Sestka",
-      "route": [
-        {
-          "stop": "Za Rybnikem",
-          "street": "Kozeluzska"
-        },
-        {
-          "stop": null,
-          "street": "Kozeluzska"
-        }
-      ],
-      "trips": [
-        {
-          "tripId": "01002",
-          "times": [
-            "12:00",
-            "12:00:10"
           ]
         }
       ]

@@ -403,6 +403,89 @@
           ]
         }
       ]
+    },
+    {
+      "lineId": "3",
+      "lineName": "Dvanastka",
+      "route": [
+        {
+          "stop": "Technologicky park",
+          "street": "Purkynova"
+        },
+        {
+          "stop": "Technicke muzeum",
+          "street": "Purkynova"
+        },
+        {
+          "stop": "Cervinkova",
+          "street": "Purkynova"
+        },
+        {
+          "stop": "Skacelova",
+          "street": "Purkynova"
+        },
+        {
+          "stop": "Dobrovskeho",
+          "street": "Purkynova"
+        },
+        {
+          "stop": "Tererova",
+          "street": "Jana Babaka"
+        },
+        {
+          "stop": "Klusackova",
+          "street": "Kounicova"
+        },
+        {
+          "stop": "Nerudova",
+          "street": "Nerudova"
+        },
+        {
+          "stop": "Konecneho namesti",
+          "street": "Veveri"
+        },
+        {
+          "stop": "Grohova",
+          "street": "Veveri"
+        },
+        {
+          "stop": "Ceska",
+          "street": "Jostova"
+        },
+        {
+          "stop": "Silingrovo namesti",
+          "street": "Husova 1"
+        },
+        {
+          "stop": "Nove sady",
+          "street": "Nadrazni"
+        },
+        {
+          "stop": "Hlavni nadrazi",
+          "street": "Nadrazni"
+        }
+      ],
+      "trips": [
+        {
+          "tripId": "03001",
+          "times": [
+            "17:28:00",
+            "17:29:40",
+            "17:30:00",
+            "17:31:00",
+            "17:32:00",
+            "17:33:00",
+            "17:34:00",
+            "17:36:00",
+            "17:38:00",
+            "17:39:00",
+            "17:41:00",
+            "17:44:00",
+            "17:46:00",
+            "17:48:00"
+          ]
+        }
+      ]
     }
   ]
 }

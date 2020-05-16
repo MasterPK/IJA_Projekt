@@ -7,37 +7,63 @@ package app.models.maps;
 import java.util.Objects;
 
 /**
- * Reprezentuje pozici (souřadnice) v mapě. Souřadnice je dvojice (x,y), počátek mapy je vždy na pozici (0,0).
- * Nelze mít pozici se zápornou souřadnicí.
- *
- * @author koci
+ * Class for basic work with coordinates
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
  */
 public class Coordinate implements Cloneable {
 
     private double x;
     private double y;
 
+    /**
+     * Get the X coordinate
+     * @return return X coordinate
+     */
     public double getX() {
         return x;
     }
 
+    /**
+     * Get the Y coordinate
+     * @return return Y coordinate
+     */
     public double getY() {
         return y;
     }
 
-
+    /**
+     * Set the X coordinate
+     * @param set coordinate that we want to set
+     */
     public void setX(double set){
         this.x = set;
     }
+
+    /**
+     * Set the Y coordinate
+     * @param set coordinate that we want to set
+     */
     public void setY(double set){
         this.y = set;
     }
 
+    /**
+     * Constructor
+     * @param x x coordinate
+     * @param y y coordinate
+     */
     public Coordinate(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Create new coordinate
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return created coordinate
+     */
     public static Coordinate create(int x, int y) {
         if (x < 0 || y < 0) {
             return null;
@@ -47,6 +73,11 @@ public class Coordinate implements Cloneable {
 
     }
 
+    /**
+     * Equals actual coordinate to other coordinate
+     * @param obj coordinate that we want to eqals to this coordinate
+     * @return true if they are the same
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -67,15 +98,30 @@ public class Coordinate implements Cloneable {
         return Objects.hash(x, y);
     }
 
+    /**
+     * difference between X coordinates
+     * @param c second X coordinate
+     * @return value of diff
+     */
     public double diffX(Coordinate c) {
         return this.x-c.x;
     }
 
+    /**
+     * difference between Y coordinates
+     * @param c second Y coordinate
+     * @return value of diff
+     */
     public double diffY(Coordinate c) {
         return this.y-c.y;
     }
 
 
+    /**
+     * Clone actual object
+     * @return new clonned object
+     * @throws CloneNotSupportedException error
+     */
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();

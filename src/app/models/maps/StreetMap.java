@@ -24,5 +24,9 @@ public interface StreetMap {
      * @return Nalezenou ulici. Pokud ulice s daným identifikátorem není součástí mapy, vrací null.
      */
     public Street getStreet(String id);
+    /**
+     * Get streets on actual map.
+     * @return List of streets of map.
+     */
     List<Street> getStreets();
 }

@@ -10,6 +10,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Class for basic work with Trips
+ * @author Petr Křehlík, Martin Klobušický
+ * @date 13.5.2020
+ */
 public class Trip {
     private String id;
     private List<LocalTime> plannedTimetable = new ArrayList<>();
@@ -18,14 +24,27 @@ public class Trip {
     private Line line;
     private Circle circle;
 
+    /**
+     * Get ID of this trip
+     * @return ID of trip as string
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * Set ID of this trip
+     * @param id ID that we want to set for this trip
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * Constructor of trip
+     * @param id ID of trip
+     * @param timetable timetable of trip
+     */
     public Trip(String id, List<LocalTime> timetable) {
         this.id = id;
         this.plannedTimetable=timetable;
@@ -33,12 +52,18 @@ public class Trip {
         this.backUpTimetable.addAll(timetable);
     }
 
+    /**
+     * Reset timetable of actual trip
+     */
     public void resetTimetable()
     {
         this.actualTimetable=new ArrayList<>();
         this.actualTimetable.addAll(this.plannedTimetable);
     }
 
+    /**
+     * Restore the original timetable of trip
+     */
     public void restoreBackUp()
     {
         this.plannedTimetable.clear();
@@ -47,12 +72,19 @@ public class Trip {
         this.actualTimetable.addAll(this.backUpTimetable);
     }
 
+    /**
+     * Load backup timetables
+     */
     public void loadBackUpTimetable()
     {
         this.actualTimetable=new ArrayList<>(this.backUpTimetable);
         this.plannedTimetable=new ArrayList<>(this.backUpTimetable);
     }
 
+    /**
+     *
+     * @return
+     */
     public List<LocalTime> getBackUpTimetable() {
         return backUpTimetable;
     }

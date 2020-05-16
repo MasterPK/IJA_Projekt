@@ -23,18 +23,34 @@ public class MyLine implements Line {
     private List<Street> streetsBackUp = new ArrayList<>();
     private List<Trip> tripsBackUp = new ArrayList<>();
 
+    /**
+     * Get all trips on actual line
+     * @return trips on this line
+     */
     public List<Trip> getLineConnections() {
         return trips;
     }
 
+    /**
+     * Get id of line
+     * @return id of line
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * Get name of line
+     * @return name of line
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Get all stops on line
+     * @return return stops on line
+     */
     public List<Stop> getStops() {
         return stops;
     }
@@ -130,7 +146,7 @@ public class MyLine implements Line {
     /**
      * Add conflict street to list.
      *
-     * @param street
+     * @param street street that we want to add
      */
     @Override
     public void addConflictStreet(Street street) {

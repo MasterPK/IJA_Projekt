@@ -385,6 +385,10 @@
           "street": "Husova 1"
         },
         {
+          "stop": null,
+          "street": "Husova 2"
+        },
+        {
           "stop": "Nove sady",
           "street": "Nadrazni"
         },

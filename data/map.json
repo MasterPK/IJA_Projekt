@@ -76,7 +76,7 @@
         ],
         [
           1000.0,
-          300.0
+          400.0
         ]
       ],
       "stops": [
@@ -88,17 +88,24 @@
           ]
         },
         {
+          "id": "Husitska",
+          "coordinates": [
+            1000.0,
+            310.0
+          ]
+        },
+        {
           "id": "Jungmannova",
           "coordinates": [
             1000.0,
-            275.0
+            350.0
           ]
         },
         {
           "id": "Kartouzska",
           "coordinates": [
             1000.0,
-            300.0
+            400.0
           ]
         }
       ]
@@ -108,11 +115,11 @@
       "coordinates": [
         [
           1000.0,
-          300.0
+          400.0
         ],
         [
           1000.0,
-          400.0
+          500.0
         ]
       ],
       "stops": [
@@ -120,14 +127,14 @@
           "id": "Sumavska",
           "coordinates": [
             1000.0,
-            300.0
+            430.0
           ]
         },
         {
           "id": "Hrncirska",
           "coordinates": [
             1000.0,
-            390.0
+            490.0
           ]
         }
       ]
@@ -137,7 +144,7 @@
       "coordinates": [
         [
           1000.0,
-          400.0
+          500.0
         ],
         [
           1000.0,
@@ -149,7 +156,7 @@
           "id": "Antoninska",
           "coordinates": [
             1000.0,
-            500.0
+            550.0
           ]
         }
       ]
@@ -168,10 +175,17 @@
       ],
       "stops": [
         {
+          "id": "Pionyrska",
+          "coordinates": [
+            1000.0,
+            600.0
+          ]
+        },,
+        {
           "id": "Moravske namesti",
           "coordinates": [
             1000.0,
-            625.0
+            650.0
           ]
         }
       ]
@@ -249,6 +263,66 @@
             900.0
           ]
         }
+      ]
+    },
+    {
+      "id": "Jostova",
+      "coordinates": [
+        [
+          1000.0,
+          650.0
+        ],
+        [
+          900.0,
+          650.0
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Ceska",
+          "coordinates": [
+            950.0,
+            650.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Husova",
+      "coordinates": [
+        [
+          900.0,
+          650.0
+        ],
+        [
+          900.0,
+          800.0
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Silingrovo namesti",
+          "coordinates": [
+            900.0,
+            800.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Husova",
+      "coordinates": [
+        [
+          900.0,
+          800.0
+        ],
+        [
+          900.0,
+          900.0
+        ]
+      ],
+      "stops": [
+
       ]
     }
   ]

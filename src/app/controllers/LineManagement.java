@@ -1,6 +1,5 @@
 package app.controllers;
 
-import app.core.AlertHandler;
 import app.core.ExceptionHandler;
 import app.models.TimeExtender;
 import app.models.maps.Coordinate;
@@ -10,7 +9,6 @@ import app.models.maps.StreetMap;
 import app.models.maps.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -39,9 +37,9 @@ public class LineManagement {
      */
     public ListView currentRouteListView;
     /**
-     * Label with name of last good street.
+     * Label with name of last good stop.
      */
-    public Label lastGoooooodStreet;
+    public Label lastGoodStop;
     /**
      * Line object.
      */
@@ -50,6 +48,10 @@ public class LineManagement {
      * Full streets map.
      */
     private StreetMap streetMap;
+    /**
+     * Label with name of first good stop.
+     */
+    public Label firstGoodStop;
 
     /**
      * Initialize object, test if current conflict can be resolved (At least one detour is available) and initialize GUI.
@@ -90,7 +92,8 @@ public class LineManagement {
             if (lastGoodStreet == null || line.getStreets().get(line.getStreets().size() - 1).equals(lastGoodStreet)) {
                 return;
             }
-            lastGoooooodStreet.textProperty().setValue("Last open street: " + lastGoodStreet.getId());
+            lastGoodStop.textProperty().setValue("Last open stop: " + line.getStops().get(getIndexOfFirstStopThatIsGood(this.line,this.line.getConflicts().get(0).get(0))).getId());
+            firstGoodStop.textProperty().setValue("First open stop: " + line.getStops().get(getIndexOfLastStopThatIsGood(this.line,this.line.getConflicts().get(0).get(this.line.getConflicts().get(0).size()-1))).getId());
             List<Street> streets = getNextStreets(lastGoodStreet);
             for (Street street : streets) {
                 if (street.isOpen()) {

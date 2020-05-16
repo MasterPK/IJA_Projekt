@@ -86,6 +86,92 @@
         }
       ]
     },
+    {
+      "lineId": "1r",
+      "lineName": "JednickaReverse",
+      "route": [
+        {
+          "stop": "Hlavni nadrazi",
+          "street": "Nadrazni"
+        },
+        {
+          "stop": null,
+          "street": "Benesova"
+        },
+        {
+          "stop": "Malinovskeho namesti",
+          "street": "Roosveltova 2"
+        },
+        {
+          "stop": null,
+          "street": "Roosveltova 1"
+        },
+        {
+          "stop": "Moravske namesti",
+          "street": "Moravske namesti"
+        },
+        {
+          "stop": "Antoninska",
+          "street": "Lidicka"
+        },
+        {
+          "stop": "Pionyrska",
+          "street": "Lidicka"
+        },
+        {
+          "stop": "Hrncirska",
+          "street": "Stefanikova"
+        },
+        {
+          "stop": "Sumavska",
+          "street": "Stefanikova"
+        },
+        {
+          "stop": "Kartouzska",
+          "street": "Palackeho trida 2"
+        },
+        {
+          "stop": "Jungmannova",
+          "street": "Palackeho trida 2"
+        },
+        {
+          "stop": "Husitska",
+          "street": "Palackeho trida 2"
+        },
+        {
+          "stop": "Semilasso",
+          "street": "Palackeho trida 2"
+        },
+        {
+          "stop": "Tylova",
+          "street": "Palackeho trida 1"
+        },
+        {
+          "stop": "Hudcova",
+          "street": "Palackeho trida 1"
+        }
+      ],
+      "trips": [
+        {
+          "tripId": "01101",
+          "times": [
+            "17:37:00",
+            "17:39:00",
+            "17:41:00",
+            "17:42:00",
+            "17:43:00",
+            "17:45:00",
+            "17:46:00",
+            "17:47:00",
+            "17:48:00",
+            "17:49:00",
+            "17:51:00",
+            "17:52:00",
+            "17:53:00"
+          ]
+        }
+      ]
+    },
 
     {
       "lineId": "2",

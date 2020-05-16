@@ -331,6 +331,28 @@
       "stops": [
 
       ]
+    },
+    {
+      "id": "Pekarska",
+      "coordinates": [
+        [
+          900.0,
+          800.0
+        ],
+        [
+          700.0,
+          800.0
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Nemocnice u sv. Anny",
+          "coordinates": [
+            800.0,
+            800.0
+          ]
+        }
+      ]
     }
   ]
 }

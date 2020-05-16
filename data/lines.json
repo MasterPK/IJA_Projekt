@@ -85,6 +85,94 @@
           ]
         }
       ]
+    },
+
+    {
+      "lineId": "2",
+      "lineName": "Sestka",
+      "route": [
+        {
+          "stop": "Kralovo Pole",
+          "street": "Budovcova"
+        },
+        {
+          "stop": "Semilasso",
+          "street": "Palackeho trida 2"
+        },
+        {
+          "stop": "Husitska",
+          "street": "Palackeho trida 2"
+        },
+        {
+          "stop": "Jungmannova",
+          "street": "Palackeho trida 2"
+        },
+        {
+          "stop": "Kartouzska",
+          "street": "Palackeho trida 2"
+        },
+        {
+          "stop": "Sumavska",
+          "street": "Stefanikova"
+        },
+        {
+          "stop": "Hrncirska",
+          "street": "Stefanikova"
+        },
+        {
+          "stop": "Pionyrska",
+          "street": "Lidicka"
+        },
+        {
+          "stop": "Antoninska",
+          "street": "Lidicka"
+        },
+        {
+          "stop": "Moravske namesti",
+          "street": "Moravske namesti"
+        },
+        {
+          "stop": "Ceska",
+          "street": "Jostova"
+        },
+        {
+          "stop": "Silingrovo namesti",
+          "street": "Husova"
+        },
+        {
+          "stop": null,
+          "street": "Husova"
+        },
+        {
+          "stop": "Nemocnice u sv. Anny",
+          "street": "Pekarska"
+        },
+        {
+          "stop": "Mendlovo namesti",
+          "street": "Pekarska"
+        }
+      ],
+      "trips": [
+        {
+          "tripId": "02001",
+          "times": [
+            "17:30:00",
+            "17:30:40",
+            "17:33:00",
+            "17:34:00",
+            "17:35:00",
+            "17:36:00",
+            "17:37:00",
+            "17:38:00",
+            "17:39:00",
+            "17:41:00",
+            "17:43:00",
+            "17:45:00",
+            "17:46:00",
+            "17:49:00"
+          ]
+        }
+      ]
     }
   ]
 }

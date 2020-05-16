@@ -5,27 +5,90 @@
       "lineName": "Jednicka",
       "route": [
         {
-          "stop": "Za Rybnikem",
-          "street": "Kozeluzska"
+          "stop": "Hudcova",
+          "street": "Palackeho trida"
+        },
+        {
+          "stop": "Tylova",
+          "street": "Palackeho trida"
+        },
+        {
+          "stop": "Semilasso",
+          "street": "Palackeho trida"
+        },
+        {
+          "stop": "Husitska",
+          "street": "Palackeho trida"
+        },
+        {
+          "stop": "Jungmannova",
+          "street": "Palackeho trida"
+        },
+        {
+          "stop": "Kartouzska",
+          "street": "Palackeho trida"
+        },
+        {
+          "stop": "Sumavska",
+          "street": "Stefanikova"
+        },
+        {
+          "stop": "Hrncirska",
+          "street": "Stefanikova"
+        },
+        {
+          "stop": "Pionyrska",
+          "street": "Lidicka"
+        },
+        {
+          "stop": "Antoninska",
+          "street": "Lidicka"
+        },
+        {
+          "stop": "Moravske namesti",
+          "street": "Moravske namesti"
+        },
+        {
+          "stop": null,
+          "street": "Roosveltova"
+        },
+        {
+          "stop": "Malinovskeho namesti",
+          "street": "Roosveltova"
+        },
+        {
+          "stop": null,
+          "street": "Benesova"
+        },
+        {
+          "stop": "Hlavni nadrazi",
+          "street": "Nadrazni"
         }
       ],
       "trips": [
         {
           "tripId": "01001",
           "times": [
-            "12:00",
-            "12:00:10",
-            "12:00:15",
-            "12:00:20",
-            "12:00:25",
-            "12:00:35"
+            "17:24:00",
+            "17:25:00",
+            "17:26:00",
+            "17:28:00",
+            "17:29:00",
+            "17:30:00",
+            "17:31:00",
+            "17:32:00",
+            "17:33:00",
+            "17:34:00",
+            "17:36:00",
+            "17:39:00",
+            "17:42:00"
           ]
         }
       ]
     },
     {
-      "lineId": "1",
-      "lineName": "Jednicka",
+      "lineId": "2",
+      "lineName": "Sestka",
       "route": [
         {
           "stop": "Za Rybnikem",
@@ -38,14 +101,10 @@
       ],
       "trips": [
         {
-          "tripId": "01001",
+          "tripId": "01002",
           "times": [
             "12:00",
-            "12:00:10",
-            "12:00:15",
-            "12:00:20",
-            "12:00:25",
-            "12:00:35"
+            "12:00:10"
           ]
         }
       ]

@@ -1,158 +1,187 @@
 {
   "streets": [
     {
-      "id": "Kozeluzska",
+      "id": "Palackeho trida",
       "coordinates": [
         [
-          20.0,
-          500.0
+          1000.0,
+          100.0
         ],
         [
-          200.0,
-          500.0
+          1000.0,
+          300.0
         ]
       ],
       "stops": [
         {
-          "id": "Za Rybnikem",
+          "id": "Hudcova",
           "coordinates": [
-            50.0,
-            500.0
+            1000.0,
+            150.0
           ]
         },
         {
-          "id": "Kozeluzska",
+          "id": "Tylova",
           "coordinates": [
-            180.0,
+            1000.0,
+            200.0
+          ]
+        },
+        {
+          "id": "Semilasso",
+          "coordinates": [
+            1000.0,
+            250.0
+          ]
+        },
+        {
+          "id": "Jungmannova",
+          "coordinates": [
+            1000.0,
+            300.0
+          ]
+        },
+        {
+          "id": "Kartouzska",
+          "coordinates": [
+            1000.0,
+            300.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Stefanikova",
+      "coordinates": [
+        [
+          1000.0,
+          300.0
+        ],
+        [
+          300.0,
+          400.0
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Sumavska",
+          "coordinates": [
+            1000.0,
+            300.0
+          ]
+        },
+        {
+          "id": "Hrncirska",
+          "coordinates": [
+            1000.0,
+            400.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Lidicka",
+      "coordinates": [
+        [
+          1000.0,
+          400.0
+        ],
+        [
+          1000.0,
+          600.0
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Antoninska",
+          "coordinates": [
+            1000.0,
             500.0
           ]
         }
       ]
     },
     {
-      "id": "Ripovska",
+      "id": "Moravske namesti",
       "coordinates": [
         [
-          200.0,
-          500.0
+          1000.0,
+          600.0
         ],
         [
-          200.0,
-          450.0
+          1000.0,
+          650.0
         ]
       ],
       "stops": [
         {
-          "id": "ZastavkaT",
+          "id": "Moravske namesti",
           "coordinates": [
-            200.0,
-            475.0
+            1000.0,
+            625.0
           ]
         }
       ]
     },
     {
-      "id": "Ulice1",
+      "id": "Roosveltova",
       "coordinates": [
         [
-          200.0,
-          500.0
+          1000.0,
+          650.0
         ],
         [
-          300.0,
-          500.0
+          1200.0,
+          650.0
         ]
       ],
       "stops": [
+
       ]
     },
     {
-      "id": "Ulice2",
+      "id": "Roosveltova",
       "coordinates": [
         [
-          300.0,
-          500.0
+          1200.0,
+          650.0
         ],
         [
-          300.0,
-          450.0
-        ]
-      ],
-      "stops": [
-      ]
-    },
-    {
-      "id": "Ulice3",
-      "coordinates": [
-        [
-          350.0,
-          450.0
-        ],
-        [
-          350.0,
-          500.0
+          1200.0,
+          800.0
         ]
       ],
       "stops": [
         {
-          "id": "U Kaplicky",
+          "id": "Malinovskeho namesti",
           "coordinates": [
-            350.0,
-            475.0
+            1200.0,
+            750.0
           ]
         }
       ]
     },
     {
-      "id": "Ulice4",
+      "id": "Benesova",
       "coordinates": [
         [
-          300.0,
-          500.0
+          1200.0,
+          800.0
         ],
         [
-          350.0,
-          500.0
+          1200.0,
+          900.0
         ]
       ],
       "stops": [
       ]
     },
     {
-      "id": "Revolucni",
+      "id": "Nadrazni",
       "coordinates": [
         [
-          200.0,
-          450.0
-        ],
-        [
-          300.0,
-          450.0
-        ]
-      ],
-      "stops": [
-        {
-          "id": "Revolucni2",
-          "coordinates": [
-            280.0,
-            450.0
-          ]
-        },
-        {
-          "id": "Revolucni1",
-          "coordinates": [
-            240.0,
-            450.0
-          ]
-        }
-      ]
-    },
-    {
-      "id": "Spojencu",
-      "coordinates": [
-        [
-          300.0,
-          450.0
+          1200.0,
+          900.0
         ],
         [
           350.0,

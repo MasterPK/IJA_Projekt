@@ -7,30 +7,33 @@
         {
           "stop": "Za Rybnikem",
           "street": "Kozeluzska"
-        },
+        }
+      ],
+      "trips": [
         {
-          "stop": "Kozeluzska",
+          "tripId": "01001",
+          "times": [
+            "12:00",
+            "12:00:10",
+            "12:00:15",
+            "12:00:20",
+            "12:00:25",
+            "12:00:35"
+          ]
+        }
+      ]
+    },
+    {
+      "lineId": "1",
+      "lineName": "Jednicka",
+      "route": [
+        {
+          "stop": "Za Rybnikem",
           "street": "Kozeluzska"
         },
         {
-          "stop": "ZastavkaT",
-          "street": "Ripovska"
-        },
-        {
-          "stop": "Revolucni1",
-          "street": "Revolucni"
-        },
-        {
-          "stop": "Revolucni2",
-          "street": "Revolucni"
-        },
-        {
           "stop": null,
-          "street": "Spojencu"
-        },
-        {
-          "stop": "U Kaplicky",
-          "street": "Ulice3"
+          "street": "Kozeluzska"
         }
       ],
       "trips": [

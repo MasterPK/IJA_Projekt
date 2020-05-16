@@ -134,7 +134,7 @@
           "id": "Hrncirska",
           "coordinates": [
             1000.0,
-            490.0
+            480.0
           ]
         }
       ]
@@ -152,6 +152,13 @@
         ]
       ],
       "stops": [
+        {
+          "id": "Pionyrska",
+          "coordinates": [
+            1000.0,
+            500.0
+          ]
+        },
         {
           "id": "Antoninska",
           "coordinates": [
@@ -174,13 +181,6 @@
         ]
       ],
       "stops": [
-        {
-          "id": "Pionyrska",
-          "coordinates": [
-            1000.0,
-            600.0
-          ]
-        },,
         {
           "id": "Moravske namesti",
           "coordinates": [
@@ -251,7 +251,7 @@
           900.0
         ],
         [
-          1000.0,
+          900.0,
           900.0
         ]
       ],
@@ -260,6 +260,13 @@
           "id": "Hlavni nadrazi",
           "coordinates": [
             1100.0,
+            900.0
+          ]
+        },
+        {
+          "id": "Nove sady",
+          "coordinates": [
+            1000.0,
             900.0
           ]
         }

@@ -96,6 +96,10 @@
           "street": "Budovcova"
         },
         {
+          "stop": null,
+          "street": "Kosmova"
+        },
+        {
           "stop": "Semilasso",
           "street": "Palackeho trida 2"
         },
@@ -137,11 +141,7 @@
         },
         {
           "stop": "Silingrovo namesti",
-          "street": "Husova"
-        },
-        {
-          "stop": null,
-          "street": "Husova"
+          "street": "Husova 1"
         },
         {
           "stop": "Nemocnice u sv. Anny",

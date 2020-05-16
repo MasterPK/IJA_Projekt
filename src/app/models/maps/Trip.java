@@ -82,48 +82,82 @@ public class Trip {
     }
 
     /**
-     *
-     * @return
+     * Get original timetable.
+     * @return Original timetable.
      */
     public List<LocalTime> getBackUpTimetable() {
         return backUpTimetable;
     }
 
+    /**
+     * @return Timetable that counts with closed streets.
+     */
     public List<LocalTime> getPlannedTimetable() {
         return plannedTimetable;
     }
 
+    /**
+     * @return Timetable that counts with closed streets and traffic.
+     */
     public List<LocalTime> getActualTimetable() {
         return actualTimetable;
     }
 
+    /**
+     * Construct object
+     * @param id Unique id.
+     */
     public Trip(String id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return Timetable that counts with closed streets and traffic.
+     */
     public List<LocalTime> getTimetable() {
         return actualTimetable;
     }
 
+    /**
+     * Add new item to planned timetable.
+     * @param time String time
+     */
     public void addTimetableItem(String time)
     {
         LocalTime localTime = LocalTime.parse(time);
         plannedTimetable.add(localTime);
     }
 
+    /**
+     * Set gui circle.
+     * @param circle Circle element.
+     */
     public void setCircle(Circle circle) {
         this.circle = circle;
     }
 
 
+    /**
+     * Get gui element.
+     * @return GUI element.
+     */
     public Circle getCircle() {
         return circle;
     }
 
+    /**
+     * Set line.
+     * @param line New line to set.
+     */
     public void setLine(Line line) {
         this.line = line;
     }
 
+    /**
+     *
+     * @return Actual line.
+     */
     public Line getLine() {
         return line;
     }

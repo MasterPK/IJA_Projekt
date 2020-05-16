@@ -340,7 +340,7 @@
           800.0
         ],
         [
-          700.0,
+          680.0,
           800.0
         ]
       ],
@@ -350,6 +350,58 @@
           "coordinates": [
             800.0,
             800.0
+          ]
+        },
+        {
+          "id": "Mendlovo namesti",
+          "coordinates": [
+            680.0,
+            800.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Krizova",
+      "coordinates": [
+        [
+          680.0,
+          800.0
+        ],
+        [
+          680.0,
+          900.0
+        ]
+      ],
+      "stops": [
+
+      ]
+    },
+    {
+      "id": "Hybesova",
+      "coordinates": [
+        [
+          680.0,
+          900.0
+        ],
+        [
+          900.0,
+          900.0
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Hybesova",
+          "coordinates": [
+            850.0,
+            900.0
+          ]
+        },
+        {
+          "id": "Vaclavska",
+          "coordinates": [
+            725.0,
+            900.0
           ]
         }
       ]

@@ -4,9 +4,9 @@
   <target name="compile">
 
     <mkdir dir="build"/>
-    <exec executable="/bin/bash">
+    <!--<exec executable="/bin/bash">
       <arg value="lib/get-libs.sh"/>
-    </exec>
+    </exec>-->
     <javac srcdir="src" destdir="build">
       <classpath>
         <pathelement path="lib/json-simple-1.1.1.jar"/>

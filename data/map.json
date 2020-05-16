@@ -474,14 +474,79 @@
           "id": "Klusackova",
           "coordinates": [
             910.0,
-            450.0
+            420.0
           ]
-        },
+        }
+      ]
+    },
+    {
+      "id": "Jana Babaka",
+      "coordinates": [
+        [
+          910.0,
+          375.0
+        ],
+        [
+          910.0,
+          300.0
+        ]
+      ],
+      "stops": [
         {
           "id": "Tererova",
           "coordinates": [
             910.0,
-            400.0
+            340.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Purkynova",
+      "coordinates": [
+        [
+          910.0,
+          300.0
+        ],
+        [
+          910.0,
+          150.0
+        ]
+      ],
+      "stops": [
+        {
+          "id": "Dobrovskeho",
+          "coordinates": [
+            910.0,
+            300.0
+          ]
+        },
+        {
+          "id": "Skacelova",
+          "coordinates": [
+            910.0,
+            260.0
+          ]
+        },
+        {
+          "id": "Cervinkova",
+          "coordinates": [
+            910.0,
+            220.0
+          ]
+        },
+        {
+          "id": "Technicke muzeum",
+          "coordinates": [
+            910.0,
+            180.0
+          ]
+        },
+        {
+          "id": "Technologicky park",
+          "coordinates": [
+            910.0,
+            150.0
           ]
         }
       ]
